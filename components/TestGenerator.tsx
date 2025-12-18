@@ -54,7 +54,7 @@ const TestGenerator: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up pb-20">
-      <div className="text-center">
+      <div className="text-center print:hidden">
         <h1 className="text-4xl md:text-6xl font-hud text-white mb-2 flex items-center justify-center gap-4">
           <Settings className="text-blue-500 w-12 h-12 animate-spin-slow" />
           TEST GENERATOR
@@ -63,7 +63,7 @@ const TestGenerator: React.FC = () => {
       </div>
 
       {mode === 'setup' && (
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8 print:hidden">
           <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl">
             <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               <Layers className="text-blue-400" /> Select Topics
@@ -129,7 +129,7 @@ const TestGenerator: React.FC = () => {
       )}
 
       {mode === 'preview' && generatedTest && (
-        <div className="bg-white text-black p-8 rounded-xl shadow-2xl relative min-h-[600px] print:p-0 print:shadow-none print:w-full">
+        <div className="bg-white text-black p-8 rounded-xl shadow-2xl relative min-h-[600px]">
           {/* Screen Only Header */}
           <div className="flex justify-between items-center mb-8 pb-4 border-b-2 border-black print:hidden">
             <h2 className="text-2xl font-bold">Preview Mode</h2>
@@ -176,22 +176,59 @@ const TestGenerator: React.FC = () => {
 
       <style>{`
         @media print {
+          @page {
+            margin: 20mm;
+            size: auto;
+          }
+
+          html, body {
+            height: auto;
+            min-height: 100%;
+            overflow: visible !important;
+            background: white !important;
+            color: black !important;
+          }
+
+          /* Hide everything by default */
           body * {
             visibility: hidden;
           }
+
+          /* Ensure root container doesn't block content */
+          #root {
+            visibility: hidden;
+            overflow: visible !important;
+          }
+
+          /* Make print content visible and force styles */
           .print-content, .print-content * {
-            visibility: visible;
-          }
-          .print-content {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-          }
-          /* Reset dark mode for print */
-          body {
-            background: white !important;
+            visibility: visible !important;
             color: black !important;
+            text-shadow: none !important;
+          }
+
+          .print-content {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            min-height: 100vh;
+            margin: 0 !important;
+            padding: 0 !important;
+            background-color: white !important;
+            z-index: 99999;
+          }
+
+          /* Hide interactive elements in print */
+          button, .print:hidden {
+            display: none !important;
+          }
+
+          /* Ensure grid layout works in print */
+          .print\\:grid-cols-2 {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 1.5rem !important;
           }
         }
       `}</style>
