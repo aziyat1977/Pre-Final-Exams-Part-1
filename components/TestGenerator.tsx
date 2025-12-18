@@ -37,6 +37,12 @@ const TestGenerator: React.FC = () => {
           <div className="space-y-4">
             <label className="block text-gray-400 font-bold uppercase text-sm">Target Level</label>
             <div className="flex gap-4">
+               <button 
+                onClick={() => setLevel('A2')}
+                className={`flex-1 py-4 rounded-xl font-bold transition-all border-2 ${level === 'A2' ? 'bg-teal-600 border-teal-400 text-white shadow-lg' : 'bg-gray-700 border-gray-600 text-gray-400'}`}
+              >
+                A2 (Pre-Int)
+              </button>
               <button 
                 onClick={() => setLevel('B1')}
                 className={`flex-1 py-4 rounded-xl font-bold transition-all border-2 ${level === 'B1' ? 'bg-blue-600 border-blue-400 text-white shadow-lg' : 'bg-gray-700 border-gray-600 text-gray-400'}`}
@@ -51,7 +57,9 @@ const TestGenerator: React.FC = () => {
               </button>
             </div>
             <p className="text-xs text-gray-500 mt-2">
-              {level === 'B1' ? 'Topics: Present Simple/Cont, Past, Will/Going to, 1st Cond.' : 'Topics: Pres Perf Cont, Past Perf, Passive, Reported, 3rd Cond.'}
+              {level === 'A2' && 'Topics: Pres/Past Simple, Future Plans, Comparatives, Superlatives, Should/Must.'}
+              {level === 'B1' && 'Topics: Present Simple/Cont, Past, Will/Going to, 1st Cond.'}
+              {level === 'B1+' && 'Topics: Pres Perf Cont, Past Perf, Passive, Reported, 3rd Cond.'}
             </p>
           </div>
 

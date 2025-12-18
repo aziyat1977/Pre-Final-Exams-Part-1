@@ -104,7 +104,7 @@ export interface IntermediateLesson {
     exampleSentence: string;
     exampleRussian: string;
     exampleUzbek: string;
-    visualType: 'point-now' | 'continuous-now' | 'point-past' | 'continuous-past' | 'present-perfect-bridge' | 'future-intent' | 'state-static' | 'past-perfect-flashback' | 'passive-focus-shift';
+    visualType: 'point-now' | 'continuous-now' | 'point-past' | 'continuous-past' | 'present-perfect-bridge' | 'future-intent' | 'state-static' | 'past-perfect-flashback' | 'passive-focus-shift' | 'magic-link' | 'crystal-ball' | 'potion-mix';
   };
   exercises: {
     quizzes: QuizQuestion[]; // These act as the primary 'Nuance Check'
@@ -130,7 +130,7 @@ export interface SectionProps {
 
 // --- LIMITLESS GENERATOR TYPES ---
 
-export type GeneratorLevel = 'B1' | 'B1+';
+export type GeneratorLevel = 'A2' | 'B1' | 'B1+';
 
 export interface Verb {
   base: string;     // play

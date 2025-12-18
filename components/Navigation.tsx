@@ -16,9 +16,10 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, toggleThe
 
   const menuItems: { id: string; label: string; icon: React.ReactNode; theme?: Theme }[] = [
     { id: 'home', label: 'Mission Select', icon: <GlobeIcon /> },
+    { id: 'pre-intermediate', label: 'Navigate Pre-Int Course', icon: <GraduationCap />, theme: 'default' },
+    { id: 'intermediate', label: 'Navigate B1 Course', icon: <GraduationCap />, theme: 'default' },
     { id: 'tenses', label: 'Tense Mastery (GTA)', icon: <Skull />, theme: 'gta' },
     { id: 'connectors', label: 'Wizardry (Hogwarts)', icon: <BookOpen />, theme: 'hogwarts' },
-    { id: 'intermediate', label: 'Intermediate', icon: <GraduationCap />, theme: 'default' },
     { id: 'games', label: 'Mini Games (Roblox)', icon: <Gamepad2 />, theme: 'roblox' },
     { id: 'quiz', label: 'Combat Test (Standoff)', icon: <Swords />, theme: 'standoff' },
   ];

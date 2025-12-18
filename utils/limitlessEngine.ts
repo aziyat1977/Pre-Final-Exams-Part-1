@@ -38,6 +38,10 @@ const generateDistractors = (correct: string, type: string, v: Verb, isPlural: b
       else if (r < 0.6) d = v.past;
       else d = "had " + v.past;
     }
+    else if (type === 'Adjective') {
+        const fallbacks = ["more " + correct.replace('er', ''), correct.replace('er', 'est'), correct.replace('est', 'er'), "the " + correct];
+        d = getRandom(fallbacks);
+    }
     
     // Generic fallbacks if generator failed
     if (!d || d === correct) {
@@ -53,23 +57,68 @@ const generateDistractors = (correct: string, type: string, v: Verb, isPlural: b
 export const generateLimitlessTest = (level: GeneratorLevel, count: number): QuizQuestion[] => {
   const questions: QuizQuestion[] = [];
   
+  // Specific data for A2 Adjectives
+  const adjectives = [
+      { base: 'fast', comp: 'faster', super: 'fastest' },
+      { base: 'cool', comp: 'cooler', super: 'coolest' },
+      { base: 'big', comp: 'bigger', super: 'biggest' },
+      { base: 'strong', comp: 'stronger', super: 'strongest' },
+      { base: 'expensive', comp: 'more expensive', super: 'most expensive' },
+      { base: 'popular', comp: 'more popular', super: 'most popular' }
+  ];
+
   for (let i = 0; i < count; i++) {
     const subj = getRandom(SUBJECTS);
     const verb = getRandom(VERBS);
     const context = getRandom(CONTEXTS);
+    const adj = getRandom(adjectives);
     
     // Select Grammar Rule based on Level
     let rule = '';
+    const a2Rules = ['PresSimple', 'PresCont', 'PastSimple', 'FuturePlan', 'Comparatives', 'Superlatives', 'ShouldMust', 'PastSimple_Be'];
     const b1Rules = ['PresSimple', 'PresCont', 'PastSimple', 'PresPerf', 'Will', 'GoingTo', 'Modals', 'FirstCond'];
     const b1PlusRules = ['PresPerfCont', 'PastPerf', 'SecondCond', 'ThirdCond', 'Passive', 'Reported', 'Relative', 'FutureCont'];
     
-    rule = level === 'B1' ? getRandom(b1Rules) : getRandom(b1PlusRules);
+    if (level === 'A2') rule = getRandom(a2Rules);
+    else if (level === 'B1') rule = getRandom(b1Rules);
+    else rule = getRandom(b1PlusRules);
 
     let qText = '';
     let correct = '';
     let distractorType = '';
 
     switch (rule) {
+      // --- A2 RULES ---
+      case 'FuturePlan':
+         qText = `${subj.text} _______ (${verb.base}) ${context.text} tomorrow.`;
+         correct = (subj.isPlural ? "are " : "is ") + "going to " + verb.base;
+         distractorType = 'Will';
+         break;
+      
+      case 'Comparatives':
+         qText = `${subj.text} is _______ than the old one.`;
+         correct = adj.comp;
+         distractorType = 'Adjective';
+         break;
+
+      case 'Superlatives':
+         qText = `${subj.text} is the _______ thing in the world!`;
+         correct = adj.super;
+         distractorType = 'Adjective';
+         break;
+
+      case 'ShouldMust':
+         qText = `${subj.text} _______ (${verb.base}) ${context.text} (It's a good idea).`;
+         correct = "should " + verb.base;
+         distractorType = 'Will';
+         break;
+      
+      case 'PastSimple_Be':
+         qText = `${subj.text} _______ happy yesterday.`;
+         correct = subj.isPlural ? "were" : "was";
+         distractorType = 'V2';
+         break;
+
       // --- B1 RULES ---
       case 'PresSimple':
         qText = `${subj.text} usually _______ (${verb.base}) ${context.text}.`;
@@ -179,6 +228,13 @@ export const generateLimitlessTest = (level: GeneratorLevel, count: number): Qui
     let opts: string[] = [];
     if (distractorType === 'Relative') {
         opts = ["who", "which", "where", "whose"];
+    } else if (distractorType === 'Adjective') {
+        // Simple distractors for adjs
+        if (rule === 'Comparatives') opts = [adj.base, adj.super, "more " + adj.base];
+        else opts = [adj.base, adj.comp, "most " + adj.base];
+        opts.push(correct);
+    } else if (distractorType === 'V2' && rule === 'PastSimple_Be') {
+        opts = ["were", "was", "is", "are"];
     } else {
         opts = generateDistractors(correct, distractorType, verb, subj.isPlural);
         opts.push(correct);
@@ -186,6 +242,9 @@ export const generateLimitlessTest = (level: GeneratorLevel, count: number): Qui
     
     // Shuffle Options
     opts.sort(() => Math.random() - 0.5);
+
+    // Limit to 3-4 options unique
+    opts = Array.from(new Set(opts)).slice(0, 4);
 
     questions.push({
       id: i + 1,
