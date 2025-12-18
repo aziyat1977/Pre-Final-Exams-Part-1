@@ -1,236 +1,199 @@
 
 import { QuizQuestion } from '../types';
 
-// THEMATIC DATABASE
+// --- LINGUISTIC DATABASE ---
+
+interface Verb {
+  v1: string;
+  v3s: string;
+  v2: string;
+  v3: string;
+  ving: string;
+  obj: string;
+}
+
+const VERB_DB: Verb[] = [
+  { v1: "stream", v3s: "streams", v2: "streamed", v3: "streamed", ving: "streaming", obj: "the match" },
+  { v1: "buy", v3s: "buys", v2: "bought", v3: "bought", ving: "buying", obj: "the limited skin" },
+  { v1: "find", v3s: "finds", v2: "found", v3: "found", ving: "finding", obj: "the secret exploit" },
+  { v1: "win", v3s: "wins", v2: "won", v3: "won", ving: "winning", obj: "the tournament" },
+  { v1: "lose", v3s: "loses", v2: "lost", v3: "lost", ving: "losing", obj: "the high-stakes bet" },
+  { v1: "see", v3s: "sees", v2: "saw", v3: "seen", ving: "seeing", obj: "the enemy squad" },
+  { v1: "take", v3s: "takes", v2: "took", v3: "taken", ving: "taking", obj: "the lead" },
+  { v1: "write", v3s: "writes", v2: "wrote", v3: "written", ving: "writing", obj: "the script" },
+  { v1: "give", v3s: "gives", v2: "gave", v3: "given", ving: "giving", obj: "away free items" },
+  { v1: "do", v3s: "does", v2: "did", v3: "done", ving: "doing", obj: "the daily quests" },
+];
 
 const SUBJECTS = [
-    { text: "The imposter", type: "3s" },
-    { text: "My teammate", type: "3s" },
-    { text: "The zombies", type: "pl" },
-    { text: "Billie Eilish", type: "3s" },
-    { text: "We", type: "pl" },
-    { text: "The hacker", type: "3s" },
-    { text: "Travis Scott", type: "3s" },
-    { text: "My avatar", type: "3s" },
-    { text: "Naruto", type: "3s" },
-    { text: "The server", type: "3s" },
-    { text: "My mom", type: "3s" },
-    { text: "Pro players", type: "pl" }
+  { text: "The pro player", type: "3s" },
+  { text: "My squadmates", type: "pl" },
+  { text: "The game developer", type: "3s" },
+  { text: "The hackers", type: "pl" },
+  { text: "Billie Eilish", type: "3s" },
+  { text: "The server host", type: "3s" },
+  { text: "We", type: "pl" },
+  { text: "Everyone", type: "3s" },
 ];
 
-const ACTIONS = [
-    { base: "stream", v3s: "streams", ving: "streaming", ved: "streamed", obj: "on Twitch" },
-    { base: "camp", v3s: "camps", ving: "camping", ved: "camped", obj: "in the bush" },
-    { base: "defuse", v3s: "defuses", ving: "defusing", ved: "defused", obj: "the bomb" },
-    { base: "drop", v3s: "drops", ving: "dropping", ved: "dropped", obj: "a new album" },
-    { base: "lag", v3s: "lags", ving: "lagging", ved: "lagged", obj: "badly" },
-    { base: "ban", v3s: "bans", ving: "banning", ved: "banned", obj: "the cheater" },
-    { base: "follow", v3s: "follows", ving: "following", ved: "followed", obj: "the trend" },
-    { base: "raid", v3s: "raids", ving: "raiding", ved: "raided", obj: "the village" },
-    { base: "travel", v3s: "travels", ving: "traveling", ved: "traveled", obj: "to Japan" },
-    { base: "play", v3s: "plays", ving: "playing", ved: "played", obj: "Minecraft" },
-    { base: "watch", v3s: "watches", ving: "watching", ved: "watched", obj: "TikToks" }
-];
+// --- ENGINE LOGIC ---
 
-const TIME_MARKERS = {
-  present_simple: ["every day", "usually", "often", "on Sundays", "always", "never", "every stream"],
-  present_continuous: ["right now", "at the moment", "look!", "listen!", "currently"],
-  past_simple: ["yesterday", "last night", "in 2020", "two hours ago", "last season"],
-  past_continuous: ["at 3 AM", "while I was sleeping", "all day yesterday"],
-  future_plans: ["tomorrow", "next week", "tonight", "next season", "soon"]
-};
-
-// Helper to get random item
-const rnd = (arr: any[]) => arr[Math.floor(Math.random() * arr.length)];
+const rnd = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
 export const generateTest = (topics: string[], count: number): QuizQuestion[] => {
   const questions: QuizQuestion[] = [];
-  const questionsPerTopic = Math.ceil(count / topics.length);
+  const itemsPerTopic = Math.ceil(count / topics.length);
 
-  topics.forEach(topic => {
-    for (let i = 0; i < questionsPerTopic; i++) {
+  topics.forEach((topic) => {
+    for (let i = 0; i < itemsPerTopic; i++) {
       if (questions.length >= count) break;
-      questions.push(generateQuestionForTopic(topic, questions.length + 1));
+      questions.push(generateIntelligentQuestion(topic, questions.length + 1));
     }
   });
 
-  // Shuffle
   return questions.sort(() => Math.random() - 0.5);
 };
 
-const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
+const generateIntelligentQuestion = (topic: string, id: number): QuizQuestion => {
   const subj = rnd(SUBJECTS);
-  const action = rnd(ACTIONS);
-  
+  const v = rnd(VERB_DB);
+  const v2 = rnd(VERB_DB.filter(x => x.v1 !== v.v1));
+
   switch (topic) {
-    case 'present_simple': {
-      const isNeg = Math.random() > 0.6;
-      const marker = rnd(TIME_MARKERS.present_simple);
-      
-      if (isNeg) {
-        // Negative: Don't / Doesn't
-        const aux = (subj.type === "3s") ? "doesn't" : "don't";
-        const wrongAux = (subj.type === "3s") ? "don't" : "doesn't";
+    case 'present_perfect_continuous': {
+      const aux = subj.type === "3s" ? "has been" : "have been";
+      const dist = subj.type === "3s" ? "have been" : "has been";
+      return {
+        id,
+        question: `${subj.text} _______ ${v.ving} ${v.obj} for over three hours.`,
+        options: [aux, dist, "is being", "was been"],
+        correctAnswer: aux,
+        type: 'choice'
+      };
+    }
+
+    case 'third_conditional': {
+      return {
+        id,
+        question: `If ${subj.text} _______ ${v.v3} ${v.obj} earlier, they would have won the match.`,
+        options: [`had ${v.v3}`, `have ${v.v3}`, `would have ${v.v3}`, `has ${v.v3}`],
+        correctAnswer: `had ${v.v3}`,
+        type: 'choice'
+      };
+    }
+
+    case 'past_perfect': {
+      return {
+        id,
+        question: `By the time I logged in, ${subj.text} already _______ ${v.v3} ${v.obj}.`,
+        options: [`had ${v.v3}`, `have ${v.v3}`, `was ${v.v3}`, v.v2],
+        correctAnswer: `had ${v.v3}`,
+        type: 'choice'
+      };
+    }
+
+    case 'modals_deduction_past': {
+      return {
+        id,
+        question: `The room is empty. ${subj.text} _______ out to celebrate the victory.`,
+        options: ["must have gone", "must go", "must have went", "can't go"],
+        correctAnswer: "must have gone",
+        type: 'choice'
+      };
+    }
+
+    case 'passive_mixed': {
+      const tense = Math.random() > 0.5 ? 'continuous' : 'perfect';
+      if (tense === 'continuous') {
         return {
           id,
-          question: `${subj.text} _______ ${action.base} ${action.obj} ${marker}.`,
-          options: [aux, wrongAux, (subj.type === "3s" ? "isn't" : "aren't")].sort(() => Math.random() - 0.5),
-          correctAnswer: aux,
+          question: `Wait! ${v.obj} _______ by ${subj.text} right now.`,
+          options: [`is being ${v.v3}`, `is ${v.v3}`, `was being ${v.v3}`, `has been ${v.v3}`],
+          correctAnswer: `is being ${v.v3}`,
           type: 'choice'
         };
       } else {
-        // Positive: V1 / V1s
-        const correct = (subj.type === "3s") ? action.v3s : action.base;
-        const wrong1 = (subj.type === "3s") ? action.base : action.v3s;
-        const wrong2 = action.ving;
         return {
           id,
-          question: `${subj.text} _______ ${action.obj} ${marker}.`,
-          options: [correct, wrong1, wrong2].sort(() => Math.random() - 0.5),
-          correctAnswer: correct,
+          question: `${v.obj} _______ by ${subj.text} since the update.`,
+          options: [`has been ${v.v3}`, `was ${v.v3}`, `is ${v.v3}`, `had been ${v.v3}`],
+          correctAnswer: `has been ${v.v3}`,
           type: 'choice'
         };
       }
     }
 
-    case 'present_continuous': {
-      const marker = rnd(TIME_MARKERS.present_continuous);
-      const be = (subj.type === "3s" ? "is" : "are");
-      const wrongBe1 = (be === "is") ? "are" : "is";
-      const wrongBe2 = "do";
-      
-      const type = Math.random();
-      if (type > 0.5) {
-        // Test Verb-ing
+    case 'reported_speech_advanced': {
+      return {
+        id,
+        question: `The moderator asked ${subj.text} where _______ the hidden items.`,
+        options: [`they had found`, `did they find`, `had they found`, `they have found`],
+        correctAnswer: `they had found`,
+        type: 'choice'
+      };
+    }
+
+    case 'wish_regret': {
+      return {
+        id,
+        question: `I wish ${subj.text} _______ so much lag during the final boss fight.`,
+        options: ["hadn't had", "didn't have", "hasn't had", "wouldn't have had"],
+        correctAnswer: "hadn't had",
+        type: 'choice'
+      };
+    }
+
+    case 'gerund_inf_meaning': {
+      const type = Math.random() > 0.5 ? 'stop' : 'remember';
+      if (type === 'stop') {
         return {
           id,
-          question: `${marker} ${subj.text} is _______ ${action.obj}!`,
-          options: [action.ving, action.base, action.v3s].sort(() => Math.random() - 0.5),
-          correctAnswer: action.ving,
+          question: `The game was so boring that I stopped _______ (play) it.`,
+          options: ["playing", "to play", "played", "to playing"],
+          correctAnswer: "playing",
           type: 'choice'
         };
       } else {
-        // Test Aux
         return {
           id,
-          question: `${subj.text} _______ ${action.ving} ${action.obj} ${marker}.`,
-          options: [be, wrongBe1, wrongBe2].sort(() => Math.random() - 0.5),
-          correctAnswer: be,
+          question: `I remember _______ (see) the trailer, but I don't remember the name.`,
+          options: ["seeing", "to see", "saw", "having seen"],
+          correctAnswer: "seeing",
           type: 'choice'
         };
       }
     }
 
-    case 'past_simple': {
-      const marker = rnd(TIME_MARKERS.past_simple);
-      const isNeg = Math.random() > 0.7;
-
-      if (isNeg) {
-         return {
-          id,
-          question: `${subj.text} _______ ${action.base} ${action.obj} ${marker}.`,
-          options: ["didn't", "don't", "wasn't"].sort(() => Math.random() - 0.5),
-          correctAnswer: "didn't",
-          type: 'choice'
-        };
-      } else {
-         return {
-          id,
-          question: `${subj.text} _______ ${action.obj} ${marker}.`,
-          options: [action.ved, action.base, action.ving].sort(() => Math.random() - 0.5),
-          correctAnswer: action.ved,
-          type: 'choice'
-        };
-      }
+    case 'relative_clauses_non_defining': {
+      return {
+        id,
+        question: `${subj.text}, _______ usually plays on the European servers, is actually from Japan.`,
+        options: ["who", "that", "which", "whose"],
+        correctAnswer: "who",
+        type: 'choice'
+      };
     }
 
-    case 'past_continuous': {
-       const be = (subj.type === "3s") ? "was" : "were";
-       const wrongBe = (be === "was") ? "were" : "was";
-       return {
-          id,
-          question: `While I was AFK, ${subj.text} _______ ${action.ving} ${action.obj}.`,
-          options: [be, wrongBe, "is"].sort(() => Math.random() - 0.5),
-          correctAnswer: be,
-          type: 'choice'
-       };
+    case 'used_to_be_used_to': {
+      return {
+        id,
+        question: `I am not used to _______ with a controller yet.`,
+        options: ["playing", "play", "played", "be playing"],
+        correctAnswer: "playing",
+        type: 'choice'
+      };
     }
 
-    case 'future_plans': {
-        const be = (subj.type === "3s" ? "is" : "are");
-        return {
-            id,
-            question: `${subj.text} _______ going to ${action.base} ${action.obj} tomorrow.`,
-            options: [be, "will", "go"].sort(() => Math.random() - 0.5),
-            correctAnswer: be,
-            type: 'choice'
-        }
+    default: {
+      // Fallback for standard topics
+      const is3s = subj.type === "3s";
+      return {
+        id,
+        question: `${subj.text} _______ ${v.obj} every weekend.`,
+        options: [is3s ? v.v3s : v.v1, is3s ? v.v1 : v.v3s, v.ving, v.v2],
+        correctAnswer: is3s ? v.v3s : v.v1,
+        type: 'choice'
+      };
     }
-
-    case 'relative_clauses': {
-        const person = rnd(["The streamer", "The hacker", "The noob", "The celebrity"]);
-        const thing = rnd(["The skin", "The car", "The phone", "The loot box"]);
-        const place = rnd(["The server", "The city", "The map", "The house"]);
-        
-        const qType = Math.random();
-        
-        if (qType < 0.33) {
-             return {
-                id,
-                question: `${person} _______ banned me was angry.`,
-                options: ["who", "which", "where"].sort(() => Math.random() - 0.5),
-                correctAnswer: "who",
-                type: 'choice'
-            };
-        } else if (qType < 0.66) {
-            return {
-                id,
-                question: `${thing} _______ I bought is legendary.`,
-                options: ["which", "who", "where"].sort(() => Math.random() - 0.5),
-                correctAnswer: "which",
-                type: 'choice'
-            };
-        } else {
-            return {
-                id,
-                question: `${place} _______ we camp is safe.`,
-                options: ["where", "which", "who"].sort(() => Math.random() - 0.5),
-                correctAnswer: "where",
-                type: 'choice'
-            };
-        }
-    }
-
-    case 'articles_quantifiers': {
-        const countable = rnd(["skins", "followers", "loot boxes", "kills"]);
-        const uncountable = rnd(["money", "lag", "health", "armor"]);
-        
-        if (Math.random() > 0.5) {
-             return {
-                id,
-                question: `I don't have _______ ${uncountable} left.`,
-                options: ["much", "many", "a few"].sort(() => Math.random() - 0.5),
-                correctAnswer: "much",
-                type: 'choice'
-            };
-        } else {
-             return {
-                id,
-                question: `I have a _______ ${countable}.`,
-                options: ["few", "little", "much"].sort(() => Math.random() - 0.5),
-                correctAnswer: "few",
-                type: 'choice'
-            };
-        }
-    }
-      
-    // Default fallback
-    default: return {
-      id,
-      question: `Identify the correct form: ${subj.text} _______ (to be).`,
-      options: ["is", "are", "am"],
-      correctAnswer: "is",
-      type: 'choice'
-    };
   }
 };

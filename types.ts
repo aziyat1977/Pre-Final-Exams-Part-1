@@ -54,7 +54,7 @@ export interface DetailedTense {
     exampleSentence: string;
     exampleRussian: string;
     exampleUzbek: string;
-    visualType: 'point-now' | 'continuous-now' | 'point-past' | 'continuous-past' | 'magic-link' | 'crystal-ball' | 'potion-mix';
+    visualType: 'point-now' | 'continuous-now' | 'point-past' | 'continuous-past' | 'magic-link' | 'crystal-ball' | 'potion-mix' | 'present-perfect-bridge' | 'future-intent' | 'state-static' | 'past-perfect-flashback' | 'passive-focus-shift';
   };
   forms: {
     positive: string;
@@ -99,8 +99,17 @@ export interface IntermediateLesson {
     formulas: { title: string; eng: string; rus: string; uzb: string }[];
     examples: { type: string; text: string }[];
   };
+  timeline: {
+    description: string;
+    exampleSentence: string;
+    exampleRussian: string;
+    exampleUzbek: string;
+    visualType: 'point-now' | 'continuous-now' | 'point-past' | 'continuous-past' | 'present-perfect-bridge' | 'future-intent' | 'state-static' | 'past-perfect-flashback' | 'passive-focus-shift';
+  };
   exercises: {
-    quizzes: QuizQuestion[];
+    quizzes: QuizQuestion[]; // These act as the primary 'Nuance Check'
+    mcqTests?: { title: string; questions: QuizQuestion[] }[];
+    miniQuizzes?: { title: string; questions: QuizQuestion[] }[];
     gapFill: { question: string; answer: string }[];
     dragDrop: DragDropData;
     crossword: CrosswordClue[];
