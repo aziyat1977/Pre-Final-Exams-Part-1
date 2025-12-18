@@ -151,7 +151,8 @@ const TestGenerator: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 print:grid-cols-2">
+            {/* Print Grid Layout */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 print-grid">
               {generatedTest.map((q, idx) => (
                 <div key={q.id} className="mb-2 break-inside-avoid">
                   <p className="font-bold mb-1 text-lg">{idx + 1}. {q.question.replace('_______', '______________')}</p>
@@ -177,58 +178,67 @@ const TestGenerator: React.FC = () => {
       <style>{`
         @media print {
           @page {
-            margin: 20mm;
+            margin: 15mm;
             size: auto;
           }
 
+          /* Reset root styles to prevent blank pages */
           html, body {
-            height: auto;
-            min-height: 100%;
+            visibility: hidden;
+            height: auto !important;
+            min-height: auto !important;
             overflow: visible !important;
             background: white !important;
             color: black !important;
           }
 
-          /* Hide everything by default */
+          /* Neutralize Framer Motion & Layout Containers */
+          #root, main, div[class*="motion"] {
+            position: static !important;
+            transform: none !important;
+            overflow: visible !important;
+          }
+
+          /* Hide all content by default */
           body * {
             visibility: hidden;
           }
 
-          /* Ensure root container doesn't block content */
-          #root {
-            visibility: hidden;
-            overflow: visible !important;
-          }
-
-          /* Make print content visible and force styles */
+          /* Show only the print content */
           .print-content, .print-content * {
             visibility: visible !important;
             color: black !important;
             text-shadow: none !important;
           }
 
+          /* Position print content to fill page */
           .print-content {
             position: absolute !important;
             left: 0 !important;
             top: 0 !important;
             width: 100% !important;
-            min-height: 100vh;
+            height: auto !important;
             margin: 0 !important;
             padding: 0 !important;
-            background-color: white !important;
             z-index: 99999;
+            background: white !important;
           }
 
-          /* Hide interactive elements in print */
-          button, .print:hidden {
+          /* Explicitly hide interactive elements */
+          button, .print\\:hidden, nav, .no-print {
             display: none !important;
           }
 
-          /* Ensure grid layout works in print */
-          .print\\:grid-cols-2 {
+          /* Ensure grid works in print */
+          .print-grid {
             display: grid !important;
-            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-            gap: 1.5rem !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 2rem !important;
+          }
+
+          .break-inside-avoid {
+            break-inside: avoid;
+            page-break-inside: avoid;
           }
         }
       `}</style>
