@@ -76,3 +76,31 @@ export const CONTEXTS: Context[] = [
   { text: 'the football match', theme: 'Sports' },
   { text: 'the red card', theme: 'Sports' },
 ];
+
+// --- NOUNS FOR QUANTIFIERS & ARTICLES ---
+export const NOUNS = [
+    { text: 'water', type: 'uncountable', vowel: false },
+    { text: 'information', type: 'uncountable', vowel: true },
+    { text: 'money', type: 'uncountable', vowel: false },
+    { text: 'music', type: 'uncountable', vowel: false },
+    { text: 'rice', type: 'uncountable', vowel: false },
+    { text: 'apple', type: 'countable', vowel: true },
+    { text: 'car', type: 'countable', vowel: false },
+    { text: 'idea', type: 'countable', vowel: true },
+    { text: 'student', type: 'countable', vowel: false },
+    { text: 'hour', type: 'countable', vowel: true } // silent h
+];
+
+// --- VERB PATTERNS (Gerund vs Infinitive) ---
+export const VERB_PATTERNS = [
+    { verb: 'enjoy', follow: 'ing' },
+    { verb: 'want', follow: 'to' },
+    { verb: 'decide', follow: 'to' },
+    { verb: 'avoid', follow: 'ing' },
+    { verb: 'promise', follow: 'to' },
+    { verb: 'finish', follow: 'ing' },
+    { verb: 'hope', follow: 'to' },
+    { verb: 'mind', follow: 'ing' },
+    { verb: 'need', follow: 'to' },
+    { verb: 'suggest', follow: 'ing' }
+];

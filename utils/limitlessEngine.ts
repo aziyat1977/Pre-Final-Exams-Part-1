@@ -1,6 +1,6 @@
 
 import { QuizQuestion, GeneratorLevel, Verb } from '../types';
-import { VERBS, SUBJECTS, CONTEXTS } from './limitlessData';
+import { VERBS, SUBJECTS, CONTEXTS, NOUNS, VERB_PATTERNS } from './limitlessData';
 
 const getRandom = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
@@ -12,10 +12,10 @@ const generateDistractors = (correct: string, type: string, v: Verb, isPlural: b
     let d = '';
     const r = Math.random();
 
-    // Generate grammatically plausible but wrong forms based on the verb
+    // Standard Verb Logic
     if (type === 'V1' || type === 'V1s') {
-      if (r < 0.3) d = v.ing; // playing
-      else if (r < 0.6) d = isPlural ? v.s : v.base; // Wrong S agreement
+      if (r < 0.3) d = v.ing; 
+      else if (r < 0.6) d = isPlural ? v.s : v.base; 
       else d = "is " + v.ing;
     } 
     else if (type === 'V2') {
@@ -29,8 +29,8 @@ const generateDistractors = (correct: string, type: string, v: Verb, isPlural: b
       else d = v.ing;
     }
     else if (type === 'PresentPerfect') {
-      if (r < 0.3) d = v.past; // Past Simple confusion
-      else if (r < 0.6) d = (isPlural ? "has " : "have ") + v.pastPart; // Wrong aux
+      if (r < 0.3) d = v.past; 
+      else if (r < 0.6) d = (isPlural ? "has " : "have ") + v.pastPart; 
       else d = "did " + v.base;
     }
     else if (type === 'PastPerfect') {
@@ -42,8 +42,21 @@ const generateDistractors = (correct: string, type: string, v: Verb, isPlural: b
         const fallbacks = ["more " + correct.replace('er', ''), correct.replace('er', 'est'), correct.replace('est', 'er'), "the " + correct];
         d = getRandom(fallbacks);
     }
-    
-    // Generic fallbacks if generator failed
+    else if (type === 'Quantifier_Countable') {
+        d = getRandom(['much', 'a little', 'any']);
+    }
+    else if (type === 'Quantifier_Uncountable') {
+        d = getRandom(['many', 'a few', 'a']);
+    }
+    else if (type === 'Article') {
+        d = getRandom(['a', 'an', 'the', '-']);
+    }
+    else if (type === 'VerbPattern') {
+        d = correct.startsWith('to') ? v.ing : "to " + v.base;
+        if (d === correct) d = v.base; // Fallback
+    }
+
+    // Generic fallbacks if generator failed or produced duplicate
     if (!d || d === correct) {
        const fallbacks = [v.base, v.past, v.ing, "to " + v.base, "being " + v.pastPart];
        d = getRandom(fallbacks);
@@ -72,12 +85,31 @@ export const generateLimitlessTest = (level: GeneratorLevel, count: number): Qui
     const verb = getRandom(VERBS);
     const context = getRandom(CONTEXTS);
     const adj = getRandom(adjectives);
+    const noun = getRandom(NOUNS);
+    const vPattern = getRandom(VERB_PATTERNS);
     
-    // Select Grammar Rule based on Level
+    // Select Grammar Rule based on Level (Mapped to Oxford Navigate)
     let rule = '';
-    const a2Rules = ['PresSimple', 'PresCont', 'PastSimple', 'FuturePlan', 'Comparatives', 'Superlatives', 'ShouldMust', 'PastSimple_Be'];
-    const b1Rules = ['PresSimple', 'PresCont', 'PastSimple', 'PresPerf', 'Will', 'GoingTo', 'Modals', 'FirstCond'];
-    const b1PlusRules = ['PresPerfCont', 'PastPerf', 'SecondCond', 'ThirdCond', 'Passive', 'Reported', 'Relative', 'FutureCont'];
+    
+    // A2: Pre-Intermediate Syllabus
+    const a2Rules = [
+        'PresSimple', 'PresCont', 'PastSimple', 'FuturePlan', // Basics
+        'Quantifiers', 'Articles', 'Comparatives', 'Superlatives', // Nouns/Adjs
+        'ShouldMust', 'PresPerf_Exp', 'UsedTo', 'Passive_Simple' // Advanced A2
+    ];
+
+    // B1: Intermediate Syllabus
+    const b1Rules = [
+        'PresSimple', 'PresCont', 'PastSimple', 'PastCont', // Narrative Tenses
+        'PresPerf_ForSince', 'Will_vs_GoingTo', 'Modals_Obligation', // Time & Rules
+        'FirstCond', 'SecondCond', 'GerundInf', 'StateVerbs', 'Quantifiers_Adv'
+    ];
+
+    // B1+: Upper Intermediate Syllabus
+    const b1PlusRules = [
+        'PresPerfCont', 'PastPerf', 'ThirdCond', 'Passive_Adv', 
+        'Reported', 'Relative', 'FutureCont', 'FuturePerf'
+    ];
     
     if (level === 'A2') rule = getRandom(a2Rules);
     else if (level === 'B1') rule = getRandom(b1Rules);
@@ -113,9 +145,33 @@ export const generateLimitlessTest = (level: GeneratorLevel, count: number): Qui
          distractorType = 'Will';
          break;
       
-      case 'PastSimple_Be':
-         qText = `${subj.text} _______ happy yesterday.`;
-         correct = subj.isPlural ? "were" : "was";
+      case 'Quantifiers': // A2 Basic Count/Uncount
+         qText = `How _______ ${noun.text} do we have?`;
+         correct = noun.type === 'countable' ? "many" : "much";
+         distractorType = noun.type === 'countable' ? 'Quantifier_Countable' : 'Quantifier_Uncountable';
+         break;
+
+      case 'Articles':
+         qText = `I saw _______ ${noun.text} yesterday.`;
+         correct = noun.vowel ? "an" : "a";
+         distractorType = 'Article';
+         break;
+
+      case 'UsedTo':
+         qText = `${subj.text} _______ live here, but not anymore.`;
+         correct = "used to";
+         distractorType = 'V2';
+         break;
+
+      case 'PresPerf_Exp': // Experience (Have you ever...)
+         qText = `${subj.isPlural ? "Have" : "Has"} ${subj.text} ever _______ (${verb.base}) ${context.text}?`;
+         correct = verb.pastPart;
+         distractorType = 'V2'; // Distract with Past Simple
+         break;
+        
+      case 'Passive_Simple':
+         qText = `The car _______ (make) in Germany.`;
+         correct = "was made";
          distractorType = 'V2';
          break;
 
@@ -138,27 +194,30 @@ export const generateLimitlessTest = (level: GeneratorLevel, count: number): Qui
         distractorType = 'V2';
         break;
 
-      case 'PresPerf':
-        qText = `${subj.text} _______ just _______ (${verb.base}) ${context.text}.`;
-        correct = (subj.isPlural ? "have / " : "has / ") + verb.pastPart;
+      case 'PastCont':
+        qText = `${subj.text} _______ (${verb.base}) when the phone rang.`;
+        correct = (subj.isPlural ? "were " : "was ") + verb.ing;
+        distractorType = 'V2';
+        break;
+
+      case 'PresPerf_ForSince':
+        qText = `${subj.text} _______ (${verb.base}) here for 10 years.`;
+        correct = (subj.isPlural ? "have / " : "has / ") + verb.pastPart; // Simplified check
+        // Ideally prompt asks for full form, here simplifying for multiple choice structure
+        correct = (subj.isPlural ? "have " : "has ") + verb.pastPart;
         distractorType = 'PresentPerfect';
         break;
 
-      case 'Will':
-        qText = `I think ${subj.text} _______ (${verb.base}) ${context.text} in the future.`;
+      case 'Will_vs_GoingTo': // Prediction vs Plan
+        // Simplified context for generator
+        qText = `I think ${subj.text} _______ (${verb.base}) soon. (Prediction)`;
         correct = "will " + verb.base;
         distractorType = 'Will';
         break;
 
-      case 'GoingTo':
-        qText = `Look at the evidence! ${subj.text} _______ (${verb.base}) ${context.text}.`;
-        correct = (subj.isPlural ? "are " : "is ") + "going to " + verb.base;
-        distractorType = 'Will';
-        break;
-
-      case 'Modals':
-        qText = `${subj.text} _______ (${verb.base}) ${context.text} (It is necessary).`;
-        correct = (subj.isPlural ? "have to " : "has to ") + verb.base; 
+      case 'Modals_Obligation':
+        qText = `You _______ (${verb.base})! It's the law.`;
+        correct = "must " + verb.base; 
         distractorType = 'Will';
         break;
 
@@ -167,6 +226,30 @@ export const generateLimitlessTest = (level: GeneratorLevel, count: number): Qui
         correct = subj.isPlural ? verb.base : verb.s;
         distractorType = 'V1';
         break;
+      
+      case 'SecondCond':
+        qText = `If I were ${subj.text}, I _______ (${verb.base}) ${context.text}.`;
+        correct = "would " + verb.base;
+        distractorType = 'Will';
+        break;
+
+      case 'GerundInf':
+        qText = `${subj.text} ${vPattern.verb}s _______ (${verb.base}).`;
+        correct = vPattern.follow === 'to' ? "to " + verb.base : verb.ing;
+        distractorType = 'VerbPattern';
+        break;
+
+      case 'StateVerbs':
+        qText = `I _______ (know) the answer now.`;
+        correct = "know";
+        distractorType = 'V1'; // Distractor will be "am knowing" via generator
+        break;
+
+      case 'Quantifiers_Adv': // A few vs A little
+         qText = `We have _______ ${noun.text} left.`;
+         correct = noun.type === 'countable' ? "a few" : "a little";
+         distractorType = noun.type === 'countable' ? 'Quantifier_Countable' : 'Quantifier_Uncountable';
+         break;
 
       // --- B1+ RULES ---
       case 'PresPerfCont':
@@ -181,23 +264,16 @@ export const generateLimitlessTest = (level: GeneratorLevel, count: number): Qui
         distractorType = 'PastPerfect';
         break;
 
-      case 'SecondCond':
-        qText = `If I were ${subj.text}, I _______ (${verb.base}) ${context.text}.`;
-        correct = "would " + verb.base;
-        distractorType = 'Will';
-        break;
-
       case 'ThirdCond':
         qText = `If ${subj.text} hadn't been late, they _______ (${verb.base}) ${context.text}.`;
         correct = "would have " + verb.pastPart;
         distractorType = 'PastPerfect';
         break;
       
-      case 'Passive':
-        qText = `The item "${context.text}" _______ (${verb.base}) by ${subj.text} yesterday.`;
-        correct = "was " + verb.pastPart;
-        if (context.text.endsWith('s')) correct = "were " + verb.pastPart;
-        distractorType = 'V2';
+      case 'Passive_Adv':
+        qText = `The item "${context.text}" _______ (${verb.base}) by ${subj.text} recently.`;
+        correct = "has been " + verb.pastPart;
+        distractorType = 'PresentPerfect';
         break;
 
       case 'Reported':
@@ -209,6 +285,12 @@ export const generateLimitlessTest = (level: GeneratorLevel, count: number): Qui
       case 'FutureCont':
         qText = `This time tomorrow, ${subj.text} _______ (${verb.base}) ${context.text}.`;
         correct = "will be " + verb.ing;
+        distractorType = 'Will';
+        break;
+      
+      case 'FuturePerf':
+        qText = `By next year, ${subj.text} _______ (${verb.base}) the project.`;
+        correct = "will have " + verb.pastPart;
         distractorType = 'Will';
         break;
         
@@ -224,17 +306,29 @@ export const generateLimitlessTest = (level: GeneratorLevel, count: number): Qui
         distractorType = 'V1';
     }
 
-    // Generate Options
+    // Generate Options logic
     let opts: string[] = [];
+    
     if (distractorType === 'Relative') {
         opts = ["who", "which", "where", "whose"];
     } else if (distractorType === 'Adjective') {
-        // Simple distractors for adjs
         if (rule === 'Comparatives') opts = [adj.base, adj.super, "more " + adj.base];
         else opts = [adj.base, adj.comp, "most " + adj.base];
         opts.push(correct);
-    } else if (distractorType === 'V2' && rule === 'PastSimple_Be') {
-        opts = ["were", "was", "is", "are"];
+    } else if (distractorType === 'Quantifier_Countable') {
+        opts = ["much", "a little", "any", correct];
+    } else if (distractorType === 'Quantifier_Uncountable') {
+        opts = ["many", "a few", "a", correct];
+    } else if (distractorType === 'Article') {
+        opts = ["a", "an", "the", "-"];
+    } else if (distractorType === 'VerbPattern') {
+        opts = [verb.ing, "to " + verb.base, verb.base, "for " + verb.ing];
+    } else if (rule === 'StateVerbs') {
+        opts = ["am knowing", "know", "have known", "knew"];
+    } else if (rule === 'UsedTo') {
+        opts = ["used to", "use to", "usually", "using"];
+    } else if (rule === 'Passive_Simple') {
+        opts = ["made", "was made", "is making", "has made"];
     } else {
         opts = generateDistractors(correct, distractorType, verb, subj.isPlural);
         opts.push(correct);
@@ -243,7 +337,7 @@ export const generateLimitlessTest = (level: GeneratorLevel, count: number): Qui
     // Shuffle Options
     opts.sort(() => Math.random() - 0.5);
 
-    // Limit to 3-4 options unique
+    // Ensure Unique
     opts = Array.from(new Set(opts)).slice(0, 4);
 
     questions.push({

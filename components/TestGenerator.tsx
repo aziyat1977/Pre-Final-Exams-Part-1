@@ -47,19 +47,19 @@ const TestGenerator: React.FC = () => {
                 onClick={() => setLevel('B1')}
                 className={`flex-1 py-4 rounded-xl font-bold transition-all border-2 ${level === 'B1' ? 'bg-blue-600 border-blue-400 text-white shadow-lg' : 'bg-gray-700 border-gray-600 text-gray-400'}`}
               >
-                B1 (Pre-Int)
+                B1 (Int)
               </button>
               <button 
                 onClick={() => setLevel('B1+')}
                 className={`flex-1 py-4 rounded-xl font-bold transition-all border-2 ${level === 'B1+' ? 'bg-purple-600 border-purple-400 text-white shadow-lg' : 'bg-gray-700 border-gray-600 text-gray-400'}`}
               >
-                B1+ (Int)
+                B1+ (Upp)
               </button>
             </div>
-            <p className="text-xs text-gray-500 mt-2">
-              {level === 'A2' && 'Topics: Pres/Past Simple, Future Plans, Comparatives, Superlatives, Should/Must.'}
-              {level === 'B1' && 'Topics: Present Simple/Cont, Past, Will/Going to, 1st Cond.'}
-              {level === 'B1+' && 'Topics: Pres Perf Cont, Past Perf, Passive, Reported, 3rd Cond.'}
+            <p className="text-xs text-gray-500 mt-2 h-12">
+              {level === 'A2' && 'Full A2 Syllabus: Pres/Past, Future Plans, Quantifiers (Count/Uncount), Articles, Comparatives, Should/Must, Used to, Passive.'}
+              {level === 'B1' && 'Full B1 Syllabus: Narrative Tenses, State Verbs, 1st/2nd Cond, Gerunds/Inf, Modals, Adv. Quantifiers.'}
+              {level === 'B1+' && 'Full B1+ Syllabus: Future Perf/Cont, 3rd Cond, Adv. Passive, Reported Speech, Relative Clauses.'}
             </p>
           </div>
 
