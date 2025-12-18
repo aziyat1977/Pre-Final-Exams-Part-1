@@ -2,14 +2,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { GraduationCap, Sword, Ghost, Blocks, ChevronRight } from 'lucide-react';
+import { GraduationCap, Sword, Ghost, Blocks, ChevronRight, Sparkles } from 'lucide-react';
 import Navigation from './components/Navigation';
 import CheatSheet3D from './components/CheatSheet3D';
 import CombatQuiz from './components/CombatQuiz';
 import SnakeGame from './components/SnakeGame';
 import Button from './components/Button';
 import TenseDetail from './components/TenseDetail';
-import { TENSES_DATA, CONNECTORS_DATA, QUANTITY_DATA, EXAM_KILLERS, DETAILED_TENSES } from './constants';
+import ConnectorDetail from './components/ConnectorDetail';
+import { TENSES_DATA, CONNECTORS_DATA, QUANTITY_DATA, EXAM_KILLERS, DETAILED_TENSES, DETAILED_CONNECTORS } from './constants';
 
 const App: React.FC = () => {
   const [view, setView] = useState('home');
@@ -98,6 +99,13 @@ const App: React.FC = () => {
         );
 
       case 'connectors':
+        if (selectedTenseId) {
+          const topic = DETAILED_CONNECTORS.find(t => t.id === selectedTenseId);
+          if (topic) {
+            return <ConnectorDetail topic={topic} onBack={() => setSelectedTenseId(null)} />;
+          }
+        }
+
         return (
           <div className="space-y-8 animate-fade-in-up">
             <div className="text-center mb-12 relative">
@@ -107,7 +115,32 @@ const App: React.FC = () => {
               </h1>
               <p className="text-[#a89f91] font-serif italic text-xl">The Spells of Connection & Future</p>
             </div>
-            <CheatSheet3D title="Connectors & Future" data={CONNECTORS_DATA} theme="hogwarts" />
+
+             {/* Connector Selection Grid */}
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto relative z-10">
+              {DETAILED_CONNECTORS.map((topic, idx) => (
+                <motion.div
+                  key={topic.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  onClick={() => setSelectedTenseId(topic.id)}
+                  className="bg-[#1a0f0a]/80 border-2 border-[#D4AF37]/50 hover:border-[#D4AF37] p-8 rounded-xl cursor-pointer group transition-all relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')]"
+                >
+                  <div className="absolute top-2 right-2 p-2 opacity-50 group-hover:opacity-100 transition-opacity">
+                    <Sparkles className="text-[#D4AF37] w-6 h-6 animate-pulse" />
+                  </div>
+                  <h3 className="text-2xl font-magic text-[#D4AF37] mb-2">{topic.title}</h3>
+                  <p className="text-[#e5dcc5] font-serif italic mb-4 opacity-80">{topic.meaning.english}</p>
+                  
+                  <div className="flex gap-2 mt-4">
+                    <span className="text-xs bg-[#2A1810] text-[#D4AF37] border border-[#D4AF37]/30 px-3 py-1 rounded font-serif">Spell</span>
+                    <span className="text-xs bg-[#2A1810] text-[#D4AF37] border border-[#D4AF37]/30 px-3 py-1 rounded font-serif">Curses</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
                 <div className="p-6 bg-[#2A1810] border border-[#D4AF37] rounded-lg shadow-xl relative overflow-hidden">
                     <h3 className="font-magic text-[#D4AF37] text-xl mb-2">Teacher's Prophecy</h3>

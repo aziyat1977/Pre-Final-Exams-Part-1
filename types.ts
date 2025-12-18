@@ -22,7 +22,7 @@ export interface DetailedTense {
     exampleSentence: string;
     exampleRussian: string;
     exampleUzbek: string;
-    visualType: 'point-now' | 'continuous-now' | 'point-past' | 'continuous-past';
+    visualType: 'point-now' | 'continuous-now' | 'point-past' | 'continuous-past' | 'magic-link' | 'crystal-ball' | 'potion-mix';
   };
   forms: {
     positive: string;

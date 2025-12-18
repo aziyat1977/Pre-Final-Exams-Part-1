@@ -31,116 +31,168 @@ const TenseDetail: React.FC<TenseDetailProps> = ({ tense, onBack }) => {
 
   const renderTimelineVisual = (type: string) => {
     return (
-      <div className="h-48 w-full bg-gray-900 rounded-xl relative flex items-center justify-center my-6 border-4 border-green-500/30 overflow-hidden shadow-[inset_0_0_50px_rgba(0,0,0,0.8)]">
+      <div className="h-64 w-full bg-gray-950 rounded-xl relative flex items-center justify-center my-6 border-4 border-green-500/30 overflow-hidden shadow-[inset_0_0_50px_rgba(0,0,0,0.8)] perspective-1000">
         
-        {/* Retro Grid Background (Moving) */}
+        {/* Slow Motion Grid Background */}
         <motion.div 
            className="absolute inset-0 opacity-20"
            style={{ 
-             backgroundImage: 'linear-gradient(90deg, transparent 95%, #00ff00 95%), linear-gradient(transparent 95%, #00ff00 95%)',
-             backgroundSize: '40px 40px'
+             backgroundImage: 'linear-gradient(90deg, transparent 98%, #00ff00 98%), linear-gradient(transparent 98%, #00ff00 98%)',
+             backgroundSize: '60px 60px'
            }}
-           animate={{ backgroundPosition: ['0px 0px', '-40px 0px'] }}
-           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+           animate={{ 
+             backgroundPosition: ['0px 0px', '-60px 60px'] 
+           }}
+           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         />
 
-        {/* Base Time Line */}
-        <div className="absolute w-full h-1 bg-gray-600 z-10"></div>
-        <div className="absolute left-[15%] text-sm font-hud text-gray-500 -bottom-8 z-20">PAST</div>
-        <div className="absolute left-[50%] text-sm font-hud text-green-400 font-bold -bottom-8 -translate-x-1/2 z-20">NOW</div>
-        <div className="absolute right-[15%] text-sm font-hud text-gray-500 -bottom-8 z-20">FUTURE</div>
-        
-        {/* NOW Marker */}
-        <div className="absolute left-[50%] h-full w-1 bg-green-500/50 -translate-x-1/2 z-0 blur-sm"></div>
-        <div className="absolute left-[50%] h-full w-[2px] bg-green-400 -translate-x-1/2 z-10"></div>
+        {/* Timeline Axis - Clearer & Neon */}
+        <div className="absolute top-1/2 left-0 w-full h-1 bg-gray-800 z-0"></div>
+        <div className="absolute top-1/2 left-0 w-full h-[1px] bg-green-500/30 z-0 shadow-[0_0_10px_#22c55e]"></div>
 
-        {/* Visual Logic - Ultra Animated */}
+        {/* Markers */}
+        <div className="absolute top-0 bottom-0 left-[20%] border-l border-dashed border-gray-700 z-0 flex flex-col justify-end pb-4">
+           <span className="text-[10px] font-hud text-gray-500 pl-2">PAST</span>
+        </div>
+        <div className="absolute top-0 bottom-0 right-[20%] border-r border-dashed border-gray-700 z-0 flex flex-col justify-end pb-4 items-end">
+           <span className="text-[10px] font-hud text-gray-500 pr-2">FUTURE</span>
+        </div>
+        
+        {/* NOW Marker - Central Pillar */}
+        <div className="absolute left-[50%] top-8 bottom-8 w-[2px] bg-green-500 z-10 shadow-[0_0_15px_#22c55e] -translate-x-1/2">
+          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-green-400 rounded-full" />
+          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-green-400 rounded-full" />
+        </div>
+        <div className="absolute left-[50%] bottom-4 text-xs font-hud text-green-400 font-bold -translate-x-1/2 bg-black/80 px-2 rounded border border-green-500/50 z-20">NOW</div>
+
+
+        {/* Visual Logic - Ultra Animated Slow Motion */}
+        
         {type === 'point-now' && (
-           // Present Simple: Events constantly passing by like a treadmill of habits
-           <div className="absolute inset-0 z-20 flex items-center">
-             {[0, 1, 2, 3, 4].map((i) => (
+           // Present Simple: 3D Cubes floating on a conveyor belt (Habits)
+           <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+             {[...Array(5)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="absolute w-4 h-4 bg-yellow-400 rounded-full shadow-[0_0_10px_#eab308]"
-                  initial={{ x: -50, opacity: 0 }}
+                  className="absolute w-8 h-8 bg-green-900/40 border border-green-400 rounded flex items-center justify-center backdrop-blur-sm shadow-[0_0_10px_rgba(34,197,94,0.3)]"
+                  initial={{ x: -300, opacity: 0, rotateY: 0 }}
                   animate={{ 
-                    x: ['0%', '100%'],
-                    opacity: [0, 1, 1, 1, 0]
+                    x: ['-45vw', '45vw'],
+                    opacity: [0, 1, 1, 1, 0],
+                    rotateY: [0, 180, 360]
                   }}
                   transition={{ 
-                    duration: 5, 
+                    duration: 12, // Very slow
                     repeat: Infinity, 
                     ease: "linear",
-                    delay: i * 1 // Staggered delay
+                    delay: i * 2.4 
                   }}
-                  style={{ top: '50%', marginTop: '-8px' }}
-                />
+                  style={{ top: '50%', marginTop: '-16px' }}
+                >
+                  <div className="w-2 h-2 bg-green-400 rounded-full shadow-[0_0_5px_#fff]" />
+                </motion.div>
              ))}
-             <div className="absolute left-1/2 -translate-x-1/2 top-[30%] text-green-400 font-bold font-gta text-xs bg-black/50 px-2 rounded">HABIT LOOP</div>
+             <motion.div 
+               className="absolute top-[20%] text-green-400 font-gta text-sm tracking-widest bg-black/60 px-4 py-1 rounded border border-green-500/30"
+               animate={{ opacity: [0.5, 1, 0.5] }}
+               transition={{ duration: 4, repeat: Infinity }}
+             >
+               REPEATED ACTION
+             </motion.div>
            </div>
         )}
 
         {type === 'continuous-now' && (
-          // Present Continuous: A glowing, morphing energy ball AT "NOW"
+          // Present Continuous: Complex Reactor Core at NOW
           <div className="absolute left-1/2 -translate-x-1/2 z-20 flex items-center justify-center">
+             {/* Core */}
              <motion.div 
-               className="w-16 h-16 bg-blue-500/30 rounded-full border-2 border-blue-400 blur-md"
-               animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0.8, 0.5] }}
-               transition={{ duration: 2, repeat: Infinity }}
+               className="w-12 h-12 bg-blue-500 rounded-full blur-md"
+               animate={{ scale: [0.9, 1.1, 0.9], opacity: [0.8, 1, 0.8] }}
+               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
              />
+             
+             {/* Inner Ring */}
              <motion.div 
-               className="absolute w-20 h-20 border border-blue-300 rounded-full"
-               animate={{ rotate: 360, scale: [1, 1.1, 1] }}
+               className="absolute w-20 h-20 border-2 border-blue-400 rounded-full border-t-transparent border-l-transparent"
+               animate={{ rotate: 360 }}
                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
              />
-             <div className="absolute text-blue-200 font-bold font-gta text-xs bg-black/50 px-2 rounded mt-24">HAPPENING</div>
+
+             {/* Outer Ring */}
+             <motion.div 
+               className="absolute w-32 h-32 border border-blue-300/30 rounded-full border-b-transparent border-r-transparent"
+               animate={{ rotate: -360 }}
+               transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+             />
+             
+             {/* Expanding Waves */}
+             {[0, 1, 2].map(i => (
+               <motion.div
+                 key={i}
+                 className="absolute w-10 h-10 border border-blue-400 rounded-full"
+                 animate={{ width: '300px', height: '300px', opacity: 0 }}
+                 transition={{ duration: 4, repeat: Infinity, delay: i * 1.3, ease: "easeOut" }}
+               />
+             ))}
+
+             <div className="absolute top-24 text-blue-300 font-gta text-xs tracking-widest bg-black/80 px-2 py-1 rounded">HAPPENING NOW</div>
           </div>
         )}
 
         {type === 'point-past' && (
-          // Past Simple: A meteor hitting the past and disappearing (scrolling)
+          // Past Simple: "Time Drop" - A marker falls from the sky onto a specific point in the past
           <div className="absolute inset-0 z-20">
+             {/* The Target Spot */}
+             <div className="absolute left-[30%] top-1/2 -translate-y-1/2 w-4 h-4 bg-red-900 rounded-full border border-red-500" />
+             
+             {/* The Falling Object */}
              <motion.div
-                className="absolute w-8 h-8 bg-red-500 rotate-45 border-2 border-white"
-                initial={{ x: '100%', y: -100, opacity: 0 }}
-                animate={{ 
-                  x: ['50%', '30%'], 
-                  y: ['-100%', '50%'],
-                  opacity: [0, 1, 1, 0]
-                }}
-                transition={{ duration: 3, repeat: Infinity, times: [0, 0.4, 0.8, 1] }}
+                className="absolute left-[30%] w-1 bg-red-500"
+                style={{ height: '50px', top: '-60px' }}
+                animate={{ top: ['-60px', '50%'], opacity: [1, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeIn", times: [0, 0.8] }}
              >
-                <div className="absolute -inset-2 bg-red-500/50 blur-lg rounded-full"></div>
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-red-500 rounded-full shadow-[0_0_10px_red]" />
              </motion.div>
              
-             {/* Impact Ripple in Past */}
+             {/* Impact Shockwave */}
              <motion.div 
-                className="absolute left-[30%] top-1/2 -translate-y-1/2 w-12 h-12 border-2 border-red-500 rounded-full"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: [0, 2], opacity: [1, 0] }}
-                transition={{ duration: 3, repeat: Infinity, delay: 1.2 }}
+                className="absolute left-[30%] top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-red-500 rounded-full"
+                initial={{ width: 0, height: 0, opacity: 1 }}
+                animate={{ width: 100, height: 100, opacity: 0 }}
+                transition={{ duration: 3, repeat: Infinity, delay: 2.4, ease: "easeOut" }}
              />
-             <div className="absolute left-[25%] top-[70%] text-red-400 font-bold font-gta text-xs bg-black/50 px-2 rounded">DONE</div>
+
+             <div className="absolute left-[30%] -translate-x-1/2 bottom-8 text-red-400 font-gta text-xs bg-black/60 px-2 rounded">FINISHED</div>
           </div>
         )}
 
         {type === 'continuous-past' && (
-          // Past Continuous: A flowing wave in the past section
+          // Past Continuous: A "Time Stream" - A flowing liquid bar in the past
           <div className="absolute inset-0 z-20">
+            {/* The Background Pipe */}
+            <div className="absolute left-[15%] right-[55%] top-1/2 -translate-y-1/2 h-6 bg-gray-800 rounded-full border border-gray-600 overflow-hidden">
+               {/* The Liquid Flow */}
+               <motion.div 
+                 className="absolute inset-0 bg-gradient-to-r from-purple-900 via-purple-500 to-purple-900"
+                 animate={{ x: ['-100%', '100%'] }}
+                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+               />
+               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagonal-stripes.png')] opacity-30 mix-blend-overlay" />
+            </div>
+
+            {/* The Interruption Event */}
             <motion.div 
-               className="absolute top-1/2 -translate-y-1/2 h-8 bg-gradient-to-r from-transparent via-purple-500 to-transparent"
-               initial={{ left: '10%', width: '0%' }}
-               animate={{ width: ['0%', '30%', '30%', '0%'], left: ['10%', '10%', '20%', '40%'] }}
-               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            />
-            {/* The interruption */}
-            <motion.div 
-               className="absolute top-1/2 -translate-y-1/2 h-12 w-1 bg-white left-[35%]"
-               initial={{ scaleY: 0 }}
-               animate={{ scaleY: [0, 1, 1, 0] }}
-               transition={{ duration: 4, repeat: Infinity, times: [0, 0.5, 0.8, 1] }}
-            />
-            <div className="absolute left-[15%] top-[30%] text-purple-400 font-bold font-gta text-xs bg-black/50 px-2 rounded">WAS HAPPENING</div>
+               className="absolute left-[45%] top-0 bottom-0 w-[2px] bg-yellow-400 z-30"
+               initial={{ opacity: 0, scaleY: 0 }}
+               animate={{ opacity: [0, 1, 1, 0], scaleY: [0, 1, 1, 2] }}
+               transition={{ duration: 4, repeat: Infinity, times: [0, 0.6, 0.8, 1] }}
+            >
+               <div className="absolute top-1/2 -translate-y-1/2 -left-3 bg-yellow-500 text-black font-bold text-[10px] px-1 rounded rotate-90 origin-center">INTERRUPT</div>
+            </motion.div>
+
+            <div className="absolute left-[25%] top-[65%] text-purple-300 font-gta text-xs">WAS IN PROGRESS</div>
           </div>
         )}
       </div>
@@ -330,7 +382,7 @@ const TenseDetail: React.FC<TenseDetailProps> = ({ tense, onBack }) => {
 };
 
 const SparklesIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L12 3Z"/></svg>
 );
 
 export default TenseDetail;
