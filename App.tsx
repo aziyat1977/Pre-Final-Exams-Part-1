@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { GraduationCap, Sword, Ghost, Blocks, ChevronRight, Sparkles, Volume2, Brain, Lock } from 'lucide-react';
+import { GraduationCap, Sword, Ghost, Blocks, ChevronRight, Sparkles, Volume2, Brain, Lock, Zap } from 'lucide-react';
 import Navigation from './components/Navigation';
 import CheatSheet3D from './components/CheatSheet3D';
 import CombatQuiz from './components/CombatQuiz';
@@ -11,6 +11,7 @@ import Button from './components/Button';
 import TenseDetail from './components/TenseDetail';
 import ConnectorDetail from './components/ConnectorDetail';
 import IntermediateDetail from './components/IntermediateDetail'; 
+import TestGenerator from './components/TestGenerator';
 import { QUANTITY_DATA, EXAM_KILLERS, DETAILED_TENSES, DETAILED_CONNECTORS, QUIZ_QUESTIONS, INTERMEDIATE_LESSONS } from './constants';
 
 const App: React.FC = () => {
@@ -34,6 +35,7 @@ const App: React.FC = () => {
       case 'games': return 'bg-blue-900'; // Roblox
       case 'quiz': return 'bg-slate-900'; // Standoff
       case 'intermediate': return 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-yellow-900 via-gray-900 to-black';
+      case 'generator': return 'bg-gray-900'; // Generator default
       default: return 'bg-gray-900';
     }
   };
@@ -195,21 +197,28 @@ const App: React.FC = () => {
                  </motion.div>
                ))}
                
-               {/* Placeholder for future content */}
+               {/* Link to Generator */}
                <motion.div 
+                  onClick={() => setView('generator')}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.4 }}
-                  className="bg-black/40 border-2 border-gray-700 p-6 rounded-xl relative overflow-hidden opacity-50 flex items-center justify-center min-h-[150px]"
+                  className="bg-gray-800/80 border-2 border-blue-500 p-6 rounded-xl relative overflow-hidden cursor-pointer hover:bg-blue-900/20 hover:border-blue-400 transition-all group"
                >
-                   <div className="text-center">
-                       <Lock className="w-8 h-8 text-gray-500 mx-auto mb-2" />
-                       <p className="text-gray-500 font-bold">More Coming Soon</p>
-                   </div>
+                   <div className="flex justify-between items-start mb-4">
+                        <h3 className="text-2xl font-hud text-white flex items-center gap-2"><Zap /> TEST GENERATOR</h3>
+                    </div>
+                    <p className="text-gray-400 font-mono mb-6">Create infinite B1/B1+ exams for students.</p>
+                    <div className="absolute right-0 bottom-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity">
+                         <Zap size={80} />
+                    </div>
                </motion.div>
             </div>
           </div>
         );
+
+      case 'generator':
+        return <TestGenerator />;
 
       case 'games':
         return (
@@ -304,19 +313,25 @@ const App: React.FC = () => {
                     className="h-full text-sm"
                   />
                   <Button 
-                    label="ENTER ROBLOX (BASICS)" 
-                    variant="roblox" 
-                    icon={<Blocks />} 
-                    onClick={() => setView('games')} 
+                    label="ENTER INTERMEDIATE" 
+                    variant="primary" 
+                    icon={<Brain />} 
+                    onClick={() => setView('intermediate')} 
                     className="h-full text-sm"
                   />
                </div>
             </div>
             
-            <div className="flex justify-center">
-              <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-md w-full max-w-md">
+            <div className="flex justify-center gap-4">
+               <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-md w-full max-w-md">
                  <h3 className="text-2xl font-bold text-white mb-4">Ready for the Combat Test?</h3>
                  <Button label="START QUIZ MODE" variant="primary" className="text-lg w-full py-4" onClick={() => setView('quiz')} />
+              </div>
+              
+              {/* Teacher Only */}
+               <div className="bg-gray-900/50 p-8 rounded-2xl border border-white/5 backdrop-blur-md w-full max-w-md hidden md:block">
+                 <h3 className="text-2xl font-bold text-gray-400 mb-4 flex items-center justify-center gap-2"><Lock size={20} /> Teacher Zone</h3>
+                 <Button label="TEST GENERATOR" variant="standoff" className="text-lg w-full py-4" onClick={() => setView('generator')} />
               </div>
             </div>
           </div>

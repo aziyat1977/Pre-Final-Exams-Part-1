@@ -1,198 +1,178 @@
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Printer, RefreshCw, Layers, CheckSquare, Settings, Zap } from 'lucide-react';
+import { Printer, RefreshCw, Zap, Settings, CheckSquare, FileText } from 'lucide-react';
 import Button from './Button';
-import { generateTest } from '../utils/generatorEngine';
-import CombatQuiz from './CombatQuiz';
-
-const TOPICS = [
-  { id: 'present_perfect_continuous', label: 'Present Perfect Continuous (B1+)' },
-  { id: 'past_perfect', label: 'Past Perfect Narrative (B1)' },
-  { id: 'third_conditional', label: 'Third Conditional (B1+)' },
-  { id: 'modals_deduction_past', label: 'Modals of Deduction: Past (B1+)' },
-  { id: 'passive_mixed', label: 'Mixed Passive Tenses (B1+)' },
-  { id: 'reported_speech_advanced', label: 'Reported Questions (B1+)' },
-  { id: 'wish_regret', label: 'Wishes & Regrets (B1+)' },
-  { id: 'gerund_inf_meaning', label: 'Gerund vs Inf: Meaning Change (B1+)' },
-  { id: 'relative_clauses_non_defining', label: 'Non-Defining Relative Clauses (B1)' },
-  { id: 'used_to_be_used_to', label: 'Used to vs Be used to (B1+)' },
-  { id: 'mixed_tenses', label: 'Mixed Tense Battle (B1/B1+)' }
-];
+import { generateLimitlessTest } from '../utils/limitlessEngine';
+import { QuizQuestion, GeneratorLevel } from '../types';
 
 const TestGenerator: React.FC = () => {
-  const [selectedTopics, setSelectedTopics] = useState<string[]>(['mixed_tenses']);
-  const [questionCount, setQuestionCount] = useState(20);
-  const [generatedTest, setGeneratedTest] = useState<any[] | null>(null);
-  const [mode, setMode] = useState<'setup' | 'preview' | 'play'>('setup');
-
-  const toggleTopic = (id: string) => {
-    setSelectedTopics(prev => 
-      prev.includes(id) ? prev.filter(t => t !== id) : [...prev, id]
-    );
-  };
+  const [level, setLevel] = useState<GeneratorLevel>('B1');
+  const [count, setCount] = useState(20);
+  const [questions, setQuestions] = useState<QuizQuestion[] | null>(null);
 
   const handleGenerate = () => {
-    if (selectedTopics.length === 0) return;
-    const test = generateTest(selectedTopics, questionCount);
-    setGeneratedTest(test);
-    setMode('preview');
+    const newTest = generateLimitlessTest(level, count);
+    setQuestions(newTest);
   };
 
   const handlePrint = () => {
     window.print();
   };
 
-  if (mode === 'play' && generatedTest) {
-    return (
-      <div className="h-full">
-        <CombatQuiz 
-          questions={generatedTest} 
-          onBack={() => setMode('setup')} 
-          isKahootMode={false} 
-          title="B1+ Proficiency Exam" 
-        />
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up pb-20">
-      <div className="text-center print:hidden">
-        <h1 className="text-4xl md:text-6xl font-hud text-white mb-2 flex items-center justify-center gap-4">
-          <Zap className="text-yellow-400 w-12 h-12 animate-pulse" />
-          ELITE GENERATOR
-        </h1>
-        <p className="text-gray-400 font-mono">B1+ Intelligence Logic // Advanced Tense Calibration</p>
+    <div className="max-w-5xl mx-auto space-y-8 animate-fade-in-up pb-20">
+      
+      {/* --- CONFIGURATION PANEL (HIDDEN ON PRINT) --- */}
+      <div className="bg-gray-800 p-8 rounded-2xl border border-gray-700 shadow-2xl print:hidden">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl md:text-5xl font-hud text-white mb-2 flex items-center justify-center gap-4">
+            <Zap className="text-blue-400 w-10 h-10 animate-pulse" />
+            LIMITLESS GENERATOR
+          </h1>
+          <p className="text-gray-400 font-mono">Infinite Variations // Oxford Navigate Compatible</p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* Level Selector */}
+          <div className="space-y-4">
+            <label className="block text-gray-400 font-bold uppercase text-sm">Target Level</label>
+            <div className="flex gap-4">
+              <button 
+                onClick={() => setLevel('B1')}
+                className={`flex-1 py-4 rounded-xl font-bold transition-all border-2 ${level === 'B1' ? 'bg-blue-600 border-blue-400 text-white shadow-lg' : 'bg-gray-700 border-gray-600 text-gray-400'}`}
+              >
+                B1 (Pre-Int)
+              </button>
+              <button 
+                onClick={() => setLevel('B1+')}
+                className={`flex-1 py-4 rounded-xl font-bold transition-all border-2 ${level === 'B1+' ? 'bg-purple-600 border-purple-400 text-white shadow-lg' : 'bg-gray-700 border-gray-600 text-gray-400'}`}
+              >
+                B1+ (Int)
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 mt-2">
+              {level === 'B1' ? 'Topics: Present Simple/Cont, Past, Will/Going to, 1st Cond.' : 'Topics: Pres Perf Cont, Past Perf, Passive, Reported, 3rd Cond.'}
+            </p>
+          </div>
+
+          {/* Count Selector */}
+          <div className="space-y-4">
+            <label className="block text-gray-400 font-bold uppercase text-sm">Question Count: <span className="text-white">{count}</span></label>
+            <input 
+              type="range" 
+              min="10" 
+              max="50" 
+              step="5"
+              value={count}
+              onChange={(e) => setCount(parseInt(e.target.value))}
+              className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+            />
+             <div className="flex justify-between text-xs text-gray-500 font-mono">
+                <span>10</span>
+                <span>25</span>
+                <span>50</span>
+             </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex flex-col gap-4 justify-end">
+            <Button 
+              label="GENERATE TEST" 
+              onClick={handleGenerate} 
+              variant="primary" 
+              className="w-full py-4 text-lg bg-gradient-to-r from-blue-600 to-purple-600 border-none"
+              icon={<RefreshCw />}
+            />
+          </div>
+        </div>
       </div>
 
-      {mode === 'setup' && (
-        <div className="grid md:grid-cols-2 gap-8 print:hidden">
-          <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl overflow-y-auto max-h-[600px] scrollbar-hide">
-            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              <Layers className="text-blue-400" /> Profiency Levels
-            </h3>
-            <div className="space-y-3">
-              {TOPICS.map(topic => (
-                <label key={topic.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700 cursor-pointer transition-colors border border-transparent hover:border-gray-600">
-                  <div className={`w-6 h-6 rounded flex items-center justify-center border-2 transition-colors ${selectedTopics.includes(topic.id) ? 'bg-yellow-600 border-yellow-400' : 'border-gray-500'}`}>
-                    {selectedTopics.includes(topic.id) && <CheckSquare size={16} className="text-white" />}
-                  </div>
-                  <input 
-                    type="checkbox" 
-                    className="hidden" 
-                    checked={selectedTopics.includes(topic.id)}
-                    onChange={() => toggleTopic(topic.id)}
-                  />
-                  <span className={selectedTopics.includes(topic.id) ? 'text-white font-bold' : 'text-gray-400'}>{topic.label}</span>
-                </label>
-              ))}
-            </div>
-          </div>
+      {/* --- PREVIEW & PRINT AREA --- */}
+      {questions && (
+        <div className="relative">
+           {/* Print FAB */}
+           <button 
+             onClick={handlePrint}
+             className="absolute -top-4 right-4 bg-green-500 hover:bg-green-400 text-black font-bold p-4 rounded-full shadow-lg z-50 flex items-center gap-2 print:hidden transition-transform hover:scale-110"
+           >
+             <Printer size={24} /> PRINT A4
+           </button>
 
-          <div className="space-y-8">
-            <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl">
-              <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <Settings className="text-purple-400" /> Parameters
-              </h3>
-              <div className="space-y-6">
+           {/* The Paper Sheet */}
+           <div className="bg-white text-black p-10 shadow-2xl min-h-[1000px] print:p-0 print:shadow-none mx-auto max-w-[210mm] print:max-w-none">
+              
+              {/* Header */}
+              <div className="border-b-2 border-black pb-6 mb-8 flex justify-between items-end">
                 <div>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-gray-300">Item Count</span>
-                    <span className="text-yellow-400 font-bold font-mono">{questionCount}</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="10" 
-                    max="50" 
-                    step="5"
-                    value={questionCount}
-                    onChange={(e) => setQuestionCount(parseInt(e.target.value))}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-500"
-                  />
+                  <h1 className="text-3xl font-serif font-bold uppercase tracking-wider mb-1">English Proficiency Test</h1>
+                  <p className="text-sm font-bold text-gray-600 uppercase">Level: {level} // Oxford Navigate Curriculum</p>
                 </div>
-                
-                <div className="bg-black/30 p-4 rounded-lg text-sm text-gray-400 font-mono space-y-2">
-                  <p className="flex justify-between"><span>Cognitive Load:</span> <span className="text-white">Medium-High</span></p>
-                  <p className="flex justify-between"><span>CEFR Mapping:</span> <span className="text-white">B1 - B2</span></p>
-                  <p className="flex justify-between"><span>Engine Integrity:</span> <span className="text-green-500">Verified</span></p>
+                <div className="text-right font-mono text-sm space-y-2">
+                   <div className="border-b border-gray-400 w-48 text-left px-1 py-1">Name:</div>
+                   <div className="border-b border-gray-400 w-48 text-left px-1 py-1">Date:</div>
                 </div>
-
-                <Button 
-                  label="CALIBRATE & GENERATE" 
-                  variant="primary" 
-                  onClick={handleGenerate}
-                  className="w-full py-4 text-xl bg-gradient-to-r from-blue-600 to-purple-600 border-none"
-                  disabled={selectedTopics.length === 0}
-                  icon={<RefreshCw className={selectedTopics.length > 0 ? "animate-spin-once" : ""} />}
-                />
               </div>
-            </div>
-          </div>
-        </div>
-      )}
 
-      {mode === 'preview' && generatedTest && (
-        <div className="bg-white text-black p-8 rounded-xl shadow-2xl relative min-h-[600px]">
-          <div className="flex justify-between items-center mb-8 pb-4 border-b-2 border-black print:hidden">
-            <h2 className="text-2xl font-bold">Exam Preview</h2>
-            <div className="flex gap-4">
-              <button onClick={() => setMode('setup')} className="text-gray-600 hover:text-black font-bold">Reselect</button>
-              <Button label="Save PDF/Print" onClick={handlePrint} variant="standoff" icon={<Printer />} className="bg-gray-800 text-white" />
-              <Button label="Interactive Mission" onClick={() => setMode('play')} variant="primary" />
-            </div>
-          </div>
-
-          <div className="print-content">
-            <div className="text-center mb-8 border-b-2 border-black pb-4">
-              <h1 className="text-4xl font-serif font-bold mb-2 uppercase">Grammar Proficiency Exam</h1>
-              <p className="text-sm italic">CEFR LEVEL B1/B1+</p>
-              <div className="flex justify-between text-sm font-mono mt-6">
-                <span>Candidate: _______________________</span>
-                <span>ID: ________________</span>
-                <span>Score: _____ / {questionCount}</span>
+              {/* Instructions */}
+              <div className="bg-gray-100 p-4 rounded mb-8 border border-gray-300 text-sm">
+                <strong>INSTRUCTIONS:</strong> Choose the correct form to complete the sentences. Pay attention to the context and time markers. 
+                <span className="italic ml-2">(Score: _____ / {questions.length})</span>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 print-grid">
-              {generatedTest.map((q, idx) => (
-                <div key={q.id} className="mb-2 break-inside-avoid border-l-2 border-gray-100 pl-4">
-                  <p className="font-bold mb-3 text-lg leading-snug">{idx + 1}. {q.question.replace('_______', '________________')}</p>
-                  <div className="grid grid-cols-2 gap-4 text-sm font-serif">
-                    {q.options.map((opt: string, i: number) => (
-                      <span key={i} className="flex items-center gap-2">
-                        <span className="w-5 h-5 border-2 border-black rounded-full flex items-center justify-center text-[10px] font-bold">
-                          {String.fromCharCode(65 + i)}
-                        </span>
-                        {opt}
-                      </span>
+              {/* Questions Grid - Using pure inline styles for print grid to avoid Tailwind compilation issues in some environments */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 print-grid">
+                 {questions.map((q, idx) => (
+                    <div key={q.id} className="break-inside-avoid">
+                       <p className="font-bold mb-2 text-base leading-snug">
+                         {idx + 1}. {q.question.replace('_______', '__________________')}
+                       </p>
+                       <div className="grid grid-cols-2 gap-2 text-sm">
+                          {q.options.map((opt, i) => (
+                             <div key={i} className="flex items-center gap-2">
+                                <span className="w-5 h-5 border border-black rounded-full flex items-center justify-center text-[10px] font-bold shrink-0">
+                                   {String.fromCharCode(65 + i)}
+                                </span>
+                                <span>{opt}</span>
+                             </div>
+                          ))}
+                       </div>
+                    </div>
+                 ))}
+              </div>
+
+              {/* Footer / Branding */}
+              <div className="mt-12 pt-4 border-t border-gray-300 text-center text-xs text-gray-400 font-mono print:hidden">
+                 Generated by Grammar Legends Engine v2.5
+              </div>
+
+              {/* --- ANSWER KEY (Always breaks to new page or bottom) --- */}
+              <div className="mt-16 pt-8 border-t-2 border-dashed border-gray-400 break-before-page print:break-before-page">
+                 <h3 className="font-bold text-lg uppercase mb-4 flex items-center gap-2">
+                   <FileText size={20} /> Teacher's Answer Key
+                 </h3>
+                 <div className="grid grid-cols-5 md:grid-cols-10 gap-2 text-xs font-mono">
+                    {questions.map((q, idx) => (
+                       <div key={q.id} className="border border-gray-300 p-1 text-center">
+                          <span className="font-bold text-gray-500 mr-1">{idx+1}.</span>
+                          {q.correctAnswer}
+                       </div>
                     ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+                 </div>
+              </div>
 
-            <div className="mt-16 pt-8 border-t-2 border-black text-center text-xs text-gray-500 font-mono">
-              GENERATED BY THE ELITE GRAMMAR ENGINE L3.0 • SECURE OFFLINE MODULE
-            </div>
-          </div>
+           </div>
         </div>
       )}
-
+      
+      {/* Print Styles Injection - Simplified to avoid 'Invalid Token' errors with escaping */}
       <style>{`
         @media print {
-          @page { margin: 20mm; size: A4; }
-          body * { visibility: hidden; }
-          .print-content, .print-content * { visibility: visible; }
-          .print-content {
-            position: absolute;
-            left: 0; top: 0;
-            width: 100%;
-            background: white !important;
-            color: black !important;
-          }
-          .print\\:hidden { display: none !important; }
-          .print-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
+          @page { margin: 15mm; size: A4; }
+          body { background: white; color: black; }
+          /* Manually define print grid to be safe */
+          .print-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; }
+          .break-inside-avoid { break-inside: avoid; }
+          .break-before-page { break-before: page; }
         }
       `}</style>
     </div>

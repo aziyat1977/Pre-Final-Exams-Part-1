@@ -127,3 +127,33 @@ export interface SectionProps {
   isActive: boolean;
   toggleView: (view: string) => void;
 }
+
+// --- LIMITLESS GENERATOR TYPES ---
+
+export type GeneratorLevel = 'B1' | 'B1+';
+
+export interface Verb {
+  base: string;     // play
+  past: string;     // played
+  pastPart: string; // played
+  ing: string;      // playing
+  s: string;        // plays
+}
+
+export interface Subject {
+  text: string;     // "The player"
+  isPlural: boolean;
+  theme: string;
+}
+
+export interface Context {
+  text: string;     // "in the middle of the match"
+  theme: string;    // "Gaming"
+}
+
+export interface GeneratedTest {
+  id: string;
+  date: string;
+  level: GeneratorLevel;
+  questions: QuizQuestion[];
+}
