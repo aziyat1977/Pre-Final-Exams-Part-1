@@ -38,11 +38,11 @@ export const DETAILED_TENSES: DetailedTense[] = [
       uzbek: "Faktlar, odatlar va doimiy harakatlar uchun ishlatiladi."
     },
     timeline: {
-      description: "Happens regularly or is always true.",
+      description: "Happens regularly. Yesterday, Today, Tomorrow.",
       exampleSentence: "I play football every Sunday.",
       exampleRussian: "Я играю в футбол каждое воскресенье.",
       exampleUzbek: "Men har yakshanba futbol o'ynayman.",
-      visualType: 'point-now' // Using a generic placeholder, visualized in component
+      visualType: 'point-now'
     },
     forms: {
       positive: "Subject + V1 (s/es)",
@@ -52,7 +52,30 @@ export const DETAILED_TENSES: DetailedTense[] = [
     pronunciation: {
       text: "I play football every Sunday.",
       tips: "Focus on the 's' sound in 3rd person (He playS). Don't stress the 'do' in questions."
-    }
+    },
+    additionalExamples: [
+      "The sun rises in the east.",
+      "She works at a hospital.",
+      "Water boils at 100 degrees.",
+      "We usually take the bus."
+    ],
+    commonMistakes: [
+      {
+        wrong: "He play football.",
+        right: "He plays football.",
+        explanation: "Don't forget the 'S' for He/She/It!"
+      },
+      {
+        wrong: "I am play football every day.",
+        right: "I play football every day.",
+        explanation: "Don't use 'am/is/are' with the verb in Present Simple unless it's passive."
+      },
+      {
+        wrong: "Does she likes pizza?",
+        right: "Does she like pizza?",
+        explanation: "In questions with 'Does', the main verb loses the 's'."
+      }
+    ]
   },
   {
     id: 'present_continuous',
@@ -77,7 +100,30 @@ export const DETAILED_TENSES: DetailedTense[] = [
     pronunciation: {
       text: "I am sleeping now.",
       tips: "Link the verb 'to be' with the verb. 'I'm sleeping', not 'I... am... sleeping'."
-    }
+    },
+    additionalExamples: [
+      "Look! It is raining.",
+      "She is studying for her exam this week.",
+      "Why are you crying?",
+      "The bus is coming!"
+    ],
+    commonMistakes: [
+      {
+        wrong: "I playing football.",
+        right: "I am playing football.",
+        explanation: "You must use the helper 'am/is/are'!"
+      },
+      {
+        wrong: "I am knowing him.",
+        right: "I know him.",
+        explanation: "Stative verbs (know, like, love) generally don't use Continuous form."
+      },
+      {
+        wrong: "Look, he comes.",
+        right: "Look, he is coming.",
+        explanation: "'Look!' implies it is happening right now."
+      }
+    ]
   },
   {
     id: 'past_simple',
@@ -102,7 +148,30 @@ export const DETAILED_TENSES: DetailedTense[] = [
     pronunciation: {
       text: "I watched a movie yesterday.",
       tips: "For regular verbs (-ed), 'watched' sounds like 'watch-t', not 'watch-id'."
-    }
+    },
+    additionalExamples: [
+      "We went to London last year.",
+      "She didn't buy the dress.",
+      "Did you see the match?",
+      "I was tired yesterday."
+    ],
+    commonMistakes: [
+      {
+        wrong: "I didn't went there.",
+        right: "I didn't go there.",
+        explanation: "After 'didn't', use V1 (base form), not V2."
+      },
+      {
+        wrong: "Did you played?",
+        right: "Did you play?",
+        explanation: "After 'Did', use V1, not V2/ed."
+      },
+      {
+        wrong: "I was work yesterday.",
+        right: "I worked yesterday.",
+        explanation: "Use V2 (worked), not 'was + V1'."
+      }
+    ]
   },
   {
     id: 'past_continuous',
@@ -127,7 +196,30 @@ export const DETAILED_TENSES: DetailedTense[] = [
     pronunciation: {
       text: "I was sleeping when the phone rang.",
       tips: "Stress 'sleeping' and 'rang'. 'Was' is usually weak/fast."
-    }
+    },
+    additionalExamples: [
+      "At 8 PM, I was reading a book.",
+      "They were playing while it was raining.",
+      "She was cooking when he arrived.",
+      "What were you doing at 9:00?"
+    ],
+    commonMistakes: [
+      {
+        wrong: "I sleeping when you called.",
+        right: "I was sleeping when you called.",
+        explanation: "Don't forget 'was/were'!"
+      },
+      {
+        wrong: "I was sleep.",
+        right: "I was sleeping.",
+        explanation: "Continuous needs -ing."
+      },
+      {
+        wrong: "When the phone rang, I slept.",
+        right: "When the phone rang, I was sleeping.",
+        explanation: "If the action was in progress (longer), use Past Continuous."
+      }
+    ]
   }
 ];
 

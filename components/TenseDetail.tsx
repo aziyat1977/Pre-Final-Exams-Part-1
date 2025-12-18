@@ -1,9 +1,8 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Volume2, Clock, BookOpen, Layers, Mic } from 'lucide-react';
+import { ArrowLeft, Volume2, Clock, BookOpen, Layers, Mic, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 import { DetailedTense } from '../types';
-import Button from './Button';
 
 interface TenseDetailProps {
   tense: DetailedTense;
@@ -11,7 +10,7 @@ interface TenseDetailProps {
 }
 
 const TenseDetail: React.FC<TenseDetailProps> = ({ tense, onBack }) => {
-  const [activeTab, setActiveTab] = useState<'meaning' | 'timeline' | 'forms' | 'pronunciation'>('meaning');
+  const [activeTab, setActiveTab] = useState<'meaning' | 'timeline' | 'forms' | 'pronunciation' | 'mistakes'>('meaning');
   const [isPlaying, setIsPlaying] = useState(false);
 
   const speak = (text: string) => {
@@ -19,7 +18,7 @@ const TenseDetail: React.FC<TenseDetailProps> = ({ tense, onBack }) => {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'en-GB'; // British Accent
-      utterance.rate = 0.8; // Slightly slower for students
+      utterance.rate = 0.8; 
       
       utterance.onstart = () => setIsPlaying(true);
       utterance.onend = () => setIsPlaying(false);
@@ -32,42 +31,117 @@ const TenseDetail: React.FC<TenseDetailProps> = ({ tense, onBack }) => {
 
   const renderTimelineVisual = (type: string) => {
     return (
-      <div className="h-32 w-full bg-gray-800 rounded-xl relative flex items-center justify-center my-6 border-2 border-green-500/30 overflow-hidden">
+      <div className="h-48 w-full bg-gray-900 rounded-xl relative flex items-center justify-center my-6 border-4 border-green-500/30 overflow-hidden shadow-[inset_0_0_50px_rgba(0,0,0,0.8)]">
+        
+        {/* Retro Grid Background (Moving) */}
+        <motion.div 
+           className="absolute inset-0 opacity-20"
+           style={{ 
+             backgroundImage: 'linear-gradient(90deg, transparent 95%, #00ff00 95%), linear-gradient(transparent 95%, #00ff00 95%)',
+             backgroundSize: '40px 40px'
+           }}
+           animate={{ backgroundPosition: ['0px 0px', '-40px 0px'] }}
+           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+        />
+
         {/* Base Time Line */}
-        <div className="absolute w-[90%] h-1 bg-gray-500"></div>
-        <div className="absolute left-[10%] text-xs text-gray-400 -bottom-4">PAST</div>
-        <div className="absolute left-[50%] text-xs text-green-400 font-bold -bottom-4">NOW</div>
-        <div className="absolute right-[10%] text-xs text-gray-400 -bottom-4">FUTURE</div>
+        <div className="absolute w-full h-1 bg-gray-600 z-10"></div>
+        <div className="absolute left-[15%] text-sm font-hud text-gray-500 -bottom-8 z-20">PAST</div>
+        <div className="absolute left-[50%] text-sm font-hud text-green-400 font-bold -bottom-8 -translate-x-1/2 z-20">NOW</div>
+        <div className="absolute right-[15%] text-sm font-hud text-gray-500 -bottom-8 z-20">FUTURE</div>
         
         {/* NOW Marker */}
-        <div className="absolute left-[50%] h-4 w-1 bg-green-500 -translate-x-1/2"></div>
+        <div className="absolute left-[50%] h-full w-1 bg-green-500/50 -translate-x-1/2 z-0 blur-sm"></div>
+        <div className="absolute left-[50%] h-full w-[2px] bg-green-400 -translate-x-1/2 z-10"></div>
 
-        {/* Visual Logic */}
+        {/* Visual Logic - Ultra Animated */}
         {type === 'point-now' && (
-           // Xs everywhere for habits
-           <>
-            <div className="absolute left-[30%] text-green-400 font-bold text-xl">x</div>
-            <div className="absolute left-[40%] text-green-400 font-bold text-xl">x</div>
-            <div className="absolute left-[50%] text-green-400 font-bold text-xl">x</div>
-            <div className="absolute left-[60%] text-green-400 font-bold text-xl">x</div>
-            <div className="absolute left-[70%] text-green-400 font-bold text-xl">x</div>
-           </>
+           // Present Simple: Events constantly passing by like a treadmill of habits
+           <div className="absolute inset-0 z-20 flex items-center">
+             {[0, 1, 2, 3, 4].map((i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-4 h-4 bg-yellow-400 rounded-full shadow-[0_0_10px_#eab308]"
+                  initial={{ x: -50, opacity: 0 }}
+                  animate={{ 
+                    x: ['0%', '100%'],
+                    opacity: [0, 1, 1, 1, 0]
+                  }}
+                  transition={{ 
+                    duration: 5, 
+                    repeat: Infinity, 
+                    ease: "linear",
+                    delay: i * 1 // Staggered delay
+                  }}
+                  style={{ top: '50%', marginTop: '-8px' }}
+                />
+             ))}
+             <div className="absolute left-1/2 -translate-x-1/2 top-[30%] text-green-400 font-bold font-gta text-xs bg-black/50 px-2 rounded">HABIT LOOP</div>
+           </div>
         )}
+
         {type === 'continuous-now' && (
-          // Squiggly line around NOW
-          <motion.div 
-            animate={{ scaleX: [1, 1.2, 1] }} 
-            transition={{ repeat: Infinity, duration: 1.5 }}
-            className="absolute left-[50%] w-24 h-8 border-2 border-green-400 rounded-full -translate-x-1/2 bg-green-500/20"
-          />
+          // Present Continuous: A glowing, morphing energy ball AT "NOW"
+          <div className="absolute left-1/2 -translate-x-1/2 z-20 flex items-center justify-center">
+             <motion.div 
+               className="w-16 h-16 bg-blue-500/30 rounded-full border-2 border-blue-400 blur-md"
+               animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0.8, 0.5] }}
+               transition={{ duration: 2, repeat: Infinity }}
+             />
+             <motion.div 
+               className="absolute w-20 h-20 border border-blue-300 rounded-full"
+               animate={{ rotate: 360, scale: [1, 1.1, 1] }}
+               transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+             />
+             <div className="absolute text-blue-200 font-bold font-gta text-xs bg-black/50 px-2 rounded mt-24">HAPPENING</div>
+          </div>
         )}
+
         {type === 'point-past' && (
-          // Single X in past
-          <div className="absolute left-[30%] text-yellow-400 font-bold text-4xl">X</div>
+          // Past Simple: A meteor hitting the past and disappearing (scrolling)
+          <div className="absolute inset-0 z-20">
+             <motion.div
+                className="absolute w-8 h-8 bg-red-500 rotate-45 border-2 border-white"
+                initial={{ x: '100%', y: -100, opacity: 0 }}
+                animate={{ 
+                  x: ['50%', '30%'], 
+                  y: ['-100%', '50%'],
+                  opacity: [0, 1, 1, 0]
+                }}
+                transition={{ duration: 3, repeat: Infinity, times: [0, 0.4, 0.8, 1] }}
+             >
+                <div className="absolute -inset-2 bg-red-500/50 blur-lg rounded-full"></div>
+             </motion.div>
+             
+             {/* Impact Ripple in Past */}
+             <motion.div 
+                className="absolute left-[30%] top-1/2 -translate-y-1/2 w-12 h-12 border-2 border-red-500 rounded-full"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: [0, 2], opacity: [1, 0] }}
+                transition={{ duration: 3, repeat: Infinity, delay: 1.2 }}
+             />
+             <div className="absolute left-[25%] top-[70%] text-red-400 font-bold font-gta text-xs bg-black/50 px-2 rounded">DONE</div>
+          </div>
         )}
+
         {type === 'continuous-past' && (
-          // Squiggly line in past
-          <div className="absolute left-[25%] w-32 h-2 bg-gradient-to-r from-transparent via-yellow-500 to-transparent animate-pulse"></div>
+          // Past Continuous: A flowing wave in the past section
+          <div className="absolute inset-0 z-20">
+            <motion.div 
+               className="absolute top-1/2 -translate-y-1/2 h-8 bg-gradient-to-r from-transparent via-purple-500 to-transparent"
+               initial={{ left: '10%', width: '0%' }}
+               animate={{ width: ['0%', '30%', '30%', '0%'], left: ['10%', '10%', '20%', '40%'] }}
+               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            />
+            {/* The interruption */}
+            <motion.div 
+               className="absolute top-1/2 -translate-y-1/2 h-12 w-1 bg-white left-[35%]"
+               initial={{ scaleY: 0 }}
+               animate={{ scaleY: [0, 1, 1, 0] }}
+               transition={{ duration: 4, repeat: Infinity, times: [0, 0.5, 0.8, 1] }}
+            />
+            <div className="absolute left-[15%] top-[30%] text-purple-400 font-bold font-gta text-xs bg-black/50 px-2 rounded">WAS HAPPENING</div>
+          </div>
         )}
       </div>
     );
@@ -78,11 +152,12 @@ const TenseDetail: React.FC<TenseDetailProps> = ({ tense, onBack }) => {
     { id: 'timeline', label: '2. Timeline', icon: <Clock size={18} /> },
     { id: 'forms', label: '3. Forms', icon: <Layers size={18} /> },
     { id: 'pronunciation', label: '4. Voice', icon: <Mic size={18} /> },
+    { id: 'mistakes', label: '5. Mistakes', icon: <AlertTriangle size={18} /> },
   ];
 
   return (
-    <div className="max-w-4xl mx-auto animate-fade-in-up">
-      {/* GTA Header */}
+    <div className="max-w-4xl mx-auto animate-fade-in-up pb-20">
+      {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <button 
           onClick={onBack}
@@ -139,6 +214,19 @@ const TenseDetail: React.FC<TenseDetailProps> = ({ tense, onBack }) => {
                   <div className="bg-gray-900/50 p-4 rounded-lg border border-white/10">
                     <span className="text-xs text-gray-500 uppercase">Uzbek</span>
                     <p className="text-lg">{tense.meaning.uzbek}</p>
+                  </div>
+                </div>
+
+                {/* Additional Examples */}
+                <div className="mt-8">
+                  <h3 className="text-green-400 font-gta mb-4 border-b border-gray-700 pb-2">More Examples</h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {tense.additionalExamples.map((ex, i) => (
+                      <div key={i} className="flex items-start gap-3 bg-gray-900 p-3 rounded border border-gray-700">
+                        <CheckCircle size={20} className="text-green-500 mt-1 shrink-0" />
+                        <span className="text-gray-200 italic">"{ex}"</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -203,6 +291,35 @@ const TenseDetail: React.FC<TenseDetailProps> = ({ tense, onBack }) => {
                   </h4>
                   <p className="text-yellow-100">{tense.pronunciation.tips}</p>
                 </div>
+              </div>
+            )}
+
+            {activeTab === 'mistakes' && (
+              <div className="space-y-6">
+                 <h3 className="text-red-500 font-gta text-2xl mb-4 flex items-center gap-2">
+                    <AlertTriangle />
+                    WARNING: COMMON TRAPS
+                 </h3>
+                 <div className="grid gap-6">
+                    {tense.commonMistakes.map((mistake, i) => (
+                       <div key={i} className="bg-gray-900/80 p-6 rounded-xl border border-gray-700 hover:border-red-500/50 transition-colors">
+                          <div className="grid md:grid-cols-2 gap-4 mb-4">
+                             <div className="flex items-center gap-3 text-red-400 bg-red-900/20 p-3 rounded">
+                                <XCircle className="shrink-0" />
+                                <span className="line-through">{mistake.wrong}</span>
+                             </div>
+                             <div className="flex items-center gap-3 text-green-400 bg-green-900/20 p-3 rounded">
+                                <CheckCircle className="shrink-0" />
+                                <span className="font-bold">{mistake.right}</span>
+                             </div>
+                          </div>
+                          <p className="text-gray-400 text-sm ml-2 border-l-2 border-yellow-500 pl-3">
+                             <span className="text-yellow-500 font-bold">Why? </span>
+                             {mistake.explanation}
+                          </p>
+                       </div>
+                    ))}
+                 </div>
               </div>
             )}
           </motion.div>

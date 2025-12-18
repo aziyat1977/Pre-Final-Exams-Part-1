@@ -33,6 +33,12 @@ export interface DetailedTense {
     text: string;
     tips: string;
   };
+  additionalExamples: string[];
+  commonMistakes: {
+    wrong: string;
+    right: string;
+    explanation: string;
+  }[];
 }
 
 export interface QuizQuestion {
