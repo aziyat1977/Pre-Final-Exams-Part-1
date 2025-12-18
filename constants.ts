@@ -35,16 +35,79 @@ export const EXAM_KILLERS = [
   { title: "So vs Such", text: "**So** beautiful (Adj) vs **Such a** beautiful day (Noun)." }
 ];
 
-const PS_KAHOOT: QuizQuestion[] = Array.from({ length: 15 }).map((_, i) => ({
-    id: i, question: "Placeholder Question", options: ["A", "B", "C"], correctAnswer: "A", type: 'choice'
-}));
+// --- STATIC QUESTION BANKS FOR MISSIONS ---
+
+const PS_QUESTIONS: QuizQuestion[] = [
+    { id: 1, question: "My internet connection usually _______ very fast.", options: ["work", "works", "is working"], correctAnswer: "works", type: 'choice' },
+    { id: 2, question: "Naruto never _______ up, even when the fight is hard.", options: ["give", "gives", "giving"], correctAnswer: "gives", type: 'choice' },
+    { id: 3, question: "How often _______ you check TikTok?", options: ["do", "does", "are"], correctAnswer: "do", type: 'choice' },
+    { id: 4, question: "Billie Eilish _______ sad songs most of the time.", options: ["sing", "sings", "is singing"], correctAnswer: "sings", type: 'choice' },
+    { id: 5, question: "Pro gamers _______ spend hours training every day.", options: ["don't", "doesn't", "aren't"], correctAnswer: "don't", type: 'choice' },
+    { id: 6, question: "This server _______ too much lag! I hate it.", options: ["have", "has", "is having"], correctAnswer: "has", type: 'choice' },
+    { id: 7, question: "My squad _______ usually land at Tilted Towers.", options: ["don't", "doesn't", "isn't"], correctAnswer: "doesn't", type: 'choice' },
+    { id: 8, question: "The sun _______ in the east (It's a fact, bro).", options: ["rise", "rises", "is rising"], correctAnswer: "rises", type: 'choice' },
+    { id: 9, question: "_______ your avatar look cool?", options: ["Do", "Does", "Is"], correctAnswer: "Does", type: 'choice' },
+    { id: 10, question: "He _______ understand the rules of the game.", options: ["don't", "doesn't", "not"], correctAnswer: "doesn't", type: 'choice' }
+];
+
+const PC_QUESTIONS: QuizQuestion[] = [
+    { id: 1, question: "Quiet! The imposter _______ the vents right now!", options: ["enters", "is entering", "entered"], correctAnswer: "is entering", type: 'choice' },
+    { id: 2, question: "Why _______ you _______ AFK? Move!", options: ["do / stand", "are / standing", "did / stand"], correctAnswer: "are / standing", type: 'choice' },
+    { id: 3, question: "Look! BTS _______ live on stage!", options: ["perform", "are performing", "performed"], correctAnswer: "are performing", type: 'choice' },
+    { id: 4, question: "I can't talk, I _______ a ranked match.", options: ["play", "am playing", "played"], correctAnswer: "am playing", type: 'choice' },
+    { id: 5, question: "My download speed _______ slower and slower.", options: ["get", "is getting", "gets"], correctAnswer: "is getting", type: 'choice' },
+    { id: 6, question: "_______ they _______ a new update today?", options: ["Do / release", "Are / releasing", "Did / release"], correctAnswer: "Are / releasing", type: 'choice' },
+    { id: 7, question: "She _______ always _______ selfies! It's so annoying.", options: ["is / taking", "does / take", "has / taken"], correctAnswer: "is / taking", type: 'choice' },
+    { id: 8, question: "Listen! The zombies _______ closer.", options: ["come", "are coming", "came"], correctAnswer: "are coming", type: 'choice' },
+    { id: 9, question: "We _______ at my friend's house until the server is fixed.", options: ["stay", "are staying", "stayed"], correctAnswer: "are staying", type: 'choice' },
+    { id: 10, question: "I _______ it! (McDonald's slogan is grammatically wrong, remember?)", options: ["am loving", "love", "loved"], correctAnswer: "love", type: 'choice' }
+];
+
+const PAST_QUESTIONS: QuizQuestion[] = [
+    { id: 1, question: "GTA V _______ out in 2013.", options: ["come", "came", "coming"], correctAnswer: "came", type: 'choice' },
+    { id: 2, question: "I _______ the battle pass yesterday.", options: ["buy", "bought", "buyed"], correctAnswer: "bought", type: 'choice' },
+    { id: 3, question: "Where _______ you find that diamond sword?", options: ["did", "do", "were"], correctAnswer: "did", type: 'choice' },
+    { id: 4, question: "The creeper _______ up my house last night.", options: ["blow", "blew", "blown"], correctAnswer: "blew", type: 'choice' },
+    { id: 5, question: "We _______ win the tournament last season.", options: ["didn't", "don't", "weren't"], correctAnswer: "didn't", type: 'choice' },
+    { id: 6, question: "She _______ a picture on Instagram 5 minutes ago.", options: ["post", "posted", "has posted"], correctAnswer: "posted", type: 'choice' },
+    { id: 7, question: "I _______ see him at the party.", options: ["didn't", "wasn't", "not"], correctAnswer: "didn't", type: 'choice' },
+    { id: 8, question: "When _______ the first iPhone release?", options: ["did", "was", "does"], correctAnswer: "did", type: 'choice' },
+    { id: 9, question: "He _______ very angry when he lost the game.", options: ["did", "was", "were"], correctAnswer: "was", type: 'choice' },
+    { id: 10, question: "I _______ to London last summer.", options: ["fly", "flew", "flown"], correctAnswer: "flew", type: 'choice' }
+];
+
+const PAST_CONT_QUESTIONS: QuizQuestion[] = [
+    { id: 1, question: "I _______ streaming when the power went out.", options: ["am", "was", "were"], correctAnswer: "was", type: 'choice' },
+    { id: 2, question: "While we _______ B site, the bomb exploded.", options: ["rushed", "were rushing", "are rushing"], correctAnswer: "were rushing", type: 'choice' },
+    { id: 3, question: "He _______ listening when the teacher asked the question.", options: ["isn't", "wasn't", "didn't"], correctAnswer: "wasn't", type: 'choice' },
+    { id: 4, question: "What _______ you doing at 3 AM last night?", options: ["did", "were", "was"], correctAnswer: "were", type: 'choice' },
+    { id: 5, question: "The sun was shining and the birds _______ singing.", options: ["are", "were", "did"], correctAnswer: "were", type: 'choice' },
+    { id: 6, question: "I _______ sleeping when you called me.", options: ["was", "were", "am"], correctAnswer: "was", type: 'choice' },
+    { id: 7, question: "While the game _______ loading, I checked my phone.", options: ["is", "was", "did"], correctAnswer: "was", type: 'choice' },
+    { id: 8, question: "You _______ driving too fast when the police stopped you.", options: ["was", "were", "are"], correctAnswer: "were", type: 'choice' },
+    { id: 9, question: "They _______ fighting the boss when the server crashed.", options: ["was", "were", "are"], correctAnswer: "were", type: 'choice' },
+    { id: 10, question: "I _______ cheating! It was just skill.", options: ["wasn't", "didn't", "not"], correctAnswer: "wasn't", type: 'choice' }
+];
+
+const CONNECTORS_QUESTIONS: QuizQuestion[] = [
+    { id: 1, question: "That is the streamer _______ has 10 million subs.", options: ["which", "who", "where"], correctAnswer: "who", type: 'choice' },
+    { id: 2, question: "This is the map _______ we always lose.", options: ["which", "who", "where"], correctAnswer: "where", type: 'choice' },
+    { id: 3, question: "The skin _______ I bought cost 5000 V-Bucks.", options: ["who", "which", "where"], correctAnswer: "which", type: 'choice' },
+    { id: 4, question: "I _______ to buy a new PC next week.", options: ["will", "am going", "go"], correctAnswer: "am going", type: 'choice' },
+    { id: 5, question: "Look at those graphics! It _______ be an amazing game.", options: ["is going to", "will", "goes to"], correctAnswer: "is going to", type: 'choice' },
+    { id: 6, question: "I enjoy _______ horror games at night.", options: ["play", "to play", "playing"], correctAnswer: "playing", type: 'choice' },
+    { id: 7, question: "I decided _______ my username.", options: ["change", "to change", "changing"], correctAnswer: "to change", type: 'choice' },
+    { id: 8, question: "Do you mind _______ the door?", options: ["close", "to close", "closing"], correctAnswer: "closing", type: 'choice' },
+    { id: 9, question: "I stopped _______ to check the map (paused).", options: ["running", "to run", "run"], correctAnswer: "to run", type: 'choice' },
+    { id: 10, question: "I stopped _______ Fortnite (quit forever).", options: ["play", "to play", "playing"], correctAnswer: "playing", type: 'choice' }
+];
 
 export const DETAILED_TENSES: DetailedTense[] = [
   {
     id: 'present_simple',
     title: 'Present Simple',
     meaning: {
-      english: "1. Facts (The sun is hot). 2. Habits (I smoke). 3. Timetables (The train leaves at 5). 4. Stories/Jokes (So this guy walks into a bar...).",
+      english: "1. Facts (The sun is hot). 2. Habits (I stream daily). 3. Timetables (The update drops at 5).",
       russian: "1. Факты. 2. Привычки. 3. Расписания. 4. Заголовки газет и истории.",
       uzbek: "1. Faktlar. 2. Odatlar. 3. Jadvallar. 4. Hikoyalar."
     },
@@ -87,9 +150,9 @@ export const DETAILED_TENSES: DetailedTense[] = [
       { wrong: "I am work here.", right: "I work here.", explanation: "Don't mix 'To Be' (am) with Action verbs unless it's -ing." }
     ],
     practice: {
-        kahoot: PS_KAHOOT,
-        mcqTests: [{ title: "Deep Dive 1", questions: PS_KAHOOT }, { title: "Deep Dive 2", questions: PS_KAHOOT }],
-        miniQuizzes: Array(5).fill({ title: "Drill", questions: PS_KAHOOT }),
+        kahoot: PS_QUESTIONS,
+        mcqTests: [{ title: "Deep Dive 1", questions: PS_QUESTIONS.slice(0, 5) }, { title: "Deep Dive 2", questions: PS_QUESTIONS.slice(5, 10) }],
+        miniQuizzes: Array(3).fill({ title: "Drill", questions: PS_QUESTIONS.slice(0, 5) }),
         dragAndDrop: { title: "Sorting", groups: ["A", "B"], items: [] }
     }
   },
@@ -97,7 +160,7 @@ export const DETAILED_TENSES: DetailedTense[] = [
     id: 'present_continuous',
     title: 'Present Continuous',
     meaning: {
-      english: "1. Action happening NOW. 2. Temporary situation around now. 3. Future fixed arrangement. 4. Annoying habits with 'always'.",
+      english: "1. Action happening NOW. 2. Temporary situation. 3. Future fixed plans. 4. Annoying habits.",
       russian: "1. Сейчас. 2. В данный период. 3. Точный план. 4. Раздражающие привычки.",
       uzbek: "1. Hozir. 2. Vaqtinchalik. 3. Aniq reja. 4. G'ashga tegadigan odatlar."
     },
@@ -138,8 +201,8 @@ export const DETAILED_TENSES: DetailedTense[] = [
       { wrong: "I waiting for you.", right: "I AM waiting for you.", explanation: "Never drop the helper verb (am/is/are)." }
     ],
     practice: {
-        kahoot: PS_KAHOOT,
-        mcqTests: [],
+        kahoot: PC_QUESTIONS,
+        mcqTests: [{ title: "Deep Dive 1", questions: PC_QUESTIONS.slice(0, 5) }],
         miniQuizzes: [],
         dragAndDrop: { title: "Sort", groups: [], items: [] }
     }
@@ -188,7 +251,7 @@ export const DETAILED_TENSES: DetailedTense[] = [
       { wrong: "Where you went?", right: "Where DID you go?", explanation: "Questions need a helper 'Did'." }
     ],
     practice: {
-        kahoot: PS_KAHOOT,
+        kahoot: PAST_QUESTIONS,
         mcqTests: [],
         miniQuizzes: [],
         dragAndDrop: { title: "Sort", groups: [], items: [] }
@@ -237,7 +300,7 @@ export const DETAILED_TENSES: DetailedTense[] = [
       { wrong: "When the accident happened, I drove.", right: "I was driving.", explanation: "Driving was in progress when the accident happened." }
     ],
     practice: {
-        kahoot: PS_KAHOOT,
+        kahoot: PAST_CONT_QUESTIONS,
         mcqTests: [],
         miniQuizzes: [],
         dragAndDrop: { title: "Sort", groups: [], items: [] }
@@ -291,7 +354,7 @@ export const DETAILED_CONNECTORS: DetailedTense[] = [
         { wrong: "The place which I live.", right: "The place where I live.", explanation: "Use WHERE for locations." }
     ],
     practice: {
-        kahoot: PS_KAHOOT,
+        kahoot: CONNECTORS_QUESTIONS,
         mcqTests: [],
         miniQuizzes: [],
         dragAndDrop: { title: "Sort", groups: [], items: [] }
@@ -339,7 +402,7 @@ export const DETAILED_CONNECTORS: DetailedTense[] = [
         { wrong: "I go to visit.", right: "I am going to visit.", explanation: "Don't forget the 'am/is/are'." }
     ],
     practice: {
-        kahoot: PS_KAHOOT,
+        kahoot: CONNECTORS_QUESTIONS,
         mcqTests: [],
         miniQuizzes: [],
         dragAndDrop: { title: "Sort", groups: [], items: [] }
@@ -389,7 +452,7 @@ export const DETAILED_CONNECTORS: DetailedTense[] = [
         { wrong: "I want going.", right: "I want to go.", explanation: "Want is always TO." }
     ],
     practice: {
-        kahoot: PS_KAHOOT,
+        kahoot: CONNECTORS_QUESTIONS,
         mcqTests: [],
         miniQuizzes: [],
         dragAndDrop: { title: "Sort", groups: [], items: [] }
@@ -398,30 +461,30 @@ export const DETAILED_CONNECTORS: DetailedTense[] = [
 ];
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
-  // ... existing questions ...
-  { id: 1, question: "Look! The bus _______. We must run!", options: ["comes", "is coming", "came"], correctAnswer: "is coming", type: 'choice' },
-  { id: 2, question: "Valentina Tereshkova _______ the space program in 1961.", options: ["joins", "joined", "has joined"], correctAnswer: "joined", type: 'choice' },
-  { id: 3, question: "Is that the man _______ stole your bag?", options: ["which", "who", "where"], correctAnswer: "who", type: 'choice' },
-  { id: 4, question: "I don't have _______ time before the exam starts.", options: ["many", "much", "some"], correctAnswer: "much", type: 'choice' },
-  { id: 5, question: "We decided _______ a new laptop yesterday.", options: ["buying", "to buy", "buy"], correctAnswer: "to buy", type: 'choice' },
-  { id: 6, question: "While the students _______, the teacher walked in.", options: ["talked", "were talking", "talking"], correctAnswer: "were talking", type: 'gap' },
-  { id: 7, question: "Paris is the city _______ the Eiffel Tower is located.", options: ["which", "who", "where"], correctAnswer: "where", type: 'gap' },
-  { id: 8, question: "Listen! Someone _______ the piano.", options: ["plays", "is playing", "played"], correctAnswer: "is playing", type: 'choice' },
-  { id: 9, question: "I _______ to the cinema three times last week.", options: ["go", "went", "have gone"], correctAnswer: "went", type: 'choice' },
-  { id: 10, question: "We _______ dinner when the lights went out.", options: ["had", "were having", "have"], correctAnswer: "were having", type: 'choice' },
-  { id: 11, question: "The girl _______ mother is a doctor is my friend.", options: ["who", "which", "whose"], correctAnswer: "whose", type: 'choice' },
-  { id: 12, question: "How _______ money do you have?", options: ["many", "much", "any"], correctAnswer: "much", type: 'choice' },
-  { id: 13, question: "There are only a _______ students in the class.", options: ["few", "little", "much"], correctAnswer: "few", type: 'choice' },
-  { id: 14, question: "I enjoy _______ movies.", options: ["watch", "to watch", "watching"], correctAnswer: "watching", type: 'choice' },
-  { id: 15, question: "She promised _______ me.", options: ["helping", "to help", "help"], correctAnswer: "to help", type: 'choice' },
-  { id: 16, question: "Look at those clouds! It _______ rain.", options: ["will", "is going to", "goes to"], correctAnswer: "is going to", type: 'choice' },
-  { id: 17, question: "Water _______ at 100 degrees Celsius.", options: ["boil", "boils", "is boiling"], correctAnswer: "boils", type: 'choice' },
-  { id: 18, question: "This is the restaurant _______ we ate last night.", options: ["which", "where", "that"], correctAnswer: "where", type: 'choice' },
-  { id: 19, question: "While I _______, my sister was reading.", options: ["cooked", "was cooking", "cook"], correctAnswer: "was cooking", type: 'choice' },
-  { id: 20, question: "I have _______ friends in this city.", options: ["no", "any", "none"], correctAnswer: "no", type: 'choice' },
-  { id: 21, question: "Where _______ you go yesterday?", options: ["do", "did", "were"], correctAnswer: "did", type: 'choice' },
-  { id: 22, question: "I have a _______ water left.", options: ["few", "little", "many"], correctAnswer: "little", type: 'choice' },
-  { id: 23, question: "Stop _______! It is very noisy.", options: ["talking", "to talk", "talk"], correctAnswer: "talking", type: 'choice' },
-  { id: 24, question: "If I study hard, I _______ pass the exam.", options: ["will", "would", "am"], correctAnswer: "will", type: 'choice' },
-  { id: 25, question: "The car _______ I bought is blue.", options: ["who", "which", "where"], correctAnswer: "which", type: 'choice' }
+  // MIXED COMBAT QUESTIONS (THEMED)
+  { id: 1, question: "Look! The zombie _______ towards us! Shoot!", options: ["comes", "is coming", "came"], correctAnswer: "is coming", type: 'choice' },
+  { id: 2, question: "Billie Eilish _______ a new album last year.", options: ["drops", "dropped", "has dropped"], correctAnswer: "dropped", type: 'choice' },
+  { id: 3, question: "Is that the gamer _______ won the championship?", options: ["which", "who", "where"], correctAnswer: "who", type: 'choice' },
+  { id: 4, question: "I don't have _______ money for the new skin.", options: ["many", "much", "some"], correctAnswer: "much", type: 'choice' },
+  { id: 5, question: "I decided _______ the stream early.", options: ["ending", "to end", "end"], correctAnswer: "to end", type: 'choice' },
+  { id: 6, question: "While we _______ B Site, they flanked us.", options: ["rushed", "were rushing", "rushing"], correctAnswer: "were rushing", type: 'gap' },
+  { id: 7, question: "Los Santos is the city _______ I stole my first car.", options: ["which", "who", "where"], correctAnswer: "where", type: 'gap' },
+  { id: 8, question: "Shh! The teacher _______ right now.", options: ["looks", "is looking", "looked"], correctAnswer: "is looking", type: 'choice' },
+  { id: 9, question: "I _______ to Japan in 2019.", options: ["go", "went", "have gone"], correctAnswer: "went", type: 'choice' },
+  { id: 10, question: "We _______ ranked when the Wi-Fi crashed.", options: ["played", "were playing", "play"], correctAnswer: "were playing", type: 'choice' },
+  { id: 11, question: "The YouTuber _______ channel was deleted is crying.", options: ["who", "which", "whose"], correctAnswer: "whose", type: 'choice' },
+  { id: 12, question: "How _______ followers do you have?", options: ["many", "much", "any"], correctAnswer: "many", type: 'choice' },
+  { id: 13, question: "I have a _______ V-Bucks left.", options: ["few", "little", "much"], correctAnswer: "few", type: 'choice' },
+  { id: 14, question: "I enjoy _______ anime on weekends.", options: ["watch", "to watch", "watching"], correctAnswer: "watching", type: 'choice' },
+  { id: 15, question: "He promised _______ me with the raid.", options: ["helping", "to help", "help"], correctAnswer: "to help", type: 'choice' },
+  { id: 16, question: "Look at his HP! He _______ die!", options: ["will", "is going to", "goes to"], correctAnswer: "is going to", type: 'choice' },
+  { id: 17, question: "Water _______ at 100 degrees (Minecraft physics?).", options: ["boil", "boils", "is boiling"], correctAnswer: "boils", type: 'choice' },
+  { id: 18, question: "This is the server _______ we met.", options: ["which", "where", "that"], correctAnswer: "where", type: 'choice' },
+  { id: 19, question: "While I _______ AFK, they killed me.", options: ["was", "were", "am"], correctAnswer: "was", type: 'choice' },
+  { id: 20, question: "I have _______ time for noobs.", options: ["no", "any", "none"], correctAnswer: "no", type: 'choice' },
+  { id: 21, question: "Where _______ you buy that expensive keyboard?", options: ["do", "did", "were"], correctAnswer: "did", type: 'choice' },
+  { id: 22, question: "I have a _______ information about the update.", options: ["few", "little", "many"], correctAnswer: "little", type: 'choice' },
+  { id: 23, question: "Stop _______! The boss is coming.", options: ["talking", "to talk", "talk"], correctAnswer: "talking", type: 'choice' },
+  { id: 24, question: "If I grind hard, I _______ reach Global Elite.", options: ["will", "would", "am"], correctAnswer: "will", type: 'choice' },
+  { id: 25, question: "The car _______ I stole is fast.", options: ["who", "which", "where"], correctAnswer: "which", type: 'choice' }
 ];

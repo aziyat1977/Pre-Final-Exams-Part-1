@@ -1,29 +1,43 @@
 
 import { QuizQuestion } from '../types';
 
-// Databases for dynamic generation
+// THEMATIC DATABASE
+
 const SUBJECTS = [
-  { text: "I", type: "1s" }, { text: "You", type: "2s" }, { text: "He", type: "3s" }, { text: "She", type: "3s" }, 
-  { text: "It", type: "3s" }, { text: "We", type: "pl" }, { text: "They", type: "pl" },
-  { text: "My mother", type: "3s" }, { text: "The dog", type: "3s" }, { text: "Tom and Jerry", type: "pl" }
+    { text: "The imposter", type: "3s" },
+    { text: "My teammate", type: "3s" },
+    { text: "The zombies", type: "pl" },
+    { text: "Billie Eilish", type: "3s" },
+    { text: "We", type: "pl" },
+    { text: "The hacker", type: "3s" },
+    { text: "Travis Scott", type: "3s" },
+    { text: "My avatar", type: "3s" },
+    { text: "Naruto", type: "3s" },
+    { text: "The server", type: "3s" },
+    { text: "My mom", type: "3s" },
+    { text: "Pro players", type: "pl" }
 ];
 
-const VERBS = [
-  { base: "play", v3s: "plays", ving: "playing", ved: "played" },
-  { base: "work", v3s: "works", ving: "working", ved: "worked" },
-  { base: "watch", v3s: "watches", ving: "watching", ved: "watched" },
-  { base: "eat", v3s: "eats", ving: "eating", ved: "ate" },
-  { base: "go", v3s: "goes", ving: "going", ved: "went" },
-  { base: "study", v3s: "studies", ving: "studying", ved: "studied" },
-  { base: "sleep", v3s: "sleeps", ving: "sleeping", ved: "slept" }
+const ACTIONS = [
+    { base: "stream", v3s: "streams", ving: "streaming", ved: "streamed", obj: "on Twitch" },
+    { base: "camp", v3s: "camps", ving: "camping", ved: "camped", obj: "in the bush" },
+    { base: "defuse", v3s: "defuses", ving: "defusing", ved: "defused", obj: "the bomb" },
+    { base: "drop", v3s: "drops", ving: "dropping", ved: "dropped", obj: "a new album" },
+    { base: "lag", v3s: "lags", ving: "lagging", ved: "lagged", obj: "badly" },
+    { base: "ban", v3s: "bans", ving: "banning", ved: "banned", obj: "the cheater" },
+    { base: "follow", v3s: "follows", ving: "following", ved: "followed", obj: "the trend" },
+    { base: "raid", v3s: "raids", ving: "raiding", ved: "raided", obj: "the village" },
+    { base: "travel", v3s: "travels", ving: "traveling", ved: "traveled", obj: "to Japan" },
+    { base: "play", v3s: "plays", ving: "playing", ved: "played", obj: "Minecraft" },
+    { base: "watch", v3s: "watches", ving: "watching", ved: "watched", obj: "TikToks" }
 ];
 
 const TIME_MARKERS = {
-  present_simple: ["every day", "usually", "often", "on Sundays", "always", "never"],
-  present_continuous: ["now", "at the moment", "right now", "listen!", "look!"],
-  past_simple: ["yesterday", "last week", "in 1999", "two days ago", "when I was young"],
-  past_continuous: ["at 5 PM yesterday", "while I was reading"],
-  future_plans: ["tomorrow", "next week", "tonight", "next year"]
+  present_simple: ["every day", "usually", "often", "on Sundays", "always", "never", "every stream"],
+  present_continuous: ["right now", "at the moment", "look!", "listen!", "currently"],
+  past_simple: ["yesterday", "last night", "in 2020", "two hours ago", "last season"],
+  past_continuous: ["at 3 AM", "while I was sleeping", "all day yesterday"],
+  future_plans: ["tomorrow", "next week", "tonight", "next season", "soon"]
 };
 
 // Helper to get random item
@@ -46,11 +60,11 @@ export const generateTest = (topics: string[], count: number): QuizQuestion[] =>
 
 const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
   const subj = rnd(SUBJECTS);
-  const verb = rnd(VERBS);
+  const action = rnd(ACTIONS);
   
   switch (topic) {
     case 'present_simple': {
-      const isNeg = Math.random() > 0.7;
+      const isNeg = Math.random() > 0.6;
       const marker = rnd(TIME_MARKERS.present_simple);
       
       if (isNeg) {
@@ -59,19 +73,19 @@ const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
         const wrongAux = (subj.type === "3s") ? "don't" : "doesn't";
         return {
           id,
-          question: `${subj.text} _______ ${verb.base} ${marker}.`,
+          question: `${subj.text} _______ ${action.base} ${action.obj} ${marker}.`,
           options: [aux, wrongAux, (subj.type === "3s" ? "isn't" : "aren't")].sort(() => Math.random() - 0.5),
           correctAnswer: aux,
           type: 'choice'
         };
       } else {
         // Positive: V1 / V1s
-        const correct = (subj.type === "3s") ? verb.v3s : verb.base;
-        const wrong1 = (subj.type === "3s") ? verb.base : verb.v3s;
-        const wrong2 = verb.ving;
+        const correct = (subj.type === "3s") ? action.v3s : action.base;
+        const wrong1 = (subj.type === "3s") ? action.base : action.v3s;
+        const wrong2 = action.ving;
         return {
           id,
-          question: `${subj.text} _______ football ${marker}.`,
+          question: `${subj.text} _______ ${action.obj} ${marker}.`,
           options: [correct, wrong1, wrong2].sort(() => Math.random() - 0.5),
           correctAnswer: correct,
           type: 'choice'
@@ -81,7 +95,7 @@ const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
 
     case 'present_continuous': {
       const marker = rnd(TIME_MARKERS.present_continuous);
-      const be = (subj.text === "I") ? "am" : (subj.type === "3s" ? "is" : "are");
+      const be = (subj.type === "3s" ? "is" : "are");
       const wrongBe1 = (be === "is") ? "are" : "is";
       const wrongBe2 = "do";
       
@@ -90,16 +104,16 @@ const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
         // Test Verb-ing
         return {
           id,
-          question: `${marker} ${subj.text} is _______ TV.`,
-          options: [verb.ving, verb.base, verb.v3s].sort(() => Math.random() - 0.5),
-          correctAnswer: verb.ving,
+          question: `${marker} ${subj.text} is _______ ${action.obj}!`,
+          options: [action.ving, action.base, action.v3s].sort(() => Math.random() - 0.5),
+          correctAnswer: action.ving,
           type: 'choice'
         };
       } else {
         // Test Aux
         return {
           id,
-          question: `${subj.text} _______ ${verb.ving} ${marker}.`,
+          question: `${subj.text} _______ ${action.ving} ${action.obj} ${marker}.`,
           options: [be, wrongBe1, wrongBe2].sort(() => Math.random() - 0.5),
           correctAnswer: be,
           type: 'choice'
@@ -114,7 +128,7 @@ const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
       if (isNeg) {
          return {
           id,
-          question: `${subj.text} _______ ${verb.base} ${marker}.`,
+          question: `${subj.text} _______ ${action.base} ${action.obj} ${marker}.`,
           options: ["didn't", "don't", "wasn't"].sort(() => Math.random() - 0.5),
           correctAnswer: "didn't",
           type: 'choice'
@@ -122,20 +136,20 @@ const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
       } else {
          return {
           id,
-          question: `${subj.text} _______ to the park ${marker}.`,
-          options: [verb.ved, verb.base, verb.ving].sort(() => Math.random() - 0.5),
-          correctAnswer: verb.ved,
+          question: `${subj.text} _______ ${action.obj} ${marker}.`,
+          options: [action.ved, action.base, action.ving].sort(() => Math.random() - 0.5),
+          correctAnswer: action.ved,
           type: 'choice'
         };
       }
     }
 
     case 'past_continuous': {
-       const be = (subj.type === "3s" || subj.text === "I") ? "was" : "were";
+       const be = (subj.type === "3s") ? "was" : "were";
        const wrongBe = (be === "was") ? "were" : "was";
        return {
           id,
-          question: `While I was reading, ${subj.text} _______ ${verb.ving}.`,
+          question: `While I was AFK, ${subj.text} _______ ${action.ving} ${action.obj}.`,
           options: [be, wrongBe, "is"].sort(() => Math.random() - 0.5),
           correctAnswer: be,
           type: 'choice'
@@ -143,10 +157,10 @@ const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
     }
 
     case 'future_plans': {
-        const be = (subj.text === "I") ? "am" : (subj.type === "3s" ? "is" : "are");
+        const be = (subj.type === "3s" ? "is" : "are");
         return {
             id,
-            question: `${subj.text} _______ going to ${verb.base} tomorrow.`,
+            question: `${subj.text} _______ going to ${action.base} ${action.obj} tomorrow.`,
             options: [be, "will", "go"].sort(() => Math.random() - 0.5),
             correctAnswer: be,
             type: 'choice'
@@ -154,16 +168,16 @@ const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
     }
 
     case 'relative_clauses': {
-        const person = rnd(["The man", "The woman", "The student", "The doctor"]);
-        const thing = rnd(["The book", "The car", "The phone", "The house"]);
-        const place = rnd(["The city", "The park", "The hotel", "The room"]);
+        const person = rnd(["The streamer", "The hacker", "The noob", "The celebrity"]);
+        const thing = rnd(["The skin", "The car", "The phone", "The loot box"]);
+        const place = rnd(["The server", "The city", "The map", "The house"]);
         
         const qType = Math.random();
         
         if (qType < 0.33) {
              return {
                 id,
-                question: `${person} _______ called me was angry.`,
+                question: `${person} _______ banned me was angry.`,
                 options: ["who", "which", "where"].sort(() => Math.random() - 0.5),
                 correctAnswer: "who",
                 type: 'choice'
@@ -171,7 +185,7 @@ const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
         } else if (qType < 0.66) {
             return {
                 id,
-                question: `${thing} _______ I bought is red.`,
+                question: `${thing} _______ I bought is legendary.`,
                 options: ["which", "who", "where"].sort(() => Math.random() - 0.5),
                 correctAnswer: "which",
                 type: 'choice'
@@ -179,7 +193,7 @@ const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
         } else {
             return {
                 id,
-                question: `${place} _______ we stayed was nice.`,
+                question: `${place} _______ we camp is safe.`,
                 options: ["where", "which", "who"].sort(() => Math.random() - 0.5),
                 correctAnswer: "where",
                 type: 'choice'
@@ -188,13 +202,13 @@ const generateQuestionForTopic = (topic: string, id: number): QuizQuestion => {
     }
 
     case 'articles_quantifiers': {
-        const countable = rnd(["apples", "friends", "books", "chairs"]);
-        const uncountable = rnd(["water", "sugar", "money", "information"]);
+        const countable = rnd(["skins", "followers", "loot boxes", "kills"]);
+        const uncountable = rnd(["money", "lag", "health", "armor"]);
         
         if (Math.random() > 0.5) {
              return {
                 id,
-                question: `I don't have _______ ${uncountable}.`,
+                question: `I don't have _______ ${uncountable} left.`,
                 options: ["much", "many", "a few"].sort(() => Math.random() - 0.5),
                 correctAnswer: "much",
                 type: 'choice'
