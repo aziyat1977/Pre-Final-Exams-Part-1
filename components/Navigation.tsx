@@ -18,6 +18,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, toggleThe
     { id: 'home', label: 'Mission Select', icon: <GlobeIcon /> },
     { id: 'tenses', label: 'Tense Mastery (GTA)', icon: <Skull />, theme: 'gta' },
     { id: 'connectors', label: 'Wizardry (Hogwarts)', icon: <BookOpen />, theme: 'hogwarts' },
+    { id: 'intermediate', label: 'Intermediate', icon: <GraduationCap />, theme: 'default' },
     { id: 'games', label: 'Mini Games (Roblox)', icon: <Gamepad2 />, theme: 'roblox' },
     { id: 'quiz', label: 'Combat Test (Standoff)', icon: <Swords />, theme: 'standoff' },
     { id: 'generator', label: 'Test Generator', icon: <Settings />, theme: 'default' },

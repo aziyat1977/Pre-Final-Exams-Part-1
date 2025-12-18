@@ -21,6 +21,14 @@ export interface DragDropData {
   items: DragItem[];
 }
 
+export interface QuizQuestion {
+  id: number;
+  question: string;
+  options: string[];
+  correctAnswer: string;
+  type: 'choice' | 'gap' | 'logic';
+}
+
 export interface PracticeExercises {
   kahoot: QuizQuestion[];
   mcqTests: { title: string; questions: QuizQuestion[] }[];
@@ -66,12 +74,38 @@ export interface DetailedTense {
   practice: PracticeExercises;
 }
 
-export interface QuizQuestion {
+// --- NEW TYPES FOR INTERMEDIATE SECTION ---
+
+export interface SnakeLevel {
+  prompt: string;
+  correct: string;
+  options: string[]; // 1 Correct + Distractors
+}
+
+export interface CrosswordClue {
   id: number;
-  question: string;
-  options: string[];
-  correctAnswer: string;
-  type: 'choice' | 'gap' | 'logic';
+  direction: 'across' | 'down';
+  number: number;
+  clue: string;
+  answer: string;
+}
+
+export interface IntermediateLesson {
+  id: string;
+  title: string;
+  topicDescription: string;
+  mfp: {
+    concepts: { title: string; description: string; visual: string }[];
+    formulas: { title: string; eng: string; rus: string; uzb: string }[];
+    examples: { type: string; text: string }[];
+  };
+  exercises: {
+    quizzes: QuizQuestion[];
+    gapFill: { question: string; answer: string }[];
+    dragDrop: DragDropData;
+    crossword: CrosswordClue[];
+    snake: SnakeLevel[];
+  };
 }
 
 export interface GameState {

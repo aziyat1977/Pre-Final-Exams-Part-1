@@ -1,7 +1,7 @@
 
-import { GrammarRule, QuizQuestion, DetailedTense } from './types';
+import { GrammarRule, QuizQuestion, DetailedTense, IntermediateLesson } from './types';
 
-// ... existing basic data arrays ...
+// ... existing constants (TENSES_DATA, CONNECTORS_DATA, etc.) ...
 export const TENSES_DATA: GrammarRule[] = [
   { title: 'Present Simple', formula: 'Subj + V1(s)', russian: 'Подлежащее + Гл(s)', uzbek: "Sub'ekt + fe'l" },
   { title: 'Present Continuous', formula: 'Subj + am/is/are + V-ing', russian: 'Подлежащее + Гл прямо сейчас', uzbek: "Sub'ekt + fe'l-yapman/yapsan..." },
@@ -103,6 +103,7 @@ const CONNECTORS_QUESTIONS: QuizQuestion[] = [
 ];
 
 export const DETAILED_TENSES: DetailedTense[] = [
+  // ... existing detailed tenses ...
   {
     id: 'present_simple',
     title: 'Present Simple',
@@ -156,6 +157,7 @@ export const DETAILED_TENSES: DetailedTense[] = [
         dragAndDrop: { title: "Sorting", groups: ["A", "B"], items: [] }
     }
   },
+  // ... other tenses ...
   {
     id: 'present_continuous',
     title: 'Present Continuous',
@@ -213,7 +215,7 @@ export const DETAILED_TENSES: DetailedTense[] = [
     meaning: {
       english: "1. Completed action in the past. 2. Series of completed actions (A story). 3. Duration in the past (now finished).",
       russian: "1. Факт в прошлом. 2. Цепочка действий. 3. Длительность в прошлом (уже нет).",
-      uzbek: "1. O'tmishdagi fakt. 2. Ketma-ketlik. 3. O'tmishdagi davomiylik."
+      uzbek: "1. Факт в прошлом. 2. Цепочка действий. 3. Длительность в прошлом (уже нет)."
     },
     deepDive: {
         signalWords: ["Yesterday", "Last week/month/year", "...ago", "In 1990", "When I was a child"],
@@ -309,6 +311,7 @@ export const DETAILED_TENSES: DetailedTense[] = [
 ];
 
 export const DETAILED_CONNECTORS: DetailedTense[] = [
+  // ... existing detailed connectors ...
   {
     id: 'relative_clauses',
     title: 'Relative Clauses',
@@ -461,7 +464,7 @@ export const DETAILED_CONNECTORS: DetailedTense[] = [
 ];
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
-  // MIXED COMBAT QUESTIONS (THEMED)
+  // ... existing mixed questions ...
   { id: 1, question: "Look! The zombie _______ towards us! Shoot!", options: ["comes", "is coming", "came"], correctAnswer: "is coming", type: 'choice' },
   { id: 2, question: "Billie Eilish _______ a new album last year.", options: ["drops", "dropped", "has dropped"], correctAnswer: "dropped", type: 'choice' },
   { id: 3, question: "Is that the gamer _______ won the championship?", options: ["which", "who", "where"], correctAnswer: "who", type: 'choice' },
@@ -487,4 +490,605 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   { id: 23, question: "Stop _______! The boss is coming.", options: ["talking", "to talk", "talk"], correctAnswer: "talking", type: 'choice' },
   { id: 24, question: "If I grind hard, I _______ reach Global Elite.", options: ["will", "would", "am"], correctAnswer: "will", type: 'choice' },
   { id: 25, question: "The car _______ I stole is fast.", options: ["who", "which", "where"], correctAnswer: "which", type: 'choice' }
+];
+
+// --- INTERMEDIATE LESSONS DATA ---
+
+export const INTERMEDIATE_LESSONS: IntermediateLesson[] = [
+  {
+    id: '1.1',
+    title: 'Present Tenses (Simple, Continuous, Perfect)',
+    topicDescription: 'Distinguishing between habits, temporary actions, and life experiences.',
+    mfp: {
+      concepts: [
+        { title: 'Present Simple (The "Always" Box)', description: 'Facts, habits, permanent situations. Solid, unchanging.', visual: '🪨' },
+        { title: 'Present Continuous (The "Now" Wave)', description: 'Temporary, happening around now, changing trends.', visual: '🌊' },
+        { title: 'Present Perfect (The "Bridge")', description: 'Connecting past to now. Life experience or recent result.', visual: '🌉' }
+      ],
+      formulas: [
+        { title: 'Present Simple', eng: 'Subject + V1 (s/es)', rus: 'Обычное действие / Факт', uzb: "Ega + fe'l + -adi. (Doimiy ish-harakat)" },
+        { title: 'Present Continuous', eng: 'Subject + am/is/are + Ving', rus: 'Действие сейчас / Временное', uzb: "Ega + (hozir) + fe'l + -yap + (shaxs). (Ayni damda)" },
+        { title: 'Present Perfect', eng: 'Subject + have/has + V3', rus: 'Результат уже есть / Опыт', uzb: "Ega + fe'l + -gan. (Natija yoki tajriba)" }
+      ],
+      examples: [
+        { type: 'Fact', text: "Everyone **needs** friends." },
+        { type: 'Trend', text: "Facebook **is changing** the way we look at friendship." },
+        { type: 'Experience', text: "I **have lived** here all my life." }
+      ]
+    },
+    exercises: {
+      quizzes: [
+        { id: 1, question: "The Earth's temperature is increasing. Why Continuous?", options: ["It happens daily", "It is a changing trend"], correctAnswer: "It is a changing trend", type: 'choice' },
+        { id: 2, question: "I have lived here all my life. Can we say 'I am living here'?", options: ["Yes", "No, implies duration"], correctAnswer: "No, implies duration", type: 'choice' },
+        { id: 3, question: "He doesn't like his Facebook friends. Why not 'isn't liking'?", options: ["He hates them", "Like is a state verb"], correctAnswer: "Like is a state verb", type: 'choice' },
+        { id: 4, question: "We generally have dinner together. 'Generally' signals:", options: ["Present Simple", "Present Continuous"], correctAnswer: "Present Simple", type: 'choice' },
+        { id: 5, question: "Translate: 'Do'stlarim ko'payib bormoqda'", options: ["My friends increase", "My friends are increasing"], correctAnswer: "My friends are increasing", type: 'choice' }
+      ],
+      gapFill: [
+        { question: "There _______ (be) over one billion Facebook users.", answer: "are" },
+        { question: "The word 'friend' _______ (become) a verb recently.", answer: "has become" },
+        { question: "People who we _______ (know) online.", answer: "know" },
+        { question: "More and more people _______ (connect) with old friends.", answer: "are connecting" },
+        { question: "Is Marco here? No, he _______ (already / left).", answer: "has already left" }
+      ],
+      dragDrop: {
+        title: "Sort by Tense Use",
+        groups: ["Permanent/Fact", "Temporary/Now", "Result/Experience"],
+        items: [
+          { id: '1', content: "I work in Berlin", group: "Permanent/Fact" },
+          { id: '2', content: "Earth orbits Sun", group: "Permanent/Fact" },
+          { id: '3', content: "I am working in Berlin", group: "Temporary/Now" },
+          { id: '4', content: "Jameela is having a lesson", group: "Temporary/Now" },
+          { id: '5', content: "I haven't emailed him", group: "Result/Experience" },
+          { id: '6', content: "Have you seen Jake?", group: "Result/Experience" }
+        ]
+      },
+      crossword: [
+        { id: 1, direction: 'across', number: 1, clue: "I _____ lived here for years", answer: "HAVE" },
+        { id: 2, direction: 'down', number: 2, clue: "State verbs are rarely used in this form", answer: "CONTINUOUS" },
+        { id: 3, direction: 'across', number: 3, clue: "He _____ like fish", answer: "DOESNT" },
+        { id: 4, direction: 'down', number: 4, clue: "-ing form of 'begin'", answer: "BEGINNING" }
+      ],
+      snake: [
+        { prompt: "Make continuous: MAKE", correct: "Making", options: ["Makeing", "Making", "Maiking"] },
+        { prompt: "Make continuous: BEGIN", correct: "Beginning", options: ["Begining", "Beginning", "Begginning"] },
+        { prompt: "Make continuous: LIE", correct: "Lying", options: ["Lieing", "Lying", "Liing"] }
+      ]
+    }
+  },
+  {
+    id: '1.2',
+    title: 'State Verbs',
+    topicDescription: 'Verbs describing thoughts, feelings, possession, and senses (Non-Action).',
+    mfp: {
+      concepts: [
+        { title: 'Thoughts', description: 'Think, know, believe, agree. 🧠', visual: '🧠' },
+        { title: 'Feelings', description: 'Like, love, hate, want. ❤️', visual: '❤️' },
+        { title: 'Possession', description: 'Have, own, belong. 🎒', visual: '🎒' },
+        { title: 'Senses', description: 'Smell, taste, sound, look. 👃', visual: '👃' }
+      ],
+      formulas: [
+        { title: 'The Rule', eng: 'NO continuous form (-ing)', rus: 'Я хочу (Нельзя: Я есть хотящий)', uzb: 'Men xohlayman (NOT: Men xohlayapman)' }
+      ],
+      examples: [
+        { type: 'Possession', text: "Who **does** this bag **belong to**?" },
+        { type: 'Senses', text: "The soup **tastes** delicious." },
+        { type: 'Mental', text: "Do you **believe** me? I **don't agree**." }
+      ]
+    },
+    exercises: {
+      quizzes: [
+        { id: 1, question: "I am understanding you.", options: ["Correct", "Incorrect"], correctAnswer: "Incorrect", type: 'choice' },
+        { id: 2, question: "I'm loving this pizza!", options: ["Formal Grammar", "Informal Idiom"], correctAnswer: "Informal Idiom", type: 'choice' },
+        { id: 3, question: "She has a car.", options: ["State (Possession)", "Action"], correctAnswer: "State (Possession)", type: 'choice' },
+        { id: 4, question: "She is having lunch.", options: ["State", "Action (Eating)"], correctAnswer: "Action (Eating)", type: 'choice' },
+        { id: 5, question: "This soup is tasting salty.", options: ["Correct", "Incorrect"], correctAnswer: "Incorrect", type: 'choice' }
+      ],
+      gapFill: [
+        { question: "I _______ (think) it's a great idea.", answer: "think" },
+        { question: "A: What are you doing? B: I _______ (think) about the file.", answer: "'m thinking" },
+        { question: "That _______ (sound) like a good idea.", answer: "sounds" },
+        { question: "I _______ (try) to download photos now.", answer: "'m trying" },
+        { question: "The umbrella _______ (belong) to Annette.", answer: "belongs" }
+      ],
+      dragDrop: {
+        title: "Categorize Verbs",
+        groups: ["State Only", "Can be Action"],
+        items: [
+          { id: '1', content: "Believe", group: "State Only" },
+          { id: '2', content: "Belong", group: "State Only" },
+          { id: '3', content: "Know", group: "State Only" },
+          { id: '4', content: "Eat", group: "Can be Action" },
+          { id: '5', content: "Run", group: "Can be Action" },
+          { id: '6', content: "Think", group: "Can be Action" }
+        ]
+      },
+      crossword: [
+        { id: 1, direction: 'across', number: 1, clue: "I _____ you are right", answer: "AGREE" },
+        { id: 2, direction: 'down', number: 2, clue: "Do you _____ any money?", answer: "HAVE" },
+        { id: 3, direction: 'across', number: 3, clue: "This flower _____ nice", answer: "SMELLS" },
+        { id: 4, direction: 'down', number: 4, clue: "Opposite of 'love'", answer: "HATE" }
+      ],
+      snake: [
+        { prompt: "Select the STATE Verb", correct: "Know", options: ["Run", "Jump", "Know"] },
+        { prompt: "Select the ACTION Verb", correct: "Hit", options: ["Belong", "Taste", "Hit"] },
+        { prompt: "Select the STATE Verb", correct: "Own", options: ["Cook", "Own", "Play"] }
+      ]
+    }
+  },
+  {
+    id: '2.1',
+    title: 'Narrative Forms (Past Tenses)',
+    topicDescription: 'Telling a story. Sequencing events vs. setting the scene.',
+    mfp: {
+      concepts: [
+        { title: 'Past Simple (Main Events)', description: 'The plot points. A then B then C.', visual: '🎞️' },
+        { title: 'Past Continuous (Background)', description: 'What was happening *around* the main event.', visual: '🎭' },
+        { title: 'Past Perfect (The Flashback)', description: 'Happened *before* the story started.', visual: '⏪' }
+      ],
+      formulas: [
+        { title: 'Past Simple', eng: 'Subject + V2 (ed/irregular)', rus: 'Что сделал? (Завершил)', uzb: '...-di' },
+        { title: 'Past Continuous', eng: 'Subject + was/were + Ving', rus: 'Что делал? (Процесс)', uzb: '...-ayotgan edi' },
+        { title: 'Past Perfect', eng: 'Subject + had + V3', rus: 'Сделал (до другого действия)', uzb: '...-gan edi' }
+      ],
+      examples: [
+        { type: 'Action', text: "I **arrived** at midnight." },
+        { type: 'Background', text: "We **were walking** along the beach." },
+        { type: 'Earlier Event', text: "I **had stayed** in the same hotel twice before." }
+      ]
+    },
+    exercises: {
+      quizzes: [
+        { id: 1, question: "When I arrived, they had left. Did you see them?", options: ["Yes", "No"], correctAnswer: "No", type: 'choice' },
+        { id: 2, question: "When I arrived, they left. Did you see them?", options: ["Yes", "No"], correctAnswer: "Yes", type: 'choice' },
+        { id: 3, question: "I was reading when the phone rang. Which is longer?", options: ["Reading", "Ringing"], correctAnswer: "Reading", type: 'choice' },
+        { id: 4, question: "We didn't realize how dangerous it ____.", options: ["was", "is"], correctAnswer: "was", type: 'choice' },
+        { id: 5, question: "Which tense sets the atmosphere?", options: ["Past Simple", "Past Continuous"], correctAnswer: "Past Continuous", type: 'choice' }
+      ],
+      gapFill: [
+        { question: "We _______ (walk) 2km before we realized.", answer: "had walked" },
+        { question: "I _______ (go) for a walk when we finished.", answer: "went" },
+        { question: "The sun _______ (shine) and people sat on grass.", answer: "was shining" },
+        { question: "I locked the door after I _______ (check) everyone left.", answer: "had checked" },
+        { question: "Sam didn't recognize me although we _______ (meet) before.", answer: "had met" }
+      ],
+      dragDrop: {
+        title: "Match Function",
+        groups: ["Background", "Main Event", "Flashback"],
+        items: [
+          { id: '1', content: "It was raining hard", group: "Background" },
+          { id: '2', content: "While I was sleeping", group: "Background" },
+          { id: '3', content: "The bomb exploded", group: "Main Event" },
+          { id: '4', content: "Then I called police", group: "Main Event" },
+          { id: '5', content: "He had forgotten passport", group: "Flashback" }
+        ]
+      },
+      crossword: [
+        { id: 1, direction: 'across', number: 1, clue: "I had _____ (eat)", answer: "EATEN" },
+        { id: 2, direction: 'down', number: 2, clue: "Past Perfect Helper", answer: "HAD" },
+        { id: 3, direction: 'across', number: 3, clue: "Continuous of 'sit'", answer: "SITTING" },
+        { id: 4, direction: 'down', number: 4, clue: "Past of 'catch'", answer: "CAUGHT" }
+      ],
+      snake: [
+        { prompt: "Past Perfect of GO", correct: "Had gone", options: ["Had went", "Had gone", "Has gone"] },
+        { prompt: "Past Perfect of SEE", correct: "Had seen", options: ["Had saw", "Had seen", "Had seed"] },
+        { prompt: "Past Perfect of EAT", correct: "Had eaten", options: ["Had ate", "Had eaten", "Have eaten"] }
+      ]
+    }
+  },
+  {
+    id: '2.2',
+    title: 'Time Linkers',
+    topicDescription: 'Connecting events in a story (Timing and Sequence).',
+    mfp: {
+      concepts: [
+        { title: 'As soon as', description: 'Immediate reaction. [Event A] -> ⚡ -> [Event B]', visual: '⚡' },
+        { title: 'While', description: 'Two things happening at the same time. Parallel lines.', visual: '⏸️' },
+        { title: 'Meanwhile', description: 'Similar to \'while\', but connects two *separate sentences*.', visual: '🔀' }
+      ],
+      formulas: [
+        { title: 'During vs While', eng: 'During + Noun / While + Subj + Verb', rus: 'Во время (чего-то) / В то время как', uzb: '...davomida / ...-ayotganda' },
+        { title: 'By the time', eng: 'By the time + [Action A], [Action B had happened]', rus: 'К тому времени, как...', uzb: '...-guncha (bo\'lgan vaqtda)' }
+      ],
+      examples: [
+        { type: 'Immediate', text: "They realized it was false **as soon as** they found him." },
+        { type: 'Parallel', text: "We were waiting. **Meanwhile**, she was on the bus." },
+        { type: 'Noun Phrase', text: "I fell asleep **during the meeting**." }
+      ]
+    },
+    exercises: {
+      quizzes: [
+        { id: 1, question: "I fell asleep _____ the film.", options: ["while", "during"], correctAnswer: "during", type: 'choice' },
+        { id: 2, question: "I fell asleep _____ I was watching.", options: ["while", "during"], correctAnswer: "while", type: 'choice' },
+        { id: 3, question: "By the time we arrived, the party _____.", options: ["finished", "had finished"], correctAnswer: "had finished", type: 'choice' },
+        { id: 4, question: "We lived in Warsaw _____ I was twelve.", options: ["until", "by the time"], correctAnswer: "until", type: 'choice' },
+        { id: 5, question: "Uzbek for 'Meanwhile'", options: ["Shu vaqtda", "Keyin"], correctAnswer: "Shu vaqtda", type: 'choice' }
+      ],
+      gapFill: [
+        { question: "I found old papers _______ (while) tidying up.", answer: "while" },
+        { question: "_______ (During) the 1950s, pasta was rare.", answer: "During" },
+        { question: "_______ (As soon as) it finished, viewers called.", answer: "As soon as" },
+        { question: "We called police. _______ (Meanwhile), thieves escaped.", answer: "Meanwhile" },
+        { question: "Luke and I met _______ (while) working.", answer: "while" }
+      ],
+      dragDrop: {
+        title: "Connect the Linker",
+        groups: ["Noun Follows", "Clause Follows"],
+        items: [
+          { id: '1', content: "During", group: "Noun Follows" },
+          { id: '2', content: "While", group: "Clause Follows" },
+          { id: '3', content: "As soon as", group: "Clause Follows" },
+          { id: '4', content: "Until", group: "Clause Follows" },
+          { id: '5', content: "During the war", group: "Noun Follows" }
+        ]
+      },
+      crossword: [
+        { id: 1, direction: 'across', number: 1, clue: "Happening at same time", answer: "WHILE" },
+        { id: 2, direction: 'down', number: 2, clue: "Up to point in time", answer: "UNTIL" },
+        { id: 3, direction: 'across', number: 3, clue: "In the time of (noun)", answer: "DURING" },
+        { id: 4, direction: 'down', number: 4, clue: "Immediately after", answer: "ASSOONAS" }
+      ],
+      snake: [
+        { prompt: "Followed by a NOUN", correct: "During", options: ["While", "During", "When"] },
+        { prompt: "Followed by SUBJ + VERB", correct: "While", options: ["During", "While", "In"] },
+        { prompt: "Means 'Before'", correct: "By the time", options: ["After", "By the time", "Until"] }
+      ]
+    }
+  },
+  {
+    id: '3.1',
+    title: 'Ability (can, could, be able to)',
+    topicDescription: 'Distinguishing between "General Ability" and "Specific Achievement" in the past.',
+    mfp: {
+      concepts: [
+        { title: 'General Past Ability (Could)', description: 'Something you knew how to do anytime.', visual: '🎹' },
+        { title: 'Specific Past Achievement (Was able to)', description: 'Doing something difficult once. TRAP: No "could" here.', visual: '🏔️' },
+        { title: 'Succeed in', description: 'Formal way to say "managed to". Followed by -ing.', visual: '📜' }
+      ],
+      formulas: [
+        { title: 'Specific Past Achievement', eng: 'Subject + was/were able to + V1', rus: 'Смог / Справился', uzb: '... uddaladi / ...-a oldi' },
+        { title: 'Manage vs Succeed', eng: 'managed to + V1 / succeeded in + Ving', rus: 'Справился с (чем-то)', uzb: '...-ishni epladi' }
+      ],
+      examples: [
+        { type: 'General', text: "I **could ride** a bike by the age of six." },
+        { type: 'Specific', text: "We **were able to get** tickets." },
+        { type: 'Succeed In', text: "They didn't **succeed in winning** the prize." }
+      ]
+    },
+    exercises: {
+      quizzes: [
+        { id: 1, question: "The fire was strong, but everyone _____ escape.", options: ["could", "was able to"], correctAnswer: "was able to", type: 'choice' },
+        { id: 2, question: "I _____ swim when I was 5.", options: ["managed to", "could"], correctAnswer: "could", type: 'choice' },
+        { id: 3, question: "He succeeded _____ the exam.", options: ["to pass", "in passing"], correctAnswer: "in passing", type: 'choice' },
+        { id: 4, question: "Manage to means:", options: ["It was easy", "It was difficult but done"], correctAnswer: "It was difficult but done", type: 'choice' },
+        { id: 5, question: "Which sentence is WRONG?", options: ["I managed to find keys", "I could find my keys yesterday"], correctAnswer: "I could find my keys yesterday", type: 'choice' }
+      ],
+      gapFill: [
+        { question: "I **__________** (could) walk when I was nine months old.", answer: "could" },
+        { question: "I **__________** (couldn't) meet you tomorrow.", answer: "won't be able to" },
+        { question: "Some people can **__________** (succeed in) learn languages easily.", answer: "succeed in learning" },
+        { question: "Did they **__________** (manage to) reach the top?", answer: "manage to" },
+        { question: "I **__________** (managed to) stick to a diet!", answer: "managed to" }
+      ],
+      dragDrop: {
+        title: "Match Grammar Rule",
+        groups: ["Followed by -ING", "Followed by TO", "Base Verb Only"],
+        items: [
+          { id: '1', content: "Succeed", group: "Followed by -ING" },
+          { id: '2', content: "Manage", group: "Followed by TO" },
+          { id: '3', content: "Able", group: "Followed by TO" },
+          { id: '4', content: "Can", group: "Base Verb Only" },
+          { id: '5', content: "Could", group: "Base Verb Only" }
+        ]
+      },
+      crossword: [
+        { id: 1, direction: 'across', number: 1, clue: "He _____ in finishing", answer: "SUCCEEDED" },
+        { id: 2, direction: 'down', number: 2, clue: "I _____ to open it", answer: "MANAGED" },
+        { id: 3, direction: 'across', number: 3, clue: "Past of can", answer: "COULD" },
+        { id: 4, direction: 'down', number: 4, clue: "Are you _____ to help?", answer: "ABLE" }
+      ],
+      snake: [
+        { prompt: "Succeed...", correct: "In", options: ["To", "At", "In"] },
+        { prompt: "Capable...", correct: "Of", options: ["Of", "To", "In"] },
+        { prompt: "Manage...", correct: "To", options: ["In", "To", "At"] }
+      ]
+    }
+  },
+  {
+    id: '3.2',
+    title: 'Obligation & Permission',
+    topicDescription: 'Must, Have to, Need to, Can. (Focus: Past Tense & Differences).',
+    mfp: {
+      concepts: [
+        { title: 'Must vs Have to', description: 'Must = Internal feeling. Have to = External rule.', visual: '👔' },
+        { title: 'Past Obligation TRAP', description: 'No "musted". Use "had to".', visual: '📅' },
+        { title: 'Permission', description: 'Can (Informal) vs Allowed to (Formal/Rule).', visual: '🚦' }
+      ],
+      formulas: [
+        { title: 'Past Obligation', eng: 'had to + V1', rus: 'Пришлось', uzb: '...-ishimga to\'g\'ri keldi' },
+        { title: 'Prohibition', eng: 'You mustn\'t / aren\'t allowed to', rus: 'Нельзя / Запрещено', uzb: 'Mumkin emas' }
+      ],
+      examples: [
+        { type: 'Past Obligation', text: "In my last job we **had to ask** permission." },
+        { type: 'No Necessity', text: "I **don't have to work** on Saturdays." },
+        { type: 'Permission', text: "In my present job I **can set** my own goals." }
+      ]
+    },
+    exercises: {
+      quizzes: [
+        { id: 1, question: "I _____ wear a uniform at school last year.", options: ["must", "had to"], correctAnswer: "had to", type: 'choice' },
+        { id: 2, question: "You _____ park here. It's illegal.", options: ["don't have to", "mustn't"], correctAnswer: "mustn't", type: 'choice' },
+        { id: 3, question: "You _____ pay. It's free.", options: ["mustn't", "don't have to"], correctAnswer: "don't have to", type: 'choice' },
+        { id: 4, question: "Can in the past is:", options: ["canned", "could"], correctAnswer: "could", type: 'choice' },
+        { id: 5, question: "Need to is similar to:", options: ["Have to", "Mustn't"], correctAnswer: "Have to", type: 'choice' }
+      ],
+      gapFill: [
+        { question: "Raul **__________** (has to work) very long hours.", answer: "has to work" },
+        { question: "I **__________** (didn't need to) set goals.", answer: "didn't need to" },
+        { question: "You **__________** (mustn't) be late.", answer: "mustn't" },
+        { question: "Women **__________** (couldn't study) until 1876.", answer: "couldn't study" },
+        { question: "A PA **__________** (doesn't have to) have qualifications.", answer: "doesn't have to" }
+      ],
+      dragDrop: {
+        title: "Sort by Meaning",
+        groups: ["Obligation", "Optional", "Forbidden"],
+        items: [
+          { id: '1', content: "I must go", group: "Obligation" },
+          { id: '2', content: "I have to study", group: "Obligation" },
+          { id: '3', content: "You don't have to come", group: "Optional" },
+          { id: '4', content: "You neednt worry", group: "Optional" },
+          { id: '5', content: "You mustn't smoke", group: "Forbidden" },
+          { id: '6', content: "You can't park here", group: "Forbidden" }
+        ]
+      },
+      crossword: [
+        { id: 1, direction: 'across', number: 1, clue: "You _____ to wear seatbelt", answer: "HAVE" },
+        { id: 2, direction: 'down', number: 2, clue: "Strictly forbidden", answer: "MUSTNT" },
+        { id: 3, direction: 'across', number: 3, clue: "Past of have to", answer: "HADTO" },
+        { id: 4, direction: 'down', number: 4, clue: "To be _____ to do", answer: "ALLOWED" }
+      ],
+      snake: [
+        { prompt: "Past tense: He must go", correct: "He had to go", options: ["He musted go", "He had to go", "He has to go"] },
+        { prompt: "Future: I can go", correct: "I will be able to go", options: ["I will can go", "I will be able to go", "I can will go"] },
+        { prompt: "Negative Necessity", correct: "Don't have to", options: ["Mustn't", "Don't have to", "Have not to"] }
+      ]
+    }
+  },
+  {
+    id: '4.1',
+    title: 'Future Predictions & Decisions',
+    topicDescription: 'Will vs. Be Going To. (The "Evidence" vs. "Opinion" rule).',
+    mfp: {
+      concepts: [
+        { title: 'Will (Opinion)', description: 'I think, I believe, maybe. Mental guess. 🧠', visual: '🧠' },
+        { title: 'Going to (Evidence)', description: 'You can SEE it coming. Dark clouds. 👀', visual: '👀' },
+        { title: 'Decisions', description: 'Will = Instant (Phone rings). Going to = Plan (Before).', visual: '⚡' }
+      ],
+      formulas: [
+        { title: 'Prediction (Evidence)', eng: 'Look! It is going to rain', rus: 'Собирается / Сейчас пойдет', uzb: '...-moqchi (aniq belgi bor)' },
+        { title: 'Prediction (Opinion)', eng: 'I think it will rain', rus: 'Думаю, будет', uzb: '...-sa kerak / ...-adi (taxmin)' }
+      ],
+      examples: [
+        { type: 'Evidence', text: "Look at the traffic! It's **going to take** a long time." },
+        { type: 'Opinion', text: "Climate change **will cause** huge problems." },
+        { type: 'Instant Decision', text: "What a lovely day! **I'll have** a swim later." }
+      ]
+    },
+    exercises: {
+      quizzes: [
+        { id: 1, question: "You see a man walking into a wall.", options: ["He will crash", "He is going to crash"], correctAnswer: "He is going to crash", type: 'choice' },
+        { id: 2, question: "I think people _____ live on Mars one day.", options: ["are going to", "will"], correctAnswer: "will", type: 'choice' },
+        { id: 3, question: "No milk? Okay, I _____ go buy some.", options: ["'m going to", "'ll"], correctAnswer: "'ll", type: 'choice' },
+        { id: 4, question: "Why paint? I _____ paint my room.", options: ["'ll", "'m going to"], correctAnswer: "'m going to", type: 'choice' },
+        { id: 5, question: "Look at those clouds!", options: ["It's going to rain", "It will rain"], correctAnswer: "It's going to rain", type: 'choice' }
+      ],
+      gapFill: [
+        { question: "Just a minute. I **__________** (show) you some.", answer: "'ll show" },
+        { question: "Look at clouds! I think it **__________** (rain).", answer: "'s going to rain" },
+        { question: "I think you **__________** (get) the job.", answer: "'ll get" },
+        { question: "My brother **__________** (visit) us in summer.", answer: "'s going to visit" },
+        { question: "I'm exhausted. I think I **__________** (go) to bed.", answer: "'ll go" }
+      ],
+      dragDrop: {
+        title: "Will vs Going To",
+        groups: ["Will (Opinion/Instant)", "Going to (Evidence/Plan)"],
+        items: [
+          { id: '1', content: "I bought tickets", group: "Going to (Evidence/Plan)" },
+          { id: '2', content: "Phone ringing - I'll get it", group: "Will (Opinion/Instant)" },
+          { id: '3', content: "Look at score! 5-0", group: "Going to (Evidence/Plan)" },
+          { id: '4', content: "In 2050 cars will fly", group: "Will (Opinion/Instant)" },
+          { id: '5', content: "I forgot wallet - I'll pay", group: "Will (Opinion/Instant)" }
+        ]
+      },
+      crossword: [
+        { id: 1, direction: 'across', number: 1, clue: "I _____ get it! (Instant)", answer: "WILL" },
+        { id: 2, direction: 'down', number: 2, clue: "She is _____ to fall", answer: "GOING" },
+        { id: 3, direction: 'across', number: 3, clue: "Plans made before speaking", answer: "GOINGTO" },
+        { id: 4, direction: 'down', number: 4, clue: "Decisions made while speaking", answer: "WILL" }
+      ],
+      snake: [
+        { prompt: "I bought tickets yesterday", correct: "I am going to fly", options: ["I will fly", "I am going to fly", "I fly"] },
+        { prompt: "Wait! I open the door", correct: "I'll", options: ["I'll", "I'm going to", "I shall"] },
+        { prompt: "Look at those dark clouds!", correct: "Going to rain", options: ["Will rain", "Going to rain", "Rains"] }
+      ]
+    }
+  },
+  {
+    id: '4.2',
+    title: 'Future Probability',
+    topicDescription: 'Expressing how sure you are about the future (may, might, likely).',
+    mfp: {
+      concepts: [
+        { title: 'Scale of Certainty', description: '100% Will -> 75% Likely -> 50% Might -> 0% Won\'t.', visual: '📊' },
+        { title: 'Word Position Rule', description: 'Adverbs after "will" (will probably). Adjectives with "be + to" (is likely to).', visual: '📝' }
+      ],
+      formulas: [
+        { title: 'May / Might (50%)', eng: 'Subject + may/might + V1', rus: 'Возможно / Может быть', uzb: '...-ishi mumkin' },
+        { title: 'Likely / Unlikely', eng: 'Subject + is/are likely to + V1', rus: 'Вероятно, что...', uzb: '...-ishi ehtimoli bor' }
+      ],
+      examples: [
+        { type: 'Likely', text: "Temperatures are **likely to rise**." },
+        { type: 'Might', text: "Owning a home **might become** impossible." },
+        { type: 'Adverb', text: "The population... **may possibly have** an impact." }
+      ]
+    },
+    exercises: {
+      quizzes: [
+        { id: 1, question: "It _____ rain.", options: ["will probably", "probably will"], correctAnswer: "will probably", type: 'choice' },
+        { id: 2, question: "It _____ rain (Negative).", options: ["won't probably", "probably won't"], correctAnswer: "probably won't", type: 'choice' },
+        { id: 3, question: "Prices are _____ to rise.", options: ["likely", "probably"], correctAnswer: "likely", type: 'choice' },
+        { id: 4, question: "They _____ arrive late.", options: ["might", "are likely"], correctAnswer: "might", type: 'choice' },
+        { id: 5, question: "Which is strongest?", options: ["It might rain", "It will definitely rain"], correctAnswer: "It will definitely rain", type: 'choice' }
+      ],
+      gapFill: [
+        { question: "People **__________** (are likely to continue) to move.", answer: "are likely to continue" },
+        { question: "Animals **__________** (might communicate) with humans.", answer: "might communicate" },
+        { question: "They **__________** (are unlikely to arrive) in time.", answer: "are unlikely to arrive" },
+        { question: "It's **__________** (probable that) unemployment will rise.", answer: "probable that" },
+        { question: "It **__________** (may rain) later.", answer: "may rain" }
+      ],
+      dragDrop: {
+        title: "Rank Probability",
+        groups: ["High", "Medium", "Low"],
+        items: [
+          { id: '1', content: "Will definitely", group: "High" },
+          { id: '2', content: "Is likely to", group: "High" },
+          { id: '3', content: "May / Might", group: "Medium" },
+          { id: '4', content: "Is unlikely to", group: "Low" },
+          { id: '5', content: "Won't", group: "Low" }
+        ]
+      },
+      crossword: [
+        { id: 1, direction: 'across', number: 1, clue: "It is _____ to snow", answer: "LIKELY" },
+        { id: 2, direction: 'down', number: 2, clue: "She _____ not come", answer: "MIGHT" },
+        { id: 3, direction: 'across', number: 3, clue: "He _____ won't pass", answer: "PROBABLY" },
+        { id: 4, direction: 'down', number: 4, clue: "There is a _____", answer: "POSSIBILITY" }
+      ],
+      snake: [
+        { prompt: "He is _____ to win", correct: "Likely", options: ["Probably", "Likely", "Maybe"] },
+        { prompt: "He will _____ win", correct: "Probably", options: ["Likely", "Probably", "Might"] },
+        { prompt: "50% Chance", correct: "Might", options: ["Will", "Might", "Won't"] }
+      ]
+    }
+  },
+  {
+    id: '5.1',
+    title: '-ing form and infinitive with to',
+    topicDescription: 'Verb Patterns. Knowing which verb follows which. The "Change in Meaning" trap.',
+    mfp: {
+      concepts: [
+        { title: 'Gerund (-ing)', description: 'Activity itself/Memory. I remember going.', visual: '📸' },
+        { title: 'Infinitive (to)', description: 'Purpose/Task/Future. Remember to go.', visual: '📝' },
+        { title: 'The "Stop" Trap', description: 'Stop doing (Quit) vs Stop to do (Pause).', visual: '🛑' }
+      ],
+      formulas: [
+        { title: 'Verbs + -ing', eng: 'I enjoy reading', rus: 'Я наслаждаюсь чтением', uzb: 'Men o\'qishni yoqtiraman' },
+        { title: 'Verbs + to', eng: 'I promised to help', rus: 'Я обещал помочь', uzb: 'Men yordam berishga va\'da berdim' },
+        { title: 'Change in Meaning', eng: 'Try/Remember/Stop + ing vs to', rus: 'Разный смысл', uzb: 'Ma\'no o\'zgaradi' }
+      ],
+      examples: [
+        { type: '-ing', text: "I really **enjoy going** to the cinema." },
+        { type: 'To', text: "Amir **offered to give** us a lift." },
+        { type: 'Meaning Change', text: "We **continued working** vs **continued to work**." }
+      ]
+    },
+    exercises: {
+      quizzes: [
+        { id: 1, question: "I stopped to drink coffee.", options: ["I don't drink coffee anymore", "I paused work to drink coffee"], correctAnswer: "I paused work to drink coffee", type: 'choice' },
+        { id: 2, question: "I remember locking the door.", options: ["I have a clear memory", "I must not forget"], correctAnswer: "I have a clear memory", type: 'choice' },
+        { id: 3, question: "Try pressing the red button.", options: ["Attempt (hard)", "Experiment (test)"], correctAnswer: "Experiment (test)", type: 'choice' },
+        { id: 4, question: "I can't afford _____ that car.", options: ["buying", "to buy"], correctAnswer: "to buy", type: 'choice' },
+        { id: 5, question: "He admitted _____ the money.", options: ["stealing", "to steal"], correctAnswer: "stealing", type: 'choice' }
+      ],
+      gapFill: [
+        { question: "He denied **__________** (break) the window.", answer: "breaking" },
+        { question: "I refused **__________** (speak) to him.", answer: "to speak" },
+        { question: "Do you fancy **__________** (go) out tonight?", answer: "going" },
+        { question: "She managed **__________** (finish) the report.", answer: "to finish" },
+        { question: "I suggest **__________** (take) a taxi.", answer: "taking" }
+      ],
+      dragDrop: {
+        title: "Sort Verbs",
+        groups: ["Followed by -ING", "Followed by TO"],
+        items: [
+          { id: '1', content: "Avoid", group: "Followed by -ING" },
+          { id: '2', content: "Suggest", group: "Followed by -ING" },
+          { id: '3', content: "Imagine", group: "Followed by -ING" },
+          { id: '4', content: "Decide", group: "Followed by TO" },
+          { id: '5', content: "Hope", group: "Followed by TO" },
+          { id: '6', content: "Plan", group: "Followed by TO" }
+        ]
+      },
+      crossword: [
+        { id: 1, direction: 'across', number: 1, clue: "Please stop _______!", answer: "TALKING" },
+        { id: 2, direction: 'down', number: 2, clue: "I hope _____ see you", answer: "TO" },
+        { id: 3, direction: 'across', number: 3, clue: "He avoided _______", answer: "ANSWERING" },
+        { id: 4, direction: 'down', number: 4, clue: "I _______ to help", answer: "PROMISED" }
+      ],
+      snake: [
+        { prompt: "I want...", correct: "To go", options: ["Go", "Going", "To go"] },
+        { prompt: "I finished...", correct: "Working", options: ["Work", "Working", "To work"] },
+        { prompt: "I enjoy...", correct: "Reading", options: ["Read", "Reading", "To read"] }
+      ]
+    }
+  },
+  {
+    id: '5.2',
+    title: 'Time Expressions (Present Perfect vs Past Simple)',
+    topicDescription: 'The "Unfinished" vs "Finished" Time Rule.',
+    mfp: {
+      concepts: [
+        { title: 'Finished Time', description: 'Closed Box 📦. The time period is OVER. Past Simple.', visual: '📦' },
+        { title: 'Unfinished Time', description: 'Open Box 🔓. Still happening NOW. Present Perfect.', visual: '🔓' }
+      ],
+      formulas: [
+        { title: 'Finished Time (Past Simple)', eng: 'I saw him yesterday', rus: 'Я видел его вчера (время кончилось)', uzb: 'Men uni kecha ko\'rdim' },
+        { title: 'Unfinished Time (Present Perfect)', eng: 'I have seen him today', rus: 'Я видел его сегодня (сегодня длится)', uzb: 'Men uni bugun ko\'rdim' }
+      ],
+      examples: [
+        { type: 'Unfinished', text: "Marco's **eaten** three bars of chocolate **so far today**." },
+        { type: 'Unfinished', text: "Have you **seen** Okito **recently**?" },
+        { type: 'Finished', text: "I **went** about four years ago." }
+      ]
+    },
+    exercises: {
+      quizzes: [
+        { id: 1, question: "I have been to the gym this morning. What time is it?", options: ["11:00 AM", "2:00 PM"], correctAnswer: "11:00 AM", type: 'choice' },
+        { id: 2, question: "I went to the gym this morning. What time is it?", options: ["11:00 AM", "2:00 PM"], correctAnswer: "2:00 PM", type: 'choice' },
+        { id: 3, question: "Which word works with Present Perfect?", options: ["Last year", "Lately"], correctAnswer: "Lately", type: 'choice' },
+        { id: 4, question: "When _____ you arrive?", options: ["have", "did"], correctAnswer: "did", type: 'choice' },
+        { id: 5, question: "I haven't seen him _____.", options: ["yesterday", "yet"], correctAnswer: "yet", type: 'choice' }
+      ],
+      gapFill: [
+        { question: "I **__________** (not / have) lunch yet.", answer: "haven't had" },
+        { question: "We **__________** (live) in Venice from 2005 to 2012.", answer: "lived" },
+        { question: "I **__________** (start) a new project last week.", answer: "started" },
+        { question: "Video games **__________** (exist) for over sixty years.", answer: "have existed" },
+        { question: "Pong **__________** (be) a basic game in the 1970s.", answer: "was" }
+      ],
+      dragDrop: {
+        title: "Sort Time Expressions",
+        groups: ["Past Simple (Finished)", "Present Perfect (Unfinished)"],
+        items: [
+          { id: '1', content: "Yesterday", group: "Past Simple (Finished)" },
+          { id: '2', content: "Last night", group: "Past Simple (Finished)" },
+          { id: '3', content: "In 1999", group: "Past Simple (Finished)" },
+          { id: '4', content: "Recently", group: "Present Perfect (Unfinished)" },
+          { id: '5', content: "So far", group: "Present Perfect (Unfinished)" },
+          { id: '6', content: "Yet", group: "Present Perfect (Unfinished)" }
+        ]
+      },
+      crossword: [
+        { id: 1, direction: 'across', number: 1, clue: "I have _______ done it", answer: "ALREADY" },
+        { id: 2, direction: 'down', number: 2, clue: "I haven't finished ____", answer: "YET" },
+        { id: 3, direction: 'across', number: 3, clue: "I saw him 3 days ____", answer: "AGO" },
+        { id: 4, direction: 'down', number: 4, clue: "Up to this point: So ____", answer: "FAR" }
+      ],
+      snake: [
+        { prompt: "Yesterday", correct: "I went", options: ["I have gone", "I went", "I have been"] },
+        { prompt: "Recently", correct: "I have seen", options: ["I saw", "I have seen", "I see"] },
+        { prompt: "Last week", correct: "I did", options: ["I did", "I have done", "I do"] }
+      ]
+    }
+  }
 ];

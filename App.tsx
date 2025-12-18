@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { GraduationCap, Sword, Ghost, Blocks, ChevronRight, Sparkles, Settings } from 'lucide-react';
+import { GraduationCap, Sword, Swords, Ghost, Blocks, ChevronRight, Sparkles, Settings, Volume2, Brain, Lock } from 'lucide-react';
 import Navigation from './components/Navigation';
 import CheatSheet3D from './components/CheatSheet3D';
 import CombatQuiz from './components/CombatQuiz';
@@ -11,7 +11,8 @@ import TestGenerator from './components/TestGenerator';
 import Button from './components/Button';
 import TenseDetail from './components/TenseDetail';
 import ConnectorDetail from './components/ConnectorDetail';
-import { TENSES_DATA, CONNECTORS_DATA, QUANTITY_DATA, EXAM_KILLERS, DETAILED_TENSES, DETAILED_CONNECTORS, QUIZ_QUESTIONS } from './constants';
+import IntermediateDetail from './components/IntermediateDetail'; // Import new component
+import { TENSES_DATA, CONNECTORS_DATA, QUANTITY_DATA, EXAM_KILLERS, DETAILED_TENSES, DETAILED_CONNECTORS, QUIZ_QUESTIONS, INTERMEDIATE_LESSONS } from './constants';
 
 const App: React.FC = () => {
   const [view, setView] = useState('home');
@@ -34,6 +35,7 @@ const App: React.FC = () => {
       case 'games': return 'bg-blue-900'; // Roblox
       case 'quiz': return 'bg-slate-900'; // Standoff
       case 'generator': return 'bg-gray-900';
+      case 'intermediate': return 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-yellow-900 via-gray-900 to-black';
       default: return 'bg-gray-900';
     }
   };
@@ -154,6 +156,60 @@ const App: React.FC = () => {
                    <p className="font-serif text-[#e5dcc5]">"After 'When', usually cast the <span className="text-[#D4AF37] font-bold">Past Simple (V2)</span> spell."</p>
                 </div>
              </div>
+          </div>
+        );
+
+      case 'intermediate':
+        if (selectedTenseId) {
+            const lesson = INTERMEDIATE_LESSONS.find(l => l.id === selectedTenseId);
+            if (lesson) {
+                return <IntermediateDetail lesson={lesson} onBack={() => setSelectedTenseId(null)} />;
+            }
+        }
+
+        return (
+          <div className="space-y-8 animate-fade-in-up">
+            <div className="text-center mb-12">
+              <h1 className="text-5xl md:text-7xl font-hud text-white mb-4 text-shadow-lg tracking-wider">
+                <span className="text-yellow-500">INTERMEDIATE</span> SECTOR
+              </h1>
+              <p className="text-gray-400 font-mono text-xl">Level 2 Clearance. Advanced Mechanics.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+               {INTERMEDIATE_LESSONS.map((lesson, i) => (
+                 <motion.div 
+                    key={lesson.id}
+                    onClick={() => setSelectedTenseId(lesson.id)}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.1 }}
+                    className="bg-gray-800/80 border-2 border-yellow-600/50 p-6 rounded-xl relative overflow-hidden group hover:border-yellow-500 transition-all cursor-pointer hover:bg-yellow-900/10"
+                 >
+                    <div className="flex justify-between items-start mb-4">
+                        <h3 className="text-2xl font-hud text-white">{lesson.title}</h3>
+                        <span className="bg-yellow-500/20 text-yellow-400 text-xs px-2 py-1 rounded font-bold">{lesson.id}</span>
+                    </div>
+                    <p className="text-gray-400 font-mono mb-6">{lesson.topicDescription}</p>
+                    <div className="absolute right-0 bottom-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+                         <Brain size={80} />
+                    </div>
+                 </motion.div>
+               ))}
+               
+               {/* Placeholder for future content */}
+               <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="bg-black/40 border-2 border-gray-700 p-6 rounded-xl relative overflow-hidden opacity-50 flex items-center justify-center min-h-[150px]"
+               >
+                   <div className="text-center">
+                       <Lock className="w-8 h-8 text-gray-500 mx-auto mb-2" />
+                       <p className="text-gray-500 font-bold">More Coming Soon</p>
+                   </div>
+               </motion.div>
+            </div>
           </div>
         );
 
