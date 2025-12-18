@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, BookOpen, Swords, Gamepad2, Skull, GraduationCap, Sun, Moon, Settings } from 'lucide-react';
+import { Menu, X, BookOpen, Swords, Gamepad2, Skull, GraduationCap, Sun, Moon } from 'lucide-react';
 import { Theme } from '../types';
 
 interface NavigationProps {
@@ -21,7 +21,6 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, toggleThe
     { id: 'intermediate', label: 'Intermediate', icon: <GraduationCap />, theme: 'default' },
     { id: 'games', label: 'Mini Games (Roblox)', icon: <Gamepad2 />, theme: 'roblox' },
     { id: 'quiz', label: 'Combat Test (Standoff)', icon: <Swords />, theme: 'standoff' },
-    { id: 'generator', label: 'Test Generator', icon: <Settings />, theme: 'default' },
   ];
 
   return (

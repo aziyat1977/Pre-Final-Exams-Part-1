@@ -2,17 +2,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { GraduationCap, Sword, Swords, Ghost, Blocks, ChevronRight, Sparkles, Settings, Volume2, Brain, Lock } from 'lucide-react';
+import { GraduationCap, Sword, Ghost, Blocks, ChevronRight, Sparkles, Volume2, Brain, Lock } from 'lucide-react';
 import Navigation from './components/Navigation';
 import CheatSheet3D from './components/CheatSheet3D';
 import CombatQuiz from './components/CombatQuiz';
 import SnakeGame from './components/SnakeGame';
-import TestGenerator from './components/TestGenerator';
 import Button from './components/Button';
 import TenseDetail from './components/TenseDetail';
 import ConnectorDetail from './components/ConnectorDetail';
-import IntermediateDetail from './components/IntermediateDetail'; // Import new component
-import { TENSES_DATA, CONNECTORS_DATA, QUANTITY_DATA, EXAM_KILLERS, DETAILED_TENSES, DETAILED_CONNECTORS, QUIZ_QUESTIONS, INTERMEDIATE_LESSONS } from './constants';
+import IntermediateDetail from './components/IntermediateDetail'; 
+import { QUANTITY_DATA, EXAM_KILLERS, DETAILED_TENSES, DETAILED_CONNECTORS, QUIZ_QUESTIONS, INTERMEDIATE_LESSONS } from './constants';
 
 const App: React.FC = () => {
   const [view, setView] = useState('home');
@@ -34,7 +33,6 @@ const App: React.FC = () => {
       case 'connectors': return 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#2A1810] via-[#1a0f0a] to-black'; // Hogwarts
       case 'games': return 'bg-blue-900'; // Roblox
       case 'quiz': return 'bg-slate-900'; // Standoff
-      case 'generator': return 'bg-gray-900';
       case 'intermediate': return 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-yellow-900 via-gray-900 to-black';
       default: return 'bg-gray-900';
     }
@@ -251,9 +249,6 @@ const App: React.FC = () => {
           </div>
         );
 
-      case 'generator':
-        return <TestGenerator />;
-
       default: // Home
         return (
           <div className="max-w-6xl mx-auto pt-12 text-center space-y-16">
@@ -318,15 +313,10 @@ const App: React.FC = () => {
                </div>
             </div>
             
-            <div className="flex flex-col md:flex-row gap-4 justify-center">
-              <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-md">
+            <div className="flex justify-center">
+              <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-md w-full max-w-md">
                  <h3 className="text-2xl font-bold text-white mb-4">Ready for the Combat Test?</h3>
-                 <Button label="START QUIZ MODE" variant="primary" className="text-lg px-12 py-4" onClick={() => setView('quiz')} />
-              </div>
-              
-              <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-md">
-                 <h3 className="text-2xl font-bold text-white mb-4">Need Unlimited Practice?</h3>
-                 <Button label="OPEN TEST GENERATOR" variant="standoff" className="text-lg px-12 py-4 bg-blue-900 text-white border-blue-500" onClick={() => setView('generator')} />
+                 <Button label="START QUIZ MODE" variant="primary" className="text-lg w-full py-4" onClick={() => setView('quiz')} />
               </div>
             </div>
           </div>
