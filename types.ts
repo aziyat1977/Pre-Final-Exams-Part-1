@@ -36,6 +36,11 @@ export interface DetailedTense {
     russian: string;
     uzbek: string;
   };
+  deepDive: {
+    signalWords: string[];
+    nuances: { title: string; description: string; example: string }[];
+    comparisons: { vs: string; rule: string; example: string }[];
+  };
   timeline: {
     description: string;
     exampleSentence: string;

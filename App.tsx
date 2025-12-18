@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { GraduationCap, Sword, Ghost, Blocks, ChevronRight, Sparkles } from 'lucide-react';
+import { GraduationCap, Sword, Ghost, Blocks, ChevronRight, Sparkles, Settings } from 'lucide-react';
 import Navigation from './components/Navigation';
 import CheatSheet3D from './components/CheatSheet3D';
 import CombatQuiz from './components/CombatQuiz';
 import SnakeGame from './components/SnakeGame';
+import TestGenerator from './components/TestGenerator';
 import Button from './components/Button';
 import TenseDetail from './components/TenseDetail';
 import ConnectorDetail from './components/ConnectorDetail';
@@ -32,6 +33,7 @@ const App: React.FC = () => {
       case 'connectors': return 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#2A1810] via-[#1a0f0a] to-black'; // Hogwarts
       case 'games': return 'bg-blue-900'; // Roblox
       case 'quiz': return 'bg-slate-900'; // Standoff
+      case 'generator': return 'bg-gray-900';
       default: return 'bg-gray-900';
     }
   };
@@ -79,6 +81,7 @@ const App: React.FC = () => {
                   <div className="flex gap-2">
                     <span className="text-xs bg-green-900 text-green-300 px-2 py-1 rounded">Timeline</span>
                     <span className="text-xs bg-green-900 text-green-300 px-2 py-1 rounded">Audio</span>
+                    <span className="text-xs bg-green-900 text-green-300 px-2 py-1 rounded">Deep Dive</span>
                   </div>
                 </motion.div>
               ))}
@@ -192,6 +195,9 @@ const App: React.FC = () => {
           </div>
         );
 
+      case 'generator':
+        return <TestGenerator />;
+
       default: // Home
         return (
           <div className="max-w-6xl mx-auto pt-12 text-center space-y-16">
@@ -256,9 +262,16 @@ const App: React.FC = () => {
                </div>
             </div>
             
-            <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-md inline-block">
-               <h3 className="text-2xl font-bold text-white mb-4">Ready for the Combat Test?</h3>
-               <Button label="START QUIZ MODE" variant="primary" className="text-lg px-12 py-4" onClick={() => setView('quiz')} />
+            <div className="flex flex-col md:flex-row gap-4 justify-center">
+              <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-md">
+                 <h3 className="text-2xl font-bold text-white mb-4">Ready for the Combat Test?</h3>
+                 <Button label="START QUIZ MODE" variant="primary" className="text-lg px-12 py-4" onClick={() => setView('quiz')} />
+              </div>
+              
+              <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-md">
+                 <h3 className="text-2xl font-bold text-white mb-4">Need Unlimited Practice?</h3>
+                 <Button label="OPEN TEST GENERATOR" variant="standoff" className="text-lg px-12 py-4 bg-blue-900 text-white border-blue-500" onClick={() => setView('generator')} />
+              </div>
             </div>
           </div>
         );
@@ -274,7 +287,7 @@ const App: React.FC = () => {
         isDarkMode={isDarkMode} 
       />
       
-      <main className="container mx-auto px-4 py-20 min-h-screen">
+      <main className="container mx-auto px-4 py-20 min-h-screen print:p-0 print:min-h-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={view}
@@ -293,7 +306,7 @@ const App: React.FC = () => {
         initial={{ x: 300 }}
         animate={{ x: 0 }}
         transition={{ delay: 1 }}
-        className="fixed bottom-4 right-4 bg-yellow-500 text-black p-4 rounded-tl-2xl rounded-br-2xl shadow-xl max-w-xs border-4 border-black font-block text-xs hidden lg:block z-40"
+        className="fixed bottom-4 right-4 bg-yellow-500 text-black p-4 rounded-tl-2xl rounded-br-2xl shadow-xl max-w-xs border-4 border-black font-block text-xs hidden lg:block z-40 print:hidden"
       >
         <p className="font-bold mb-2">TEACHER'S SURGICAL ADVICE:</p>
         <p>"Money, Water, Information are UNCOUNTABLE. Use much/little. Watch the 'C'!"</p>

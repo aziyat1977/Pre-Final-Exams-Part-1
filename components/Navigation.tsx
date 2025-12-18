@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, BookOpen, Swords, Gamepad2, Skull, GraduationCap, Sun, Moon } from 'lucide-react';
+import { Menu, X, BookOpen, Swords, Gamepad2, Skull, GraduationCap, Sun, Moon, Settings } from 'lucide-react';
 import { Theme } from '../types';
 
 interface NavigationProps {
@@ -19,13 +20,14 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, toggleThe
     { id: 'connectors', label: 'Wizardry (Hogwarts)', icon: <BookOpen />, theme: 'hogwarts' },
     { id: 'games', label: 'Mini Games (Roblox)', icon: <Gamepad2 />, theme: 'roblox' },
     { id: 'quiz', label: 'Combat Test (Standoff)', icon: <Swords />, theme: 'standoff' },
+    { id: 'generator', label: 'Test Generator', icon: <Settings />, theme: 'default' },
   ];
 
   return (
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="fixed top-4 left-4 z-50 p-3 bg-black/80 text-white rounded-lg border border-white/20 hover:bg-purple-600 transition-colors backdrop-blur-md shadow-[0_0_20px_rgba(0,0,0,0.5)]"
+        className="fixed top-4 left-4 z-50 p-3 bg-black/80 text-white rounded-lg border border-white/20 hover:bg-purple-600 transition-colors backdrop-blur-md shadow-[0_0_20px_rgba(0,0,0,0.5)] print:hidden"
       >
         <Menu size={24} />
       </button>
@@ -36,12 +38,12 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, setView, toggleThe
             <motion.div 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 print:hidden"
             />
             <motion.div
               initial={{ x: -300 }} animate={{ x: 0 }} exit={{ x: -300 }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
-              className="fixed top-0 left-0 h-full w-80 bg-gray-900 border-r border-gray-700 z-50 overflow-hidden flex flex-col"
+              className="fixed top-0 left-0 h-full w-80 bg-gray-900 border-r border-gray-700 z-50 overflow-hidden flex flex-col print:hidden"
             >
               <div className="p-6 border-b border-gray-800 flex justify-between items-center bg-black/40">
                 <h2 className="text-xl font-hud font-bold text-white">COMMAND CENTER</h2>

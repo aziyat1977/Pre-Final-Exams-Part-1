@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Volume2, Clock, BookOpen, Layers, Mic, AlertTriangle, CheckCircle, XCircle, Swords, Brain, Timer, Move } from 'lucide-react';
+import { ArrowLeft, Volume2, Clock, BookOpen, Layers, Mic, AlertTriangle, CheckCircle, XCircle, Swords, Brain, Timer, Move, Microscope, Lightbulb } from 'lucide-react';
 import { DetailedTense } from '../types';
 import CombatQuiz from './CombatQuiz';
 import DragDropGame from './DragDropGame';
@@ -12,7 +12,7 @@ interface TenseDetailProps {
 }
 
 const TenseDetail: React.FC<TenseDetailProps> = ({ tense, onBack }) => {
-  const [activeTab, setActiveTab] = useState<'meaning' | 'timeline' | 'forms' | 'pronunciation' | 'mistakes' | 'practice'>('meaning');
+  const [activeTab, setActiveTab] = useState<'meaning' | 'deep' | 'timeline' | 'forms' | 'pronunciation' | 'mistakes' | 'practice'>('meaning');
   const [activePractice, setActivePractice] = useState<{ type: 'kahoot' | 'mcq' | 'quiz' | 'drag'; index?: number } | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -61,11 +61,12 @@ const TenseDetail: React.FC<TenseDetailProps> = ({ tense, onBack }) => {
 
   const tabs = [
     { id: 'meaning', label: '1. Meaning', icon: <BookOpen size={18} /> },
-    { id: 'timeline', label: '2. Timeline', icon: <Clock size={18} /> },
-    { id: 'forms', label: '3. Forms', icon: <Layers size={18} /> },
-    { id: 'pronunciation', label: '4. Voice', icon: <Mic size={18} /> },
-    { id: 'mistakes', label: '5. Mistakes', icon: <AlertTriangle size={18} /> },
-    { id: 'practice', label: '6. Combat', icon: <Swords size={18} /> },
+    { id: 'deep', label: '2. Deep Dive', icon: <Microscope size={18} /> },
+    { id: 'timeline', label: '3. Timeline', icon: <Clock size={18} /> },
+    { id: 'forms', label: '4. Forms', icon: <Layers size={18} /> },
+    { id: 'pronunciation', label: '5. Voice', icon: <Mic size={18} /> },
+    { id: 'mistakes', label: '6. Mistakes', icon: <AlertTriangle size={18} /> },
+    { id: 'practice', label: '7. Combat', icon: <Swords size={18} /> },
   ];
 
   if (activePractice) {
@@ -124,6 +125,41 @@ const TenseDetail: React.FC<TenseDetailProps> = ({ tense, onBack }) => {
                 <div className="grid md:grid-cols-2 gap-4"><div className="bg-gray-900/50 p-4 rounded-lg border border-white/10"><span className="text-xs text-gray-500 uppercase">Russian</span><p className="text-lg">{tense.meaning.russian}</p></div><div className="bg-gray-900/50 p-4 rounded-lg border border-white/10"><span className="text-xs text-gray-500 uppercase">Uzbek</span><p className="text-lg">{tense.meaning.uzbek}</p></div></div>
                 <div className="mt-8"><h3 className="text-green-400 font-gta mb-4 border-b border-gray-700 pb-2">More Examples</h3><div className="grid md:grid-cols-2 gap-4">{tense.additionalExamples.map((ex, i) => (<div key={i} className="flex items-start gap-3 bg-gray-900 p-3 rounded border border-gray-700"><CheckCircle size={20} className="text-green-500 mt-1 shrink-0" /><span className="text-gray-200 italic">"{ex}"</span></div>))}</div></div>
               </div>
+            )}
+            {activeTab === 'deep' && tense.deepDive && (
+               <div className="space-y-8">
+                  <div className="grid md:grid-cols-3 gap-6">
+                     <div className="bg-gray-900 p-4 rounded-lg border border-gray-700 col-span-1">
+                        <h4 className="text-green-400 font-bold mb-3 flex items-center gap-2"><Lightbulb size={16} /> Signal Words</h4>
+                        <div className="flex flex-wrap gap-2">
+                           {tense.deepDive.signalWords.map((word, i) => (
+                              <span key={i} className="bg-green-900/30 text-green-300 text-xs px-2 py-1 rounded border border-green-800">{word}</span>
+                           ))}
+                        </div>
+                     </div>
+                     <div className="col-span-2 space-y-4">
+                        <h4 className="text-green-400 font-bold flex items-center gap-2"><Microscope size={16} /> Advanced Nuances</h4>
+                        {tense.deepDive.nuances.map((nuance, i) => (
+                           <div key={i} className="bg-gray-900/60 p-4 rounded-lg border-l-2 border-yellow-500">
+                              <h5 className="font-bold text-yellow-500">{nuance.title}</h5>
+                              <p className="text-gray-300 text-sm mt-1">{nuance.description}</p>
+                              <p className="text-gray-400 text-xs italic mt-2 bg-black/30 p-2 rounded">Ex: {nuance.example}</p>
+                           </div>
+                        ))}
+                     </div>
+                  </div>
+                  {tense.deepDive.comparisons.length > 0 && (
+                      <div className="mt-6">
+                         <h4 className="text-blue-400 font-bold mb-4 border-b border-gray-700 pb-2">Vs Other Tenses</h4>
+                         {tense.deepDive.comparisons.map((comp, i) => (
+                            <div key={i} className="grid md:grid-cols-3 gap-4 bg-blue-900/10 p-4 rounded-lg border border-blue-900/30">
+                               <div className="font-bold text-blue-300">{comp.vs}</div>
+                               <div className="md:col-span-2 text-sm text-gray-300">{comp.rule} <br/> <span className="text-gray-500 italic">e.g. {comp.example}</span></div>
+                            </div>
+                         ))}
+                      </div>
+                  )}
+               </div>
             )}
             {activeTab === 'timeline' && (
               <div>
