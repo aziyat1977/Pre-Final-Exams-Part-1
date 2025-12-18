@@ -9,6 +9,25 @@ export interface GrammarRule {
   example?: string;
 }
 
+export interface DragItem {
+  id: string;
+  content: string;
+  group: string;
+}
+
+export interface DragDropData {
+  title: string;
+  groups: string[];
+  items: DragItem[];
+}
+
+export interface PracticeExercises {
+  kahoot: QuizQuestion[];
+  mcqTests: { title: string; questions: QuizQuestion[] }[];
+  miniQuizzes: { title: string; questions: QuizQuestion[] }[];
+  dragAndDrop: DragDropData;
+}
+
 export interface DetailedTense {
   id: string;
   title: string;
@@ -39,6 +58,7 @@ export interface DetailedTense {
     right: string;
     explanation: string;
   }[];
+  practice: PracticeExercises;
 }
 
 export interface QuizQuestion {

@@ -10,7 +10,7 @@ import SnakeGame from './components/SnakeGame';
 import Button from './components/Button';
 import TenseDetail from './components/TenseDetail';
 import ConnectorDetail from './components/ConnectorDetail';
-import { TENSES_DATA, CONNECTORS_DATA, QUANTITY_DATA, EXAM_KILLERS, DETAILED_TENSES, DETAILED_CONNECTORS } from './constants';
+import { TENSES_DATA, CONNECTORS_DATA, QUANTITY_DATA, EXAM_KILLERS, DETAILED_TENSES, DETAILED_CONNECTORS, QUIZ_QUESTIONS } from './constants';
 
 const App: React.FC = () => {
   const [view, setView] = useState('home');
@@ -188,7 +188,7 @@ const App: React.FC = () => {
                   </button>
                 </div>
              </div>
-             <CombatQuiz onBack={() => setView('home')} isKahootMode={isKahootMode} />
+             <CombatQuiz questions={QUIZ_QUESTIONS} onBack={() => setView('home')} isKahootMode={isKahootMode} />
           </div>
         );
 

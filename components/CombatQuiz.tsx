@@ -1,21 +1,34 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Crosshair, Trophy, Clock } from 'lucide-react';
-import { QUIZ_QUESTIONS } from '../constants';
+import { QuizQuestion } from '../types';
 import Button from './Button';
 
 interface CombatQuizProps {
+  questions: QuizQuestion[];
   onBack: () => void;
   isKahootMode: boolean;
+  onComplete?: (score: number) => void;
+  title?: string;
 }
 
-const CombatQuiz: React.FC<CombatQuizProps> = ({ onBack, isKahootMode }) => {
+const CombatQuiz: React.FC<CombatQuizProps> = ({ questions, onBack, isKahootMode, onComplete, title }) => {
   const [currentQ, setCurrentQ] = useState(0);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [timeLeft, setTimeLeft] = useState(15);
   const [showResult, setShowResult] = useState<'correct' | 'wrong' | null>(null);
   const [gameOver, setGameOver] = useState(false);
+
+  // Reset state when questions change
+  useEffect(() => {
+    setCurrentQ(0);
+    setScore(0);
+    setStreak(0);
+    setGameOver(false);
+    setTimeLeft(15);
+  }, [questions]);
 
   useEffect(() => {
     if (isKahootMode && !gameOver && showResult === null) {
@@ -33,7 +46,7 @@ const CombatQuiz: React.FC<CombatQuizProps> = ({ onBack, isKahootMode }) => {
   }, [currentQ, gameOver, showResult, isKahootMode]);
 
   const handleAnswer = (answer: string) => {
-    const isCorrect = answer === QUIZ_QUESTIONS[currentQ].correctAnswer;
+    const isCorrect = answer === questions[currentQ].correctAnswer;
     
     if (isCorrect) {
       setScore(prev => prev + (isKahootMode ? timeLeft * 10 + 100 : 100));
@@ -46,18 +59,19 @@ const CombatQuiz: React.FC<CombatQuizProps> = ({ onBack, isKahootMode }) => {
 
     setTimeout(() => {
       setShowResult(null);
-      if (currentQ < QUIZ_QUESTIONS.length - 1) {
+      if (currentQ < questions.length - 1) {
         setCurrentQ(prev => prev + 1);
         setTimeLeft(15);
       } else {
         setGameOver(true);
+        if(onComplete) onComplete(score + (isCorrect ? 100 : 0));
       }
     }, 1500);
   };
 
   if (gameOver) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-center space-y-6 animate-fade-in p-8">
+      <div className="flex flex-col items-center justify-center h-full text-center space-y-6 animate-fade-in p-8 bg-black/90 absolute inset-0 z-50">
         <motion.div 
           initial={{ scale: 0 }} animate={{ scale: 1 }} 
           className="bg-gray-800/80 backdrop-blur-xl p-10 rounded-3xl border-4 border-yellow-500 shadow-[0_0_50px_rgba(234,179,8,0.3)]"
@@ -65,19 +79,20 @@ const CombatQuiz: React.FC<CombatQuizProps> = ({ onBack, isKahootMode }) => {
           <Trophy className="w-24 h-24 text-yellow-400 mx-auto mb-4 animate-bounce" />
           <h2 className="text-4xl font-hud font-bold mb-2 text-white">MISSION COMPLETED</h2>
           <p className="text-6xl font-gta text-green-400 mb-6">{score} XP</p>
-          <Button label="Replay Mission" onClick={() => window.location.reload()} variant="standoff" className="w-full bg-blue-600 text-white" />
+          <Button label="Return to Base" onClick={onBack} variant="standoff" className="w-full bg-blue-600 text-white" />
         </motion.div>
       </div>
     );
   }
 
-  const question = QUIZ_QUESTIONS[currentQ];
+  const question = questions[currentQ];
 
   return (
-    <div className="max-w-4xl mx-auto w-full relative">
+    <div className="w-full relative h-full flex flex-col justify-center">
       {/* HUD Header */}
       <div className="flex justify-between items-center mb-8 bg-black/60 p-4 rounded-xl border border-white/10 backdrop-blur-md">
         <div className="flex items-center gap-4">
+            <Button label="Exit" onClick={onBack} variant="standoff" className="py-1 px-3 text-xs" />
           <div className="text-yellow-400 font-hud text-xl flex items-center gap-2">
             <Trophy size={20} />
             <span>{score}</span>
@@ -88,12 +103,17 @@ const CombatQuiz: React.FC<CombatQuizProps> = ({ onBack, isKahootMode }) => {
           </div>
         </div>
         
-        {isKahootMode && (
-          <div className={`flex items-center gap-2 font-block text-2xl ${timeLeft < 5 ? 'text-red-500 animate-pulse' : 'text-white'}`}>
-            <Clock />
-            {timeLeft}s
-          </div>
-        )}
+        {title && <h3 className="text-white font-bold hidden md:block">{title}</h3>}
+
+        <div className="flex items-center gap-4">
+             <span className="text-gray-400 text-sm">Q: {currentQ + 1}/{questions.length}</span>
+            {isKahootMode && (
+            <div className={`flex items-center gap-2 font-block text-2xl ${timeLeft < 5 ? 'text-red-500 animate-pulse' : 'text-white'}`}>
+                <Clock />
+                {timeLeft}s
+            </div>
+            )}
+        </div>
       </div>
 
       {/* Question Card */}
@@ -107,15 +127,19 @@ const CombatQuiz: React.FC<CombatQuizProps> = ({ onBack, isKahootMode }) => {
           <Crosshair size={100} />
         </div>
 
-        <h3 className="text-2xl md:text-4xl font-bold mb-8 font-hud leading-relaxed">
-          {question.question.split('_______').map((part, i, arr) => (
-            <React.Fragment key={i}>
-              {part}
-              {i < arr.length - 1 && (
-                <span className="inline-block w-24 border-b-4 border-yellow-400 mx-2 animate-pulse bg-white/10 h-8 align-middle rounded"></span>
-              )}
-            </React.Fragment>
-          ))}
+        <h3 className="text-2xl md:text-3xl font-bold mb-8 font-hud leading-relaxed">
+          {question.question.includes('_______') ? (
+              question.question.split('_______').map((part, i, arr) => (
+                <React.Fragment key={i}>
+                {part}
+                {i < arr.length - 1 && (
+                    <span className="inline-block w-24 border-b-4 border-yellow-400 mx-2 animate-pulse bg-white/10 h-8 align-middle rounded"></span>
+                )}
+                </React.Fragment>
+            ))
+          ) : (
+              question.question
+          )}
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
